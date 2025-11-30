@@ -47,7 +47,7 @@ public class produto {
             this.validadeyy = validadeyy;
     }
 
-    private String getNome()
+    public String getNome()
     {
         return nome;
     }
