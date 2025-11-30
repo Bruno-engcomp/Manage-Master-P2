@@ -56,7 +56,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(root, 320, 250);
 
-        stage.setTitle("Teste da classe Produto");
+        stage.setTitle("Teste da classe Produto ManageMaster");
         stage.setScene(scene);
         stage.show();
     }
