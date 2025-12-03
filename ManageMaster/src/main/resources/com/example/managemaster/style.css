@@ -1,0 +1,42 @@
+.root {
+    -fx-background-color: #f3f5f7;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.titulo {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d3648;
+}
+
+.card {
+    -fx-background-color: white;
+    -fx-padding: 15px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0.2, 0, 2);
+}
+
+.info {
+    -fx-font-size: 14px;
+    -fx-text-fill: #444;
+}
+
+.campo {
+    -fx-padding: 8px;
+    -fx-background-radius: 6px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d5da;
+    -fx-border-radius: 6px;
+}
+
+.botao {
+    -fx-background-color: #4e8cff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+    -fx-background-radius: 6px;
+}
+
+.botao:hover {
+    -fx-background-color: #3c74d4;
+}
