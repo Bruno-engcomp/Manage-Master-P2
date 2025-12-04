@@ -6,7 +6,6 @@ public class Produto {
     private int id;
     private String nome;
     private String marca;
-    private double precoCompra;
     private double preco;
     private int quantidade;
     private LocalDate validade;
@@ -16,6 +15,7 @@ public class Produto {
         // Validação dos atributos
         this.nome = nome;
         this.marca = marca;
+        this.validade = validade;
         if(id > 0)
             this.id = id;
         if(quantidade > 0)
@@ -24,6 +24,7 @@ public class Produto {
         {
             this.preco = preco;
         }
+
     }
 
     // Metodos set para fazer a alterção dos atributos
@@ -42,6 +43,10 @@ public class Produto {
     public void setId(int id) {
         if (id > 0)
             this.id = id;
+    }
+
+    public void setValidade(LocalDate validade) {
+        this.validade = validade;
     }
 
     // Metodos get que servem para poder usar o valor dentro dos atributos de forma segura
@@ -63,4 +68,8 @@ public class Produto {
     public int getId() {return id;}
 
     public int getQuantidade() {return quantidade;}
+
+    public LocalDate getValidade() {
+        return validade;
+    }
 }
