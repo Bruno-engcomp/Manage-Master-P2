@@ -1,5 +1,6 @@
 package com.example.managemaster;
 
+import com.example.managemaster.view.Main;
 import javafx.application.Application;
 
 public class Launcher {

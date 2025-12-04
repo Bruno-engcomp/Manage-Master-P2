@@ -1,17 +1,17 @@
 package com.example.managemaster.model;
 
-public class produto {
+import java.time.LocalDate;
+
+public class Produto {
     private int id;
     private String nome;
     private String marca;
     private double precoCompra;
     private double preco;
-    private int validadedd;
-    private int validademm;
-    private int validadeyy;
     private int quantidade;
+    private LocalDate validade;
 
-    public produto (String nome ,int id, String marca, double preco,int quantidade,int validadedd, int validademm, int validadeyy)
+    public Produto (String nome ,int id, String marca, double preco,int quantidade, LocalDate validade)
     {
         // Validação dos atributos
         this.nome = nome;
@@ -24,12 +24,6 @@ public class produto {
         {
             this.preco = preco;
         }
-        if(validadedd > 0 && validadedd < 32)
-            this.validadedd = validadedd;
-        if(validademm > 0 && validademm < 13)
-            this.validademm = validademm;
-        if(validadeyy > 2024)
-            this.validadeyy = validadeyy;
     }
 
     // Metodos set para fazer a alterção dos atributos
@@ -38,21 +32,6 @@ public class produto {
     public void setPreco(double preco) {
         if(preco > 0)
             this.preco = preco;
-    }
-    public void setValidadedd(int validadedd)
-    {
-        if(validadedd > 0 && validadedd < 32)
-            this.validadedd = validadedd;
-    }
-
-    public void setValidademm(int validademm) {
-        if(validademm > 0 && validademm < 13)
-            this.validademm = validademm;
-    }
-
-    public void setValidadeyy(int validadeyy) {
-        if(validadeyy > 2024)
-            this.validadeyy = validadeyy;
     }
 
     public void setQuantidade(int quantidade) {
@@ -79,21 +58,6 @@ public class produto {
     public double getPreco()
     {
         return preco;
-    }
-
-    public int getValidadedd()
-    {
-        return validadedd;
-    }
-
-    public int getValidademm()
-    {
-        return validademm;
-    }
-
-    public int getValidadeyy()
-    {
-        return validadeyy;
     }
 
     public int getId() {return id;}

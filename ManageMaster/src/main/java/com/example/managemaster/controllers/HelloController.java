@@ -1,4 +1,4 @@
-package com.example.managemaster;
+package com.example.managemaster.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
