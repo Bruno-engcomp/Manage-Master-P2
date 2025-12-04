@@ -1,6 +1,7 @@
-package com.example.managemaster;
+package com.example.managemaster.model;
 
 public class produto {
+    private int id;
     private String nome;
     private String marca;
     private double precoCompra;
@@ -8,11 +9,17 @@ public class produto {
     private int validadedd;
     private int validademm;
     private int validadeyy;
+    private int quantidade;
 
-    public produto (String nome, String marca, double preco, int validadedd, int validademm, int validadeyy)
+    public produto (String nome ,int id, String marca, double preco,int quantidade,int validadedd, int validademm, int validadeyy)
     {
+        // Validação dos atributos
         this.nome = nome;
         this.marca = marca;
+        if(id > 0)
+            this.id = id;
+        if(quantidade > 0)
+            this.quantidade = quantidade;
         if(preco > 0.0)
         {
             this.preco = preco;
@@ -25,6 +32,7 @@ public class produto {
             this.validadeyy = validadeyy;
     }
 
+    // Metodos set para fazer a alterção dos atributos
     public void setNome(String nome) {this.nome = nome;}
     public void setMarca(String marca) {this.marca = marca;}
     public void setPreco(double preco) {
@@ -47,6 +55,17 @@ public class produto {
             this.validadeyy = validadeyy;
     }
 
+    public void setQuantidade(int quantidade) {
+        if(quantidade > 0)
+            this.quantidade = quantidade;
+    }
+
+    public void setId(int id) {
+        if (id > 0)
+            this.id = id;
+    }
+
+    // Metodos get que servem para poder usar o valor dentro dos atributos de forma segura
     public String getNome()
     {
         return nome;
@@ -76,4 +95,8 @@ public class produto {
     {
         return validadeyy;
     }
+
+    public int getId() {return id;}
+
+    public int getQuantidade() {return quantidade;}
 }
