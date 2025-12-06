@@ -1,5 +1,6 @@
 package com.example.managemaster.view;
 
+import com.example.managemaster.model.Categoria;
 import com.example.managemaster.model.Produto;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -26,8 +27,8 @@ public class Main extends Application {
                 "ManageMaster",
                 15.90,
                 12,
-                LocalDate.of(2026, 9, 6)
-        );
+                LocalDate.of(2026, 9, 6),
+                new Categoria(325, "alimento"));
 
         // -----------------------------------------------
         // LABELS DE TESTE DOS ATRIBUTOS

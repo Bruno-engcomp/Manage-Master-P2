@@ -9,13 +9,15 @@ public class Produto {
     private double preco;
     private int quantidade;
     private LocalDate validade;
+    private Categoria categoria;
 
-    public Produto (String nome ,int id, String marca, double preco,int quantidade, LocalDate validade)
+    public Produto (String nome ,int id, String marca, double preco,int quantidade, LocalDate validade, Categoria categoria)
     {
         // Validação dos atributos
         this.nome = nome;
         this.marca = marca;
         this.validade = validade;
+        this.categoria = categoria;
         if(id > 0)
             this.id = id;
         if(quantidade > 0)
