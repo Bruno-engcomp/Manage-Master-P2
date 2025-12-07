@@ -1,0 +1,54 @@
+package com.example.managemaster.model;
+
+import java.time.LocalDate; // Biblioteca LocalDate para data atual de forma segura
+import java.math.BigDecimal; // Para futuramente mudar as variaveis float para BigDecimal, pois float nao tem precisao exata
+import java.util.List; // Para fazer listas
+
+public class Transacao {
+    private int id; // Id da transacao
+    private LocalDate dataTransacao; // Data da transacao
+    private double valorTotal; // Valor total da transcao
+    private List<ItemTransacao> itens; // Os itens que estavam incluidos na transacao
+    private String usuario; // Usuario que realizou a transacao
+
+    public Transacao(int id, double valorTotal, List<ItemTransacao> itens, String usuario)
+    {
+        if (id > 0)
+            this.id = id;
+        if (valorTotal > 0)
+            this.valorTotal = valorTotal;
+        this.dataTransacao = dataTransacao;
+        this.itens = itens;
+        this.usuario = usuario;
+    }
+
+    // Getters para poder usar os valores em outros lugares
+
+    public int getId() {return id;}
+
+    public LocalDate getDataTransacao() {return dataTransacao;}
+
+    public double getValorTotal() {return valorTotal;}
+
+    public List<ItemTransacao> getItens() {return itens;}
+
+    public String getUsuario() {return usuario;}
+
+    // Setters para poder alteras os valores dos atributos
+
+    public void setId(int id) {
+        if (id>0)
+            this.id = id;
+    }
+
+    public void setDataTransacao(LocalDate dataTransacao) {this.dataTransacao = dataTransacao;}
+
+    public void setItens(List<ItemTransacao> itens) {this.itens = itens;}
+
+    public void setUsuario(String usuario) {this.usuario = usuario;}
+
+    public void setValorTotal(double valorTotal) {
+        if(valorTotal > 0)
+            this.valorTotal = valorTotal;
+    }
+}

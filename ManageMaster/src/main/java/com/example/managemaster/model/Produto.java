@@ -1,6 +1,7 @@
 package com.example.managemaster.model;
 
 import java.time.LocalDate;
+import java.math.BigDecimal; // Para futuramente mudar as variaveis float para BigDecimal, pois float nao tem precisao exata
 
 public class Produto {
     private int id;

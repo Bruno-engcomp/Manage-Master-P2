@@ -20,7 +20,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
 
-        // Criando o produto de teste
+        // Criando o produto de teste com categoria
+        Categoria categoriaTeste = new Categoria(325, "Alimento");
+
         produtoTeste = new Produto(
                 "Arroz",
                 333,
@@ -28,14 +30,19 @@ public class Main extends Application {
                 15.90,
                 12,
                 LocalDate.of(2026, 9, 6),
-                new Categoria(325, "alimento"));
+                categoriaTeste
+        );
 
         // -----------------------------------------------
-        // LABELS DE TESTE DOS ATRIBUTOS
+        // TITULO
         // -----------------------------------------------
 
         Label titulo = new Label("📦 Produto (Teste)");
         titulo.getStyleClass().add("titulo");
+
+        // -----------------------------------------------
+        // LABELS DO PRODUTO
+        // -----------------------------------------------
 
         Label idLabel = new Label("ID: " + produtoTeste.getId());
         idLabel.getStyleClass().add("info");
@@ -54,6 +61,25 @@ public class Main extends Application {
 
         Label validadeLabel = new Label("Validade: " + produtoTeste.getValidade());
         validadeLabel.getStyleClass().add("info");
+
+        // -----------------------------------------------
+        // LABELS DA CATEGORIA (NOVO)
+        // -----------------------------------------------
+
+        Label categoriaTitulo = new Label("🏷️ Categoria");
+        categoriaTitulo.getStyleClass().add("titulo");
+
+        Label categoriaIdLabel = new Label("ID Categoria: " + categoriaTeste.getId());
+        categoriaIdLabel.getStyleClass().add("info");
+
+        Label categoriaNomeLabel = new Label("Nome Categoria: " + categoriaTeste.getNome());
+        categoriaNomeLabel.getStyleClass().add("info");
+
+        VBox categoriaCard = new VBox(8,
+                categoriaIdLabel,
+                categoriaNomeLabel
+        );
+        categoriaCard.getStyleClass().add("card");
 
         // -----------------------------------------------
         // TESTE DE ATUALIZAÇÃO DO PREÇO
@@ -76,24 +102,28 @@ public class Main extends Application {
             }
         });
 
-        // Card visual com informações
-        VBox card = new VBox(10,
+        // Card visual com informações do produto
+        VBox produtoCard = new VBox(10,
                 idLabel, nomeLabel, marcaLabel,
                 precoLabel, quantidadeLabel, validadeLabel
         );
-        card.getStyleClass().add("card");
+        produtoCard.getStyleClass().add("card");
 
-        VBox root = new VBox(20, titulo, card, novoPrecoField, atualizarPrecoBtn);
+        // -----------------------------------------------
+        // ROOT
+        // -----------------------------------------------
+
+        VBox root = new VBox(20, titulo, produtoCard, categoriaTitulo, categoriaCard, novoPrecoField, atualizarPrecoBtn);
         root.setPadding(new Insets(20));
 
-        Scene scene = new Scene(root, 350, 400);
+        Scene scene = new Scene(root, 400, 520);
 
         // CSS
         scene.getStylesheets().add(
                 getClass().getResource("/com/example/managemaster/style.css").toExternalForm()
         );
 
-        stage.setTitle("ManageMaster - Teste Produto");
+        stage.setTitle("ManageMaster - Teste Produto + Categoria");
         stage.setScene(scene);
         stage.show();
     }
