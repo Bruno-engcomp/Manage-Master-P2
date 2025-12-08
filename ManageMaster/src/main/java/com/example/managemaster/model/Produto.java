@@ -75,4 +75,8 @@ public class Produto {
     public LocalDate getValidade() {
         return validade;
     }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
 }

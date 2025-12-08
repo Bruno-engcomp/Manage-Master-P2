@@ -1,42 +1,98 @@
+
+/*   ESTILO GLOBAL                 */
+
 .root {
-    -fx-background-color: #f3f5f7;
-    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #eef1f5;
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+    -fx-padding: 20px;
 }
+
+
+/*   TÍTULOS                       */
 
 .titulo {
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2d3648;
+    -fx-font-size: 24px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #263445;
+    -fx-padding: 5px 0 15px 0;
 }
+
+
+/*   CARDS                         */
 
 .card {
-    -fx-background-color: white;
-    -fx-padding: 15px;
-    -fx-background-radius: 10px;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0.2, 0, 2);
+    -fx-background-color: linear-gradient(to bottom right, #ffffff, #f8f9fb);
+    -fx-padding: 18px;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-border-color: #e2e6ea;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0.2, 0, 3);
+    -fx-spacing: 6px;
+    -fx-transition: all 0.3s ease;
 }
+
+.card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 18, 0.3, 0, 4);
+    -fx-translate-y: -2px;
+}
+
+
+/*   TEXTOS                        */
 
 .info {
-    -fx-font-size: 14px;
-    -fx-text-fill: #444;
+    -fx-font-size: 15px;
+    -fx-text-fill: #3e464f;
+    -fx-padding: 2px 0;
 }
+
+
+/*   CAMPOS DE TEXTO              */
 
 .campo {
-    -fx-padding: 8px;
-    -fx-background-radius: 6px;
+    -fx-padding: 10px;
+    -fx-pref-height: 35px;
     -fx-background-color: #ffffff;
-    -fx-border-color: #d0d5da;
-    -fx-border-radius: 6px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #cfd6dd;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+    -fx-focus-color: #4e8cff;
+    -fx-faint-focus-color: transparent;
+    -fx-transition: all 0.2s ease;
 }
 
+.campo:focused {
+    -fx-border-color: #4e8cff;
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(78,140,255,0.25), 8, 0.5, 0, 0);
+}
+
+
+/*   BOTÕES                        */
+
 .botao {
-    -fx-background-color: #4e8cff;
+    -fx-background-color: linear-gradient(to right, #4e8cff, #6aa8ff);
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-padding: 10px;
-    -fx-background-radius: 6px;
+    -fx-padding: 12px;
+    -fx-background-radius: 8px;
+    -fx-font-size: 15px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0.3, 0, 1);
+    -fx-transition: all 0.25s ease;
 }
 
 .botao:hover {
-    -fx-background-color: #3c74d4;
+    -fx-background-color: linear-gradient(to right, #3c74d4, #5b90f0);
+    -fx-translate-y: -2px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.22), 10, 0.3, 0, 2);
+}
+
+.botao:pressed {
+    -fx-background-color: #3567bd;
+    -fx-translate-y: 1px;
+    -fx-effect: none;
 }
