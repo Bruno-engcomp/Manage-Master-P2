@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Main extends Application {
@@ -20,14 +21,15 @@ public class Main extends Application {
 
         Produto p1 = new Produto(
                 "Arroz", 333, "ManageMaster",
-                15.90, 12,
+                new BigDecimal("12.10"),
+                12,
                 LocalDate.of(2026, 9, 6),
                 categoria
         );
 
         Produto p2 = new Produto(
                 "Biscoito", 334, "ManageMaster",
-                5.20, 15,
+                new BigDecimal("5.10"), 15,
                 LocalDate.of(2026, 9, 6),
                 categoria
         );
@@ -134,7 +136,8 @@ public class Main extends Application {
                 }
 
                 if (!precoField.getText().isEmpty()) {
-                    produto.setPreco(Double.parseDouble(precoField.getText()));
+                    BigDecimal novoPreco = new BigDecimal(precoField.getText());
+                    produto.setPreco(novoPreco);
                     precoLabel.setText("Preço: R$ " + produto.getPreco());
                 }
 

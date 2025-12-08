@@ -7,15 +7,15 @@ import java.util.List; // Para fazer listas
 public class Transacao {
     private int id; // Id da transacao
     private LocalDate dataTransacao; // Data da transacao
-    private double valorTotal; // Valor total da transcao
+    private BigDecimal valorTotal; // Valor total da transcao
     private List<ItemTransacao> itens; // Os itens que estavam incluidos na transacao
     private String usuario; // Usuario que realizou a transacao
 
-    public Transacao(int id, double valorTotal, List<ItemTransacao> itens, String usuario)
+    public Transacao(int id, BigDecimal valorTotal, List<ItemTransacao> itens, String usuario)
     {
         if (id > 0)
             this.id = id;
-        if (valorTotal > 0)
+        if (valorTotal.compareTo(BigDecimal.ZERO) > 0)
             this.valorTotal = valorTotal;
         this.dataTransacao = dataTransacao;
         this.itens = itens;
@@ -28,7 +28,7 @@ public class Transacao {
 
     public LocalDate getDataTransacao() {return dataTransacao;}
 
-    public double getValorTotal() {return valorTotal;}
+    public BigDecimal getValorTotal() {return valorTotal;}
 
     public List<ItemTransacao> getItens() {return itens;}
 
@@ -47,8 +47,8 @@ public class Transacao {
 
     public void setUsuario(String usuario) {this.usuario = usuario;}
 
-    public void setValorTotal(double valorTotal) {
-        if(valorTotal > 0)
+    public void setValorTotal(BigDecimal valorTotal) {
+        if(valorTotal.compareTo(BigDecimal.ZERO) > 0)
             this.valorTotal = valorTotal;
     }
 }
