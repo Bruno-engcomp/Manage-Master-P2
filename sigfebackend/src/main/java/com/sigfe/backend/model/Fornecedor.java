@@ -10,7 +10,7 @@ public class Fornecedor {
     {
         if(id <= 0)
             throw new IllegalArgumentException("ID deve ser maior que zero");
-        if(telefone <=)
+        if(telefone <= 0)
             throw new IllegalArgumentException("Telefone deve ser maior que zero");
 
         this.id = id;
