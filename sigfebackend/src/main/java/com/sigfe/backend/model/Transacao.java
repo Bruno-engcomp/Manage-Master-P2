@@ -1,30 +1,43 @@
 package com.sigfe.backend.model;
 
 
-
+import jakarta.persistence.*;
+// Importa as anotacoes do JPA usadas para mapear a classe no banco de dados
 import java.time.LocalDate; // Biblioteca LocalDate para data atual de forma segura
 import java.math.BigDecimal; // Importacao da classe BigDecimal e utilizando objeto BigDecimal ou inves de float ou double para obter precisao nos calculos
 import java.util.List; // Para fazer listas
 
+@Entity
+// indica que esta classe e uma entidade JPA (vira uma tabela)
+@Table (name = "Transacao")
+// Define o nome da tabela no Banco
 public class Transacao {
+
+    @Id
+    // define a chave primaria da tabela
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    // O banco gera o ID automaticamente    (auto incremento)
+
     private Long id; // Id da transacao
+
     private LocalDate dataTransacao; // Data da transacao
-    private BigDecimal valorTotal; // Valor total da transacao
+
+
+    @OneToMany(mappedBy = "transacao", cascade = CascadeType.ALL)
     private List<ItemTransacao> itens; // Os itens que estavam incluidos na transacao
+
+    @Column (nullable = false)
     private String usuario; // Usuario que realizou a transacao
 
-    public Transacao(Long id, BigDecimal valorTotal, List<ItemTransacao> itens, String usuario)
+
+    public Transacao ()
     {
-        if (id <= 0)
-            throw new IllegalArgumentException("ID deve ser maior que zero");
-
-        if (valorTotal == null  ||valorTotal.compareTo(BigDecimal.ZERO) <= 0)
-            throw new IllegalArgumentException("Valor total inválido");
-        this.dataTransacao = dataTransacao;
-
+        this.dataTransacao = LocalDate.now();
+    }
+    public Transacao(Long id, List<ItemTransacao> itens, String usuario)
+    {
         this.id = id;
         this.itens = itens;
-        this.valorTotal = valorTotal;
         this.usuario = usuario;
         this.dataTransacao = LocalDate.now();
 
@@ -36,7 +49,12 @@ public class Transacao {
 
     public LocalDate getDataTransacao() {return dataTransacao;}
 
-    public BigDecimal getValorTotal() {return valorTotal;}
+    public BigDecimal getValorTotal() {
+        return itens.stream()
+                .map(ItemTransacao::getValorTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
 
     public List<ItemTransacao> getItens() {return itens;}
 
@@ -44,19 +62,14 @@ public class Transacao {
 
     // Setters para poder alteras os valores dos atributos
 
-    public void setId(Long id) {
-        if (id>0)
-            this.id = id;
-    }
-
     public void setDataTransacao(LocalDate dataTransacao) {this.dataTransacao = dataTransacao;}
 
-    public void setItens(List<ItemTransacao> itens) {this.itens = itens;}
+    public void setItens(List<ItemTransacao> itens) {
+        this.itens = itens;
+        itens.forEach(item -> item.setTransacao(this));
+    }
 
     public void setUsuario(String usuario) {this.usuario = usuario;}
 
-    public void setValorTotal(BigDecimal valorTotal) {
-        if(valorTotal.compareTo(BigDecimal.ZERO) > 0)
-            this.valorTotal = valorTotal;
-    }
+
 }

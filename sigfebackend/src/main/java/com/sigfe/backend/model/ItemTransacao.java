@@ -2,23 +2,40 @@ package com.sigfe.backend.model;
 
 
 import java.math.BigDecimal; // Importacao da classe BigDecimal e utilizando objeto BigDecimal ou inves de float ou double para obter precisao nos calculos
+import jakarta.persistence.*;
 
+@Entity
+@Table (name = "item_transacao")
 public class ItemTransacao {
-    Long id;
-    String produto;
-    int quantidade;
-    BigDecimal preco;
-    BigDecimal valorTotal;
 
-    public ItemTransacao(Long id, String produto, int quantidade, BigDecimal preco)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column (nullable = false)
+    String produto;
+
+    @Column (nullable = false)
+    int quantidade;
+
+    @Column(nullable = false)
+    BigDecimal preco;
+
+
+    @ManyToOne
+    @JoinColumn(name = "transacao_id", nullable = false)
+    private Transacao transacao;
+
+
+    public ItemTransacao()
     {
-        if(id > 0)
-            this.id = id;
+
+    }
+    public ItemTransacao(String produto, int quantidade, BigDecimal preco)
+    {
         this.produto = produto;
-        if(quantidade > 0)
-            this.quantidade = quantidade;
-        if(preco.compareTo(BigDecimal.ZERO) > 0)
-            this.preco = preco;
+        this.quantidade = quantidade;
+        this.preco = preco;
     }
 
     // Metodos get
@@ -32,24 +49,24 @@ public class ItemTransacao {
 
     public int getQuantidade() {return quantidade;}
 
+    public Transacao getTransacao() {return transacao;}
+
     public BigDecimal getValorTotal() { // Funcao que retorna o valor total da transcao preco x quantidade
-        valorTotal = preco.multiply(BigDecimal.valueOf(quantidade));
-        return valorTotal;
+        return preco.multiply(BigDecimal.valueOf(quantidade));
     }
 
     // Metodos Set
 
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(int quantidade)
+    {
         if (quantidade > 0)
             this.quantidade = quantidade;
     }
 
-    public void setPreco(BigDecimal preco) {
+    public void setPreco(BigDecimal preco)
+    {
         if(preco.compareTo(BigDecimal.ZERO) > 0)
             this.preco = preco;
     }
@@ -58,4 +75,5 @@ public class ItemTransacao {
         this.produto = produto;
     }
 
+    public void setTransacao(Transacao transacao) {this.transacao = transacao;}
 }
