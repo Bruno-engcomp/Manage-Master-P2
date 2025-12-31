@@ -1,12 +1,12 @@
 package com.sigfe.backend.model;
 
 public class Fornecedor {
-    private int id;
+    private Long id;
     private String nome;
     private String email;
     private int telefone;
 
-    public Fornecedor (int id, String nome, String email, int telefone)
+    public Fornecedor (Long id, String nome, String email, int telefone)
     {
         if(id <= 0)
             throw new IllegalArgumentException("ID deve ser maior que zero");
@@ -19,7 +19,7 @@ public class Fornecedor {
         this.telefone = telefone;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -35,7 +35,7 @@ public class Fornecedor {
         return nome;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         if (id>0)
             this.id = id;
     }

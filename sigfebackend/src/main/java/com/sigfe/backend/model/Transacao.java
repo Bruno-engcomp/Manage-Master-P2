@@ -7,13 +7,13 @@ import java.math.BigDecimal; // Importacao da classe BigDecimal e utilizando obj
 import java.util.List; // Para fazer listas
 
 public class Transacao {
-    private int id; // Id da transacao
+    private Long id; // Id da transacao
     private LocalDate dataTransacao; // Data da transacao
     private BigDecimal valorTotal; // Valor total da transacao
     private List<ItemTransacao> itens; // Os itens que estavam incluidos na transacao
     private String usuario; // Usuario que realizou a transacao
 
-    public Transacao(int id, BigDecimal valorTotal, List<ItemTransacao> itens, String usuario)
+    public Transacao(Long id, BigDecimal valorTotal, List<ItemTransacao> itens, String usuario)
     {
         if (id <= 0)
             throw new IllegalArgumentException("ID deve ser maior que zero");
@@ -32,7 +32,7 @@ public class Transacao {
 
     // Getters para poder usar os valores em outros lugares
 
-    public int getId() {return id;}
+    public Long getId() {return id;}
 
     public LocalDate getDataTransacao() {return dataTransacao;}
 
@@ -44,7 +44,7 @@ public class Transacao {
 
     // Setters para poder alteras os valores dos atributos
 
-    public void setId(int id) {
+    public void setId(Long id) {
         if (id>0)
             this.id = id;
     }

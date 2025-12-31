@@ -2,21 +2,49 @@ package com.sigfe.backend.model;
 
 
 import jakarta.persistence.*;
-
-
+// Importa as anotacoes do JPA usadas para mapear a classe no banco de dados
+import java.math.BigDecimal;
+// Importacao da classe BigDecimal e utilizando objeto BigDecimal ou inves de float ou double para obter precisao nos calculos
 import java.time.LocalDate;
-import java.math.BigDecimal; // Importacao da classe BigDecimal e utilizando objeto BigDecimal ou inves de float ou double para obter precisao nos calculos
+
+@Entity
+// indica que esta classe e uma entidade JPA (vira uma tabela)
+@Table(name = "produtos")
+// Define o nome da tabela no Banco
 
 public class Produto {
-    private int id;
+
+    @Id
+    // define a chave primaria da tabela
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    // O banco gera o ID automaticamente    (auto incremento)
+
+
+    private Long id; // Long ao inves de int, boa pratica em JPA (Java Persistence) API
+
+    @Column(nullable = false) // impede que o nome seja nulo no banco
+
+
     private String nome;
     private String marca;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    // define a precisao correta para os valores monetarios do banco
     private BigDecimal preco; // Uso de BigDecimal, pois ponto flutuante nao e 100% preciso
+
+    @Column(nullable = false) // impede que o quantidade nao seja nulo no banco
     private int quantidade;
+
     private LocalDate validade;
+
+    @ManyToOne // Muito produtos podem pertencer a uma categoria
+    @JoinColumn (name = "categoria_id") // cria a coluna categoria_id como chave estrangeira
     private Categoria categoria;
 
-    public Produto (String nome ,int id, String marca, BigDecimal preco,int quantidade, LocalDate validade, Categoria categoria)
+    protected Produto () {}
+
+    public Produto (String nome, String marca, BigDecimal preco,
+                    int quantidade, LocalDate validade, Categoria categoria)
     {
         // Validação dos atributos
         this.nome = nome;
@@ -24,34 +52,27 @@ public class Produto {
 
         this.validade = validade;
         this.categoria = categoria;
-        if(id > 0)
-            this.id = id;
-        if(quantidade > 0)
             this.quantidade = quantidade;
-        if(preco.compareTo(BigDecimal.ZERO) > 0) // Preco.compareTo(BigDecimal.ZERO) e o metodo usado para comparar o valor com zero
-        {
+         // Preco.compareTo(BigDecimal.ZERO) e o metodo usado para comparar o valor com zero
             this.preco = preco;
-        }
+
 
     }
 
     // Metodos set para fazer a alterção dos atributos
     public void setNome(String nome) {this.nome = nome;}
+
     public void setMarca(String marca) {this.marca = marca;}
+
     public void setPreco(BigDecimal preco) {
-        if(preco.compareTo(BigDecimal.ZERO) > 0) // Preco.compareTo(BigDecimal.ZERO) e o metodo usado para comparar o valor com zero
+        // Preco.compareTo(BigDecimal.ZERO) e o metodo usado para comparar o valor com zero
             this.preco = preco;
     }
 
     public void setQuantidade(int quantidade) {
-        if(quantidade > 0)
-            this.quantidade = quantidade;
+        this.quantidade = quantidade;
     }
 
-    public void setId(int id) {
-        if (id > 0)
-            this.id = id;
-    }
 
     public void setValidade(LocalDate validade) {
         this.validade = validade;
@@ -73,7 +94,7 @@ public class Produto {
         return preco;
     }
 
-    public int getId() {return id;}
+    public Long getId() {return id;}
 
     public int getQuantidade() {return quantidade;}
 

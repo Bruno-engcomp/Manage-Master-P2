@@ -1,4 +1,7 @@
-package main.java.com.sigfe.backend.repository;
+package com.sigfe.backend.repository;
 
-public class ProdutoRepository {
+import com.sigfe.backend.model.Produto;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 }

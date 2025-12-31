@@ -4,13 +4,13 @@ package com.sigfe.backend.model;
 import java.math.BigDecimal; // Importacao da classe BigDecimal e utilizando objeto BigDecimal ou inves de float ou double para obter precisao nos calculos
 
 public class ItemTransacao {
-    int id;
+    Long id;
     String produto;
     int quantidade;
     BigDecimal preco;
     BigDecimal valorTotal;
 
-    public ItemTransacao(int id, String produto, int quantidade, BigDecimal preco)
+    public ItemTransacao(Long id, String produto, int quantidade, BigDecimal preco)
     {
         if(id > 0)
             this.id = id;
@@ -24,7 +24,7 @@ public class ItemTransacao {
     // Metodos get
 
 
-    public int getId() {return id;}
+    public Long getId() {return id;}
 
     public BigDecimal getPreco() {return preco;}
 
@@ -40,7 +40,7 @@ public class ItemTransacao {
     // Metodos Set
 
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

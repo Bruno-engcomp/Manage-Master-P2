@@ -14,7 +14,7 @@ public class Compra extends Transacao {
     private FormaPagamento formaPagamento;
     private StatusCompra status;
     private String numeroDocumento;
-    public Compra(int id, BigDecimal valorTotal, List<ItemTransacao> itens, String usuario,
+    public Compra(Long id, BigDecimal valorTotal, List<ItemTransacao> itens, String usuario,
                   Fornecedor fornecedor, FormaPagamento formaPagamento, String numeroDocumento) {
         super(id, valorTotal, itens, usuario);
         this.fornecedor = fornecedor;
