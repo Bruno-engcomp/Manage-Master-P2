@@ -73,3 +73,6 @@ public class Transacao {
 
 
 }
+
+/*No ecossistema Spring Boot (mais especificamente no uso do Spring Data JPA),
+ uma Entidade é uma classe Java que representa uma tabela no seu banco de dados relacional.*/
