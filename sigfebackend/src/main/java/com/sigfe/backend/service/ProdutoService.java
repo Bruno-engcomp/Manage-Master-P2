@@ -5,7 +5,6 @@ import com.sigfe.backend.repository.ProdutoRepository;
 
 /*Anotacao que mostra que esta classe e service do spring
 * Services concentram a logica  de negocio da aplicacao*/
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,4 +45,6 @@ public class ProdutoService {
 
 /*
 * CRIACAO de camada Service para a entidade produto
-* Implementacao de metodos salva, listar, buscar por Id e remover produtos*/
+* Implementacao de metodos salva, listar, buscar por Id e remover produtos
+* O Service é o intermediário que organiza o fluxo: ele pega os dados que o Controller recebeu,
+*  aplica as regras necessárias e manda o Repository salvar.*/

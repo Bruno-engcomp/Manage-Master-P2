@@ -1,4 +1,4 @@
-package main.java.com.sigfe.backend.controller;
+package com.sigfe.backend.controller;
 
 public class FornecedorController {
 }
