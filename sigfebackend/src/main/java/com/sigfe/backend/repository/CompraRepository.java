@@ -1,9 +1,9 @@
 package com.sigfe.backend.repository;
 
-import com.sigfe.backend.model.Categoria;
+import com.sigfe.backend.model.Compra;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoriaRepository extends JpaRepository <Categoria, Long> {
+public interface CompraRepository extends JpaRepository<Compra, Long> {
 }
 
 /*No Spring Boot, um Repository (Repositório) é uma camada

@@ -59,6 +59,7 @@ public class Compra extends Transacao {
         return this.status == StatusCompra.PAGA;
     }
 
+
     // Getters
     public Fornecedor getFornecedor() {
         return fornecedor;
@@ -68,6 +69,13 @@ public class Compra extends Transacao {
         return formaPagamento;
     }
 
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
     public StatusCompra getStatus() {
         return status;
     }
@@ -75,4 +83,6 @@ public class Compra extends Transacao {
     public String getNumeroDocumento() {
         return numeroDocumento;
     }
+
+    public void setNumeroDocumento(String numeroDocumento) {this.numeroDocumento = numeroDocumento;}
 }
