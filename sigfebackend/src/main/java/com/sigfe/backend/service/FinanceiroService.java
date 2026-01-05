@@ -1,5 +1,6 @@
 package com.sigfe.backend.service;
 
+import com.sigfe.backend.exception.BusinessException;
 import com.sigfe.backend.model.Compra;
 import com.sigfe.backend.model.MovimentacaoFinanceira;
 import com.sigfe.backend.model.Venda;
@@ -27,7 +28,7 @@ public class FinanceiroService {
     public void registrarVenda(Venda venda) {
 
         if (venda.getStatus() != StatusVenda.PAGA) {
-            throw new IllegalStateException("Venda ainda não está paga");
+            throw new BusinessException("Venda ainda não está paga");
         }
 
         MovimentacaoFinanceira movimentacao = new MovimentacaoFinanceira(
@@ -44,7 +45,7 @@ public class FinanceiroService {
     public void registrarCompra(Compra compra) {
 
         if (!compra.estaPaga()) {
-            throw new IllegalStateException("Compra ainda não está paga");
+            throw new BusinessException("Compra ainda não está paga");
         }
 
         MovimentacaoFinanceira movimentacao = new MovimentacaoFinanceira(

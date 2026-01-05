@@ -2,6 +2,7 @@ package com.sigfe.backend.service;
 
 import com.sigfe.backend.dto.produto.ProdutoCreateDTO;
 import com.sigfe.backend.dto.produto.ProdutoResponseDTO;
+import com.sigfe.backend.exception.BusinessException;
 import com.sigfe.backend.model.Categoria;
 import com.sigfe.backend.model.Produto;
 import com.sigfe.backend.repository.CategoriaRepository;
@@ -26,7 +27,7 @@ public class ProdutoService {
     public Produto salvar(ProdutoCreateDTO dto) {
         // Busca a categoria para associar ao produto
         Categoria categoria = categoriaRepository.findById(dto.categoriaId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+                .orElseThrow(() -> new BusinessException("Categoria não encontrada"));
 
         // Cria a entidade a partir do DTO
         Produto produto = new Produto(
@@ -47,7 +48,7 @@ public class ProdutoService {
 
     public Produto buscarPorId(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() -> new BusinessException("Produto não encontrado"));
     }
 
     @Transactional

@@ -2,6 +2,7 @@ package com.sigfe.backend.service;
 
 import com.sigfe.backend.dto.fornecedor.FornecedorCreateDTO;
 import com.sigfe.backend.dto.fornecedor.FornecedorResponseDTO;
+import com.sigfe.backend.exception.BusinessException;
 import com.sigfe.backend.model.Fornecedor;
 import com.sigfe.backend.repository.FornecedorRepository;
 import jakarta.transaction.Transactional;
@@ -44,7 +45,7 @@ public class FornecedorService {
     // 🔹 READ - BUSCAR POR ID
     public FornecedorResponseDTO buscarPorId(Long id) {
         Fornecedor fornecedor = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+                .orElseThrow(() -> new BusinessException("Fornecedor não encontrado"));
 
         return new FornecedorResponseDTO(fornecedor);
     }
@@ -53,7 +54,7 @@ public class FornecedorService {
     @Transactional
     public void remover(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Fornecedor não encontrado");
+            throw new BusinessException("Fornecedor não encontrado");
         }
         repository.deleteById(id);
     }

@@ -1,6 +1,7 @@
 package com.sigfe.backend.service;
 
 import com.sigfe.backend.dto.estoque.MovimentacaoEstoqueDTO;
+import com.sigfe.backend.exception.BusinessException;
 import com.sigfe.backend.model.Produto;
 import com.sigfe.backend.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
@@ -20,7 +21,7 @@ public class EstoqueService {
     public void darEntrada(MovimentacaoEstoqueDTO dto) {
 
         Produto produto = produtoRepository.findById(dto.produtoId())
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() -> new BusinessException("Produto não encontrado"));
 
         produto.adicionarEstoque(dto.quantidade());
 
@@ -32,7 +33,7 @@ public class EstoqueService {
     public void darSaida(MovimentacaoEstoqueDTO dto) {
 
         Produto produto = produtoRepository.findById(dto.produtoId())
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() -> new BusinessException("Produto não encontrado"));
 
         produto.removerEstoque(dto.quantidade());
 

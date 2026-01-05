@@ -2,6 +2,7 @@ package com.sigfe.backend.service;
 
 import com.sigfe.backend.dto.categoria.CategoriaCreateDTO;
 import com.sigfe.backend.dto.categoria.CategoriaResponseDTO;
+import com.sigfe.backend.exception.BusinessException;
 import com.sigfe.backend.model.Categoria;
 import com.sigfe.backend.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class CategoriaService {
     // 🔹 READ - BUSCAR POR ID
     public CategoriaResponseDTO buscarPorId(Long id) {
         Categoria categoria = repository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Categoria não encontrada"));
+                .orElseThrow(() -> new BusinessException("Categoria não encontrada"));
 
         return new CategoriaResponseDTO(categoria);
     }
@@ -46,7 +47,7 @@ public class CategoriaService {
     // 🔹 UPDATE
     public CategoriaResponseDTO atualizar(Long id, CategoriaCreateDTO dto) {
         Categoria categoria = repository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Categoria não encontrada"));
+                .orElseThrow(() -> new BusinessException("Categoria não encontrada"));
 
         categoria.setNome(dto.nome());
 
@@ -57,7 +58,7 @@ public class CategoriaService {
     // 🔹 DELETE
     public void deletar(Long id) {
         if (!repository.existsById(id)) {
-            throw new IllegalStateException("Categoria não encontrada");
+            throw new BusinessException("Categoria não encontrada");
         }
         repository.deleteById(id);
     }

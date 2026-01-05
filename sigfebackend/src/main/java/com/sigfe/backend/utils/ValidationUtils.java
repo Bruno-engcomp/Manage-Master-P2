@@ -1,4 +1,4 @@
-package main.java.com.sigfe.backend.utils;
+package com.sigfe.backend.utils;
 
 public class ValidationUtils {
 }

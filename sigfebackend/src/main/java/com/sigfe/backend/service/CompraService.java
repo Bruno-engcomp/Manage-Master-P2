@@ -1,6 +1,7 @@
 package com.sigfe.backend.service;
 
 import com.sigfe.backend.dto.compra.CompraCreateDTO;
+import com.sigfe.backend.exception.BusinessException;
 import com.sigfe.backend.model.Compra;
 import com.sigfe.backend.repository.CompraRepository;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,6 @@ public class CompraService {
 
     public Compra buscarPorId(Long id) {
         return compraRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Compra não encontrada"));
+                .orElseThrow(() -> new BusinessException("Compra não encontrada"));
     }
 }

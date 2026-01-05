@@ -2,6 +2,7 @@ package com.sigfe.backend.service;
 
 import com.sigfe.backend.dto.Item.ItemVendaCreateDTO;
 import com.sigfe.backend.dto.venda.VendaCreateDTO;
+import com.sigfe.backend.exception.BusinessException;
 import com.sigfe.backend.model.ItemTransacao;
 import com.sigfe.backend.model.Produto;
 import com.sigfe.backend.model.Venda;
@@ -38,7 +39,7 @@ public class VendaService {
         dto.itens().forEach(itemDTO -> {
 
             Produto produto = produtoRepository.findById(itemDTO.produtoId())
-                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                    .orElseThrow(() -> new BusinessException("Produto não encontrado"));
 
             ItemTransacao item = new ItemTransacao();
             item.setProduto(produto);
@@ -62,7 +63,7 @@ public class VendaService {
 
     public Venda buscarPorId(Long id) {
         return vendaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Venda não encontrada"));
+                .orElseThrow(() -> new BusinessException("Venda não encontrada"));
     }
 }
 
