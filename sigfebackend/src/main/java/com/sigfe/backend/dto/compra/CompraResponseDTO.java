@@ -1,7 +1,6 @@
 package com.sigfe.backend.dto.compra;
 
 import com.sigfe.backend.model.Compra;
-
 import java.math.BigDecimal;
 
 public record CompraResponseDTO(
@@ -11,12 +10,13 @@ public record CompraResponseDTO(
         String status,
         BigDecimal valorTotal
 ) {
+    // Construtor compacto para conversão automática
     public CompraResponseDTO(Compra compra) {
         this(
                 compra.getId(),
                 compra.getUsuario(),
                 compra.getNumeroDocumento(),
-                compra.getStatus().name(),
+                compra.getStatus() != null ? compra.getStatus().name() : "PENDENTE",
                 compra.getValorTotal()
         );
     }

@@ -4,7 +4,7 @@ import com.sigfe.backend.dto.produto.ProdutoCreateDTO;
 import com.sigfe.backend.dto.produto.ProdutoResponseDTO;
 import com.sigfe.backend.model.Produto;
 import com.sigfe.backend.service.ProdutoService;
-
+import jakarta.validation.Valid; // Importado aqui
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,45 +20,34 @@ public class ProdutoController {
         this.produtoService = produtoService;
     }
 
-    // 🔹 CREATE
     @PostMapping
-    public ResponseEntity<ProdutoResponseDTO> criarProduto(
-            @RequestBody ProdutoCreateDTO dto) {
-
+    public ResponseEntity<ProdutoResponseDTO> criarProduto(@RequestBody @Valid ProdutoCreateDTO dto) {
+        // Agora o símbolo 'dto' está claramente definido após a anotação @Valid
         Produto produto = produtoService.salvar(dto);
         return ResponseEntity.ok(new ProdutoResponseDTO(produto));
     }
 
-    // 🔹 READ - LISTAR TODOS
     @GetMapping
     public ResponseEntity<List<ProdutoResponseDTO>> listarProdutos() {
-
-        return ResponseEntity.ok(
-                produtoService.listarTodos()
-                        .stream()
-                        .map(ProdutoResponseDTO::new)
-                        .toList()
-        );
+        List<ProdutoResponseDTO> lista = produtoService.listarTodos()
+                .stream()
+                .map(ProdutoResponseDTO::new)
+                .toList();
+        return ResponseEntity.ok(lista);
     }
 
-    // 🔹 READ - BUSCAR POR ID
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoResponseDTO> buscarPorId(@PathVariable Long id) {
-
         Produto produto = produtoService.buscarPorId(id);
         return ResponseEntity.ok(new ProdutoResponseDTO(produto));
-
     }
 
-    // 🔹 DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerProduto(@PathVariable Long id) {
-
         produtoService.remover(id);
         return ResponseEntity.noContent().build();
     }
 }
-
 
 /*
 O Controller é responsável por:

@@ -1,56 +1,58 @@
 package com.sigfe.backend.controller;
 
-import com.sigfe.backend.model.Fornecedor;
+import com.sigfe.backend.dto.fornecedor.FornecedorCreateDTO;
+import com.sigfe.backend.dto.fornecedor.FornecedorResponseDTO;
 import com.sigfe.backend.service.FornecedorService;
-
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController // Diz ao Spring que essa classe recebe requisições HTTP e retorna JSON
-@RequestMapping("/fornecedores") // URL base: http://localhost:8080/fornecedores
+import java.util.List;
+
+@RestController
+@RequestMapping("/fornecedores")
 public class FornecedorController {
 
     private final FornecedorService fornecedorService;
 
-    // Injeção de dependência via construtor (boa prática)
     public FornecedorController(FornecedorService fornecedorService) {
         this.fornecedorService = fornecedorService;
     }
 
-
-    // CREATE - Criar fornecedor
-
+    // CREATE - Agora recebe CreateDTO e retorna ResponseDTO
     @PostMapping
-    public ResponseEntity<Fornecedor> criarFornecedor(
-            @RequestBody Fornecedor fornecedor) {
+    public ResponseEntity<FornecedorResponseDTO> criarFornecedor(
+            @RequestBody @Valid FornecedorCreateDTO dto) {
 
-        Fornecedor fornecedorSalvo = fornecedorService.salvar(fornecedor);
+        // O Service retorna FornecedorResponseDTO, então a variável deve ser do mesmo tipo
+        FornecedorResponseDTO fornecedorSalvo = fornecedorService.salvar(dto);
         return ResponseEntity.ok(fornecedorSalvo);
     }
 
-
-    // READ - Buscar por ID
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Fornecedor> buscarPorId(
-            @PathVariable Long id) {
-
-        Fornecedor fornecedor = fornecedorService.buscarPorId(id);
-        return ResponseEntity.ok(fornecedor);
+    // READ - Lista todos usando DTO
+    @GetMapping
+    public ResponseEntity<List<FornecedorResponseDTO>> listarTodos() {
+        return ResponseEntity.ok(fornecedorService.listar());
     }
 
+    // READ - Buscar por ID retornando DTO
+    @GetMapping("/{id}")
+    public ResponseEntity<FornecedorResponseDTO> buscarPorId(
+            @PathVariable Long id) {
 
-    // DELETE - Remover fornecedor
+        FornecedorResponseDTO dto = fornecedorService.buscarPorId(id);
+        return ResponseEntity.ok(dto);
+    }
 
+    // DELETE - Permanece igual (Void)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerFornecedor(
             @PathVariable Long id) {
 
         fornecedorService.remover(id);
-        return ResponseEntity.noContent().build(); // HTTP 204
+        return ResponseEntity.noContent().build();
     }
 }
-
 /*
 O Controller é responsável por:
 

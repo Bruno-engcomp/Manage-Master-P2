@@ -1,88 +1,68 @@
 package com.sigfe.backend.service;
 
+import com.sigfe.backend.dto.Item.ItemVendaCreateDTO;
+import com.sigfe.backend.dto.venda.VendaCreateDTO;
+import com.sigfe.backend.model.ItemTransacao;
+import com.sigfe.backend.model.Produto;
 import com.sigfe.backend.model.Venda;
+import com.sigfe.backend.model.enums.FormaPagamento;
+import com.sigfe.backend.repository.ProdutoRepository;
 import com.sigfe.backend.repository.VendaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class VendaService {
 
     private final VendaRepository vendaRepository;
+    private final ProdutoRepository produtoRepository;
+    private final EstoqueService estoqueService;
 
-    public VendaService(VendaRepository vendaRepository) {
+    public VendaService(
+            VendaRepository vendaRepository,
+            ProdutoRepository produtoRepository,
+            EstoqueService estoqueService) {
+
         this.vendaRepository = vendaRepository;
+        this.produtoRepository = produtoRepository;
+        this.estoqueService = estoqueService;
     }
 
     @Transactional
-    public Venda salvar(Venda venda) {
+    public Venda salvar(VendaCreateDTO dto) {
 
-        // 🔹 Validações de regra de negócio
-        if (venda.getFormaPagamento() == null) {
-            throw new IllegalArgumentException("Forma de pagamento é obrigatória");
-        }
+        Venda venda = new Venda();
+        venda.setFormaPagamento(FormaPagamento.valueOf(dto.formaPagamento()));
+        venda.setNumeroDocumento(dto.numeroDocumento());
 
-        if (venda.getNumeroDocumento() == null || venda.getNumeroDocumento().isBlank()) {
-            throw new IllegalArgumentException("Número do documento é obrigatório");
-        }
+        dto.itens().forEach(itemDTO -> {
 
-        if (venda.getItens() == null || venda.getItens().isEmpty()) {
-            throw new IllegalArgumentException("A venda deve conter pelo menos um item");
-        }
+            Produto produto = produtoRepository.findById(itemDTO.produtoId())
+                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-        // 🔹 Validação e vínculo dos itens
-        venda.getItens().forEach(item -> {
-
-            if (item.getProduto() == null) {
-                throw new IllegalArgumentException("Item sem produto");
-            }
-
-            if (item.getQuantidade() == null || item.getQuantidade() <= 0) {
-                throw new IllegalArgumentException("Quantidade inválida");
-            }
-
-            if (item.getPreco() == null || item.getPreco().signum() <= 0) {
-                throw new IllegalArgumentException("Preço inválido");
-            }
-
-            // 🔥 vínculo reverso
+            ItemTransacao item = new ItemTransacao();
+            item.setProduto(produto);
+            item.setQuantidade(itemDTO.quantidade());
+            item.setPreco(itemDTO.preco());
             item.setTransacao(venda);
+
+            venda.getItens().add(item);
+
+            // 🔥 baixa de estoque obrigatória
+            estoqueService.darSaida(
+                    new com.sigfe.backend.dto.estoque.MovimentacaoEstoqueDTO(
+                            produto.getId(),
+                            itemDTO.quantidade()
+                    )
+            );
         });
 
         return vendaRepository.save(venda);
     }
 
-    public List<Venda> listarTodas() {
-        return vendaRepository.findAll();
-    }
-
     public Venda buscarPorId(Long id) {
         return vendaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Venda não encontrada"));
-    }
-
-    @Transactional
-    public Venda atualizar(Long id, Venda vendaAtualizada) {
-
-        Venda venda = buscarPorId(id);
-
-        venda.setFornecedor(vendaAtualizada.getFornecedor());
-        venda.setFormaPagamento(vendaAtualizada.getFormaPagamento());
-        venda.setNumeroDocumento(vendaAtualizada.getNumeroDocumento());
-        venda.setStatus(vendaAtualizada.getStatus());
-        venda.setItens(vendaAtualizada.getItens());
-
-        // 🔹 Reassociar itens
-        venda.getItens().forEach(item -> item.setTransacao(venda));
-
-        return vendaRepository.save(venda);
-    }
-
-    @Transactional
-    public void deletar(Long id) {
-        vendaRepository.deleteById(id);
     }
 }
 

@@ -1,8 +1,10 @@
 package com.sigfe.backend.controller;
 
+import com.sigfe.backend.dto.compra.CompraCreateDTO;
 import com.sigfe.backend.dto.compra.CompraResponseDTO;
 import com.sigfe.backend.model.Compra;
 import com.sigfe.backend.service.CompraService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,67 +20,30 @@ public class CompraController {
         this.compraService = compraService;
     }
 
-    // 🔹 Criar compra
     @PostMapping
-    public ResponseEntity<CompraResponseDTO> criar(@RequestBody Compra compra) {
+    public ResponseEntity<CompraResponseDTO> criar(@RequestBody @Valid CompraCreateDTO dto) {
+        // 1. Service recebe DTO e retorna Entidade
+        Compra salva = compraService.salvar(dto);
 
-        Compra salva = compraService.salvar(compra);
-
-        return ResponseEntity.ok(
-                new CompraResponseDTO(
-                        salva.getId(),
-                        salva.getUsuario(),
-                        salva.getNumeroDocumento(),
-                        salva.getStatus().name(),
-                        salva.getValorTotal()
-                )
-        );
+        // 2. Converte Entidade para DTO de Resposta
+        return ResponseEntity.ok(new CompraResponseDTO(salva));
     }
 
-
-    // 🔹 Listar todas
     @GetMapping
-    public ResponseEntity<List<Compra>> listar() {
-        return ResponseEntity.ok(compraService.listarTodas());
+    public ResponseEntity<List<CompraResponseDTO>> listar() {
+        List<CompraResponseDTO> lista = compraService.listarTodas()
+                .stream()
+                .map(CompraResponseDTO::new)
+                .toList();
+        return ResponseEntity.ok(lista);
     }
 
-    // 🔹 Buscar por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Compra> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(compraService.buscarPorId(id));
-    }
-
-    // 🔹 Atualizar compra
-    @PutMapping("/{id}")
-    public ResponseEntity<Compra> atualizar(
-            @PathVariable Long id,
-            @RequestBody Compra compra) {
-
-        return ResponseEntity.ok(compraService.atualizar(id, compra));
-    }
-
-    // 🔹 Marcar como paga
-    @PutMapping("/{id}/pagar")
-    public ResponseEntity<Void> pagar(@PathVariable Long id) {
-        compraService.marcarComoPaga(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    // 🔹 Cancelar compra
-    @PutMapping("/{id}/cancelar")
-    public ResponseEntity<Void> cancelar(@PathVariable Long id) {
-        compraService.cancelar(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    // 🔹 Deletar
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        compraService.deletar(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<CompraResponseDTO> buscarPorId(@PathVariable Long id) {
+        Compra compra = compraService.buscarPorId(id);
+        return ResponseEntity.ok(new CompraResponseDTO(compra));
     }
 }
-
 /*
 O Controller é responsável por:
 

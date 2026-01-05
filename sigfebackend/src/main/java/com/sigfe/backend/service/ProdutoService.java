@@ -1,10 +1,12 @@
 package com.sigfe.backend.service;
 
 import com.sigfe.backend.dto.produto.ProdutoCreateDTO;
+import com.sigfe.backend.dto.produto.ProdutoResponseDTO;
 import com.sigfe.backend.model.Categoria;
 import com.sigfe.backend.model.Produto;
 import com.sigfe.backend.repository.CategoriaRepository;
 import com.sigfe.backend.repository.ProdutoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,19 +14,21 @@ import java.util.List;
 @Service
 public class ProdutoService {
 
-    private final ProdutoRepository produtoRepository;
+    private final ProdutoRepository repository;
     private final CategoriaRepository categoriaRepository;
 
-    public ProdutoService(ProdutoRepository produtoRepository,
-                          CategoriaRepository categoriaRepository) {
-        this.produtoRepository = produtoRepository;
+    public ProdutoService(ProdutoRepository repository, CategoriaRepository categoriaRepository) {
+        this.repository = repository;
         this.categoriaRepository = categoriaRepository;
     }
 
+    @Transactional
     public Produto salvar(ProdutoCreateDTO dto) {
+        // Busca a categoria para associar ao produto
         Categoria categoria = categoriaRepository.findById(dto.categoriaId())
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
+        // Cria a entidade a partir do DTO
         Produto produto = new Produto(
                 dto.nome(),
                 dto.marca(),
@@ -34,20 +38,21 @@ public class ProdutoService {
                 categoria
         );
 
-        return produtoRepository.save(produto);
+        return repository.save(produto); // Retorna a Entidade Produto
     }
 
     public List<Produto> listarTodos() {
-        return produtoRepository.findAll();
+        return repository.findAll();
     }
 
     public Produto buscarPorId(Long id) {
-        return produtoRepository.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
     }
 
+    @Transactional
     public void remover(Long id) {
-        produtoRepository.deleteById(id);
+        repository.deleteById(id);
     }
 }
 

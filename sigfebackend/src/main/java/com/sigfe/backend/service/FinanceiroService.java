@@ -1,6 +1,8 @@
 package com.sigfe.backend.service;
 
-import com.sigfe.backend.model.*;
+import com.sigfe.backend.model.Compra;
+import com.sigfe.backend.model.MovimentacaoFinanceira;
+import com.sigfe.backend.model.Venda;
 import com.sigfe.backend.model.enums.OrigemMovimentacao;
 import com.sigfe.backend.model.enums.StatusVenda;
 import com.sigfe.backend.model.enums.TipoMovimentacao;
@@ -20,57 +22,51 @@ public class FinanceiroService {
         this.repository = repository;
     }
 
-    /*
-     * Registra entrada de dinheiro (VENDA paga)
-     */
+    // 🔹 ENTRADA DE DINHEIRO (Venda paga)
     @Transactional
-    public void registrarVendaPaga(Venda venda) {
+    public void registrarVenda(Venda venda) {
 
-        if (!venda.getStatus().equals(StatusVenda.PAGA)) {
+        if (venda.getStatus() != StatusVenda.PAGA) {
             throw new IllegalStateException("Venda ainda não está paga");
         }
 
-        MovimentacaoFinanceira movimentacao =
-                new MovimentacaoFinanceira(
-                        venda.getValorTotal(),
-                        TipoMovimentacao.ENTRADA,
-                        OrigemMovimentacao.VENDA
-                );
+        MovimentacaoFinanceira movimentacao = new MovimentacaoFinanceira(
+                venda.getValorTotal(),
+                TipoMovimentacao.ENTRADA,
+                OrigemMovimentacao.VENDA
+        );
 
         repository.save(movimentacao);
     }
 
-    /*
-     * Registra saída de dinheiro (COMPRA paga)
-     */
+    // 🔹 SAÍDA DE DINHEIRO (Compra paga)
     @Transactional
-    public void registrarCompraPaga(Compra compra) {
+    public void registrarCompra(Compra compra) {
 
         if (!compra.estaPaga()) {
             throw new IllegalStateException("Compra ainda não está paga");
         }
 
-        MovimentacaoFinanceira movimentacao =
-                new MovimentacaoFinanceira(
-                        compra.getValorTotal(),
-                        TipoMovimentacao.SAIDA,
-                        OrigemMovimentacao.COMPRA
-                );
+        MovimentacaoFinanceira movimentacao = new MovimentacaoFinanceira(
+                compra.getValorTotal(),
+                TipoMovimentacao.SAIDA,
+                OrigemMovimentacao.COMPRA
+        );
 
         repository.save(movimentacao);
     }
 
-    /*
-     * Calcula o saldo atual
-     */
+    // 🔹 SALDO ATUAL
     public BigDecimal calcularSaldo() {
 
         List<MovimentacaoFinanceira> movimentacoes = repository.findAll();
 
         return movimentacoes.stream()
-                .map(m -> m.getTipo() == TipoMovimentacao.ENTRADA
-                        ? m.getValor()
-                        : m.getValor().negate())
+                .map(m ->
+                        m.getTipo() == TipoMovimentacao.ENTRADA
+                                ? m.getValor()
+                                : m.getValor().negate()
+                )
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

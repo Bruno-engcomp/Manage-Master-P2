@@ -3,7 +3,7 @@ package com.sigfe.backend.model;
 import jakarta.persistence.*;
 import com.sigfe.backend.model.enums.FormaPagamento;
 import com.sigfe.backend.model.enums.StatusCompra;
-
+import java.math.BigDecimal; // Importação necessária
 import java.util.List;
 
 @Entity
@@ -26,6 +26,10 @@ public class Compra extends Transacao {
     @Column(nullable = false)
     private String numeroDocumento;
 
+    // ADICIONE ESTE CAMPO:
+    @Column(nullable = false)
+    private BigDecimal valorTotal = BigDecimal.ZERO;
+
     // Construtor vazio obrigatório para o JPA
     public Compra() {
         this.status = StatusCompra.PENDENTE;
@@ -33,16 +37,17 @@ public class Compra extends Transacao {
 
     public Compra(List<ItemTransacao> itens, String usuario,
                   Fornecedor fornecedor, FormaPagamento formaPagamento,
-                  String numeroDocumento) {
+                  String numeroDocumento, BigDecimal valorTotal) {
 
         super(itens, usuario);
         this.fornecedor = fornecedor;
         this.formaPagamento = formaPagamento;
         this.numeroDocumento = numeroDocumento;
+        this.valorTotal = valorTotal; // Inicializa o valor
         this.status = StatusCompra.PENDENTE;
     }
 
-    // Regras de negócio
+    // --- REGRAS DE NEGÓCIO ---
     public void marcarComoPaga() {
         if (this.status == StatusCompra.PENDENTE) {
             this.status = StatusCompra.PAGA;
@@ -59,10 +64,22 @@ public class Compra extends Transacao {
         return this.status == StatusCompra.PAGA;
     }
 
+    // --- GETTERS E SETTERS (O que estava faltando) ---
 
-    // Getters
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
     public Fornecedor getFornecedor() {
         return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
     }
 
     public FormaPagamento getFormaPagamento() {
@@ -73,16 +90,19 @@ public class Compra extends Transacao {
         this.formaPagamento = formaPagamento;
     }
 
-    public void setFornecedor(Fornecedor fornecedor) {
-        this.fornecedor = fornecedor;
-    }
     public StatusCompra getStatus() {
         return status;
+    }
+
+    public void setStatus(StatusCompra status) {
+        this.status = status;
     }
 
     public String getNumeroDocumento() {
         return numeroDocumento;
     }
 
-    public void setNumeroDocumento(String numeroDocumento) {this.numeroDocumento = numeroDocumento;}
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
+    }
 }

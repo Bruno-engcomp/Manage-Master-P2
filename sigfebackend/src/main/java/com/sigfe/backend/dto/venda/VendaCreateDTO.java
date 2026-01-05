@@ -1,10 +1,23 @@
 package com.sigfe.backend.dto.venda;
 
-import com.sigfe.backend.dto.Item.ItemTransacaoDTO;
+import com.sigfe.backend.dto.Item.ItemVendaCreateDTO;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record VendaCreateDTO ( // dados que entram
-        List<ItemTransacaoDTO> itens
+public record VendaCreateDTO(
+
+        @NotNull
+        Long fornecedorId,
+
+        @NotBlank
+        String formaPagamento,
+
+        @NotBlank
+        String numeroDocumento,
+
+        @NotNull
+        List<ItemVendaCreateDTO> itens
 ) {
 }

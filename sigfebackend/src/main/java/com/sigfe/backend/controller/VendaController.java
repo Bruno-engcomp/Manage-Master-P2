@@ -1,11 +1,12 @@
 package com.sigfe.backend.controller;
 
+import com.sigfe.backend.dto.venda.VendaCreateDTO;
+import com.sigfe.backend.dto.venda.VendaResponseDTO;
 import com.sigfe.backend.model.Venda;
 import com.sigfe.backend.service.VendaService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/vendas")
@@ -17,39 +18,19 @@ public class VendaController {
         this.vendaService = vendaService;
     }
 
-    // 🔹 Criar venda
     @PostMapping
-    public ResponseEntity<Venda> criar(@RequestBody Venda venda) {
-        Venda novaVenda = vendaService.salvar(venda);
-        return ResponseEntity.ok(novaVenda);
+    public ResponseEntity<VendaResponseDTO> criar(
+            @RequestBody @Valid VendaCreateDTO dto) {
+
+        Venda venda = vendaService.salvar(dto);
+        return ResponseEntity.ok(new VendaResponseDTO(venda));
     }
 
-    // 🔹 Listar todas
-    @GetMapping
-    public ResponseEntity<List<Venda>> listar() {
-        return ResponseEntity.ok(vendaService.listarTodas());
-    }
-
-    // 🔹 Buscar por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Venda> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(vendaService.buscarPorId(id));
-    }
-
-    // 🔹 Atualizar venda
-    @PutMapping("/{id}")
-    public ResponseEntity<Venda> atualizar(
-            @PathVariable Long id,
-            @RequestBody Venda venda) {
-
-        return ResponseEntity.ok(vendaService.atualizar(id, venda));
-    }
-
-    // 🔹 Deletar venda
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        vendaService.deletar(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<VendaResponseDTO> buscar(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                new VendaResponseDTO(vendaService.buscarPorId(id))
+        );
     }
 }
 

@@ -1,47 +1,40 @@
 package com.sigfe.backend.service;
 
-import com.sigfe.backend.model.ItemTransacao;
+import com.sigfe.backend.dto.estoque.MovimentacaoEstoqueDTO;
 import com.sigfe.backend.model.Produto;
 import com.sigfe.backend.repository.ProdutoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Service // indica que esta classe e um Service do Spring
+@Service
 public class EstoqueService {
 
     private final ProdutoRepository produtoRepository;
 
-    // Injeção de dependência via construtor
     public EstoqueService(ProdutoRepository produtoRepository) {
         this.produtoRepository = produtoRepository;
     }
 
-
-      //Entrada de estoque
-
-
+    // 🔹 ENTRADA DE ESTOQUE (COMPRA)
     @Transactional
-    public void darEntrada(ItemTransacao item) {
+    public void darEntrada(MovimentacaoEstoqueDTO dto) {
 
-        Produto produto = item.getProduto();
+        Produto produto = produtoRepository.findById(dto.produtoId())
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-        // A regra de negócio fica no model
-        produto.adicionarEstoque(item.getQuantidade());
+        produto.adicionarEstoque(dto.quantidade());
 
         produtoRepository.save(produto);
     }
 
-
-     //Saída de estoque
-     //Usada quando uma VENDA é realizada
-
+    // 🔹 SAÍDA DE ESTOQUE (VENDA)
     @Transactional
-    public void darSaida(ItemTransacao item) {
+    public void darSaida(MovimentacaoEstoqueDTO dto) {
 
-        Produto produto = item.getProduto();
+        Produto produto = produtoRepository.findById(dto.produtoId())
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-        // O proprio Produto valida se há estoque suficiente
-        produto.removerEstoque(item.getQuantidade());
+        produto.removerEstoque(dto.quantidade());
 
         produtoRepository.save(produto);
     }

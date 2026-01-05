@@ -1,9 +1,13 @@
 package com.sigfe.backend.service;
 
+import com.sigfe.backend.dto.fornecedor.FornecedorCreateDTO;
+import com.sigfe.backend.dto.fornecedor.FornecedorResponseDTO;
 import com.sigfe.backend.model.Fornecedor;
 import com.sigfe.backend.repository.FornecedorRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class FornecedorService {
@@ -14,27 +18,39 @@ public class FornecedorService {
         this.repository = repository;
     }
 
+    // 🔹 CREATE
     @Transactional
-    public Fornecedor salvar(Fornecedor fornecedor) {
+    public FornecedorResponseDTO salvar(FornecedorCreateDTO dto) {
+        // CONVERSÃO: DTO -> Entidade
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setNome(dto.nome());
+        fornecedor.setEmail(dto.email());
+        fornecedor.setTelefone(dto.telefone());
 
+        Fornecedor salvo = repository.save(fornecedor);
 
-        // Validações de regra de negócio
-        if (fornecedor.getNome() == null || fornecedor.getNome().isBlank()) {
-            throw new IllegalArgumentException("Nome é obrigatório");
-        }
-
-        if (fornecedor.getTelefone() == null || fornecedor.getTelefone().isBlank()) {
-            throw new IllegalArgumentException("Telefone é obrigatório");
-        }
-
-        return repository.save(fornecedor);
+        // RETORNO: Converte a Entidade salva de volta para DTO
+        return new FornecedorResponseDTO(salvo);
     }
 
-    public Fornecedor buscarPorId(Long id) {
-        return repository.findById(id)
+    // 🔹 READ - LISTAR TODOS
+    public List<FornecedorResponseDTO> listar() {
+        return repository.findAll()
+                .stream()
+                .map(FornecedorResponseDTO::new)
+                .toList();
+    }
+
+    // 🔹 READ - BUSCAR POR ID
+    public FornecedorResponseDTO buscarPorId(Long id) {
+        Fornecedor fornecedor = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+
+        return new FornecedorResponseDTO(fornecedor);
     }
 
+    // 🔹 DELETE
+    @Transactional
     public void remover(Long id) {
         if (!repository.existsById(id)) {
             throw new RuntimeException("Fornecedor não encontrado");

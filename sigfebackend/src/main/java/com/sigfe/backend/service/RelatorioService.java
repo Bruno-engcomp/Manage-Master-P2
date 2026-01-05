@@ -1,7 +1,7 @@
 package com.sigfe.backend.service;
 
+import com.sigfe.backend.dto.produto.ProdutoEstoqueBaixoDTO;
 import com.sigfe.backend.model.MovimentacaoFinanceira;
-import com.sigfe.backend.model.Produto;
 import com.sigfe.backend.model.enums.TipoMovimentacao;
 import com.sigfe.backend.repository.MovimentacaoFinanceiraRepository;
 import com.sigfe.backend.repository.ProdutoRepository;
@@ -22,28 +22,27 @@ public class RelatorioService {
         this.produtoRepository = produtoRepository;
     }
 
-    /*
-     * Retorna o saldo atual
-     */
+    // 🔹 Saldo atual
     public BigDecimal obterSaldoAtual() {
         return financeiroRepository.findAll()
                 .stream()
-                .map(m -> m.getTipo() == TipoMovimentacao.ENTRADA
-                        ? m.getValor()
-                        : m.getValor().negate())
+                .map(m ->
+                        m.getTipo() == TipoMovimentacao.ENTRADA
+                                ? m.getValor()
+                                : m.getValor().negate()
+                )
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    /*
-     * Produtos com estoque baixo (<= 5)
-     */
-    public List<Produto> produtosComEstoqueBaixo() {
-        return produtoRepository.findByQuantidadeLessThanEqual(5);
+    // 🔹 Produtos com estoque baixo
+    public List<ProdutoEstoqueBaixoDTO> produtosComEstoqueBaixo() {
+        return produtoRepository.findByQuantidadeLessThanEqual(5)
+                .stream()
+                .map(ProdutoEstoqueBaixoDTO::new)
+                .toList();
     }
 
-    /*
-     * Total vendido (somente entradas)
-     */
+    // 🔹 Total vendido
     public BigDecimal totalVendido() {
         return financeiroRepository.findAll()
                 .stream()
