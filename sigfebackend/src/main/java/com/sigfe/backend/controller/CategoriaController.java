@@ -18,7 +18,7 @@ public class CategoriaController {
         this.service = service;
     }
 
-    // CREATE
+    //  CREATE
     @PostMapping
     public ResponseEntity<CategoriaResponseDTO> criar(
             @RequestBody CategoriaCreateDTO dto) {
