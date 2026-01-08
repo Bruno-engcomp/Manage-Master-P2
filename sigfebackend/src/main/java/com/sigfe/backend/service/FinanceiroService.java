@@ -23,7 +23,7 @@ public class FinanceiroService {
         this.repository = repository;
     }
 
-    // 🔹 ENTRADA DE DINHEIRO (Venda paga)
+    // ENTRADA DE DINHEIRO (Venda paga)
     @Transactional
     public void registrarVenda(Venda venda) {
 
@@ -40,7 +40,7 @@ public class FinanceiroService {
         repository.save(movimentacao);
     }
 
-    // 🔹 SAÍDA DE DINHEIRO (Compra paga)
+    // SAÍDA DE DINHEIRO (Compra paga)
     @Transactional
     public void registrarCompra(Compra compra) {
 
@@ -57,7 +57,7 @@ public class FinanceiroService {
         repository.save(movimentacao);
     }
 
-    // 🔹 SALDO ATUAL
+    // SALDO ATUAL
     public BigDecimal calcularSaldo() {
 
         List<MovimentacaoFinanceira> movimentacoes = repository.findAll();

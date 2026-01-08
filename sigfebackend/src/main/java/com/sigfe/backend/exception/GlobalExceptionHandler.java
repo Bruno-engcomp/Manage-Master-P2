@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 🔹 Erros de regra de negócio
+    // Erros de regra de negócio
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<String> handleBusinessException(BusinessException ex) {
         return ResponseEntity
@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage());
     }
 
-    // 🔹 Erros de validação simples
+    // Erros de validação simples
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
         return ResponseEntity
@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
                 .body(ex.getMessage());
     }
 
-    // 🔹 Erros inesperados
+    // Erros inesperados
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntime(RuntimeException ex) {
         return ResponseEntity

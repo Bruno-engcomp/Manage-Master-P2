@@ -26,10 +26,10 @@ public class ItemTransacao {
     @JoinColumn(name = "transacao_id", nullable = false)
     private Transacao transacao;
 
-    // 🔹 Construtor padrão (OBRIGATÓRIO para JPA/Jackson)
+    //  Construtor padrão
     public ItemTransacao() {}
 
-    // 🔹 Construtor opcional (sem validação pesada)
+    //  Construtor opcional
     public ItemTransacao(Produto produto, Integer quantidade, BigDecimal preco) {
         this.produto = produto;
         this.quantidade = quantidade;
@@ -47,7 +47,7 @@ public class ItemTransacao {
         return preco.multiply(BigDecimal.valueOf(quantidade));
     }
 
-    // Setters (SEM exceções)
+    // Setters
     public void setProduto(Produto produto) {
         this.produto = produto;
     }

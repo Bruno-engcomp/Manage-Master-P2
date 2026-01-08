@@ -21,13 +21,13 @@ public class CompraController {
     }
 
     @PostMapping
-    public ResponseEntity<CompraResponseDTO> criar(@RequestBody @Valid CompraCreateDTO dto) {
-        // 1. Service recebe DTO e retorna Entidade
+    public ResponseEntity<CompraResponseDTO> criar(
+            @RequestBody @Valid CompraCreateDTO dto
+    ) {
         Compra salva = compraService.salvar(dto);
-
-        // 2. Converte Entidade para DTO de Resposta
-        return ResponseEntity.ok(new CompraResponseDTO(salva));
+        return ResponseEntity.status(201).body(new CompraResponseDTO(salva));
     }
+
 
     @GetMapping
     public ResponseEntity<List<CompraResponseDTO>> listar() {

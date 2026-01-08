@@ -16,7 +16,7 @@ public class EstoqueService {
         this.produtoRepository = produtoRepository;
     }
 
-    // 🔹 ENTRADA DE ESTOQUE (COMPRA)
+    // ENTRADA DE ESTOQUE (COMPRA)
     @Transactional
     public void darEntrada(MovimentacaoEstoqueDTO dto) {
 
@@ -28,7 +28,7 @@ public class EstoqueService {
         produtoRepository.save(produto);
     }
 
-    // 🔹 SAÍDA DE ESTOQUE (VENDA)
+    // SAÍDA DE ESTOQUE (VENDA)
     @Transactional
     public void darSaida(MovimentacaoEstoqueDTO dto) {
 

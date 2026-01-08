@@ -3,7 +3,8 @@ package com.sigfe.backend.model;
 import jakarta.persistence.*;
 import com.sigfe.backend.model.enums.FormaPagamento;
 import com.sigfe.backend.model.enums.StatusCompra;
-import java.math.BigDecimal; // Importação necessária
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -16,38 +17,41 @@ public class Compra extends Transacao {
     private Fornecedor fornecedor;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "forma_pagamento", nullable = false)
     private FormaPagamento formaPagamento;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusCompra status;
 
-    @Column(nullable = false)
+    @Column(name = "numero_documento", nullable = false)
     private String numeroDocumento;
 
-    // ADICIONE ESTE CAMPO:
-    @Column(nullable = false)
-    private BigDecimal valorTotal = BigDecimal.ZERO;
+    @Column(name = "valor_total", nullable = false)
+    private BigDecimal valorTotal;
 
-    // Construtor vazio obrigatório para o JPA
+    // Construtor vazio obrigatório (JPA)
     public Compra() {
         this.status = StatusCompra.PENDENTE;
     }
 
-    public Compra(List<ItemTransacao> itens, String usuario,
-                  Fornecedor fornecedor, FormaPagamento formaPagamento,
-                  String numeroDocumento, BigDecimal valorTotal) {
+    public Compra(List<ItemTransacao> itens,
+                  String usuario,
+                  Fornecedor fornecedor,
+                  FormaPagamento formaPagamento,
+                  String numeroDocumento,
+                  BigDecimal valorTotal) {
 
         super(itens, usuario);
         this.fornecedor = fornecedor;
         this.formaPagamento = formaPagamento;
         this.numeroDocumento = numeroDocumento;
-        this.valorTotal = valorTotal; // Inicializa o valor
+        this.valorTotal = valorTotal;
         this.status = StatusCompra.PENDENTE;
     }
 
-    // --- REGRAS DE NEGÓCIO ---
+    // REGRAS DE NEGÓCIO
+
     public void marcarComoPaga() {
         if (this.status == StatusCompra.PENDENTE) {
             this.status = StatusCompra.PAGA;
@@ -64,15 +68,7 @@ public class Compra extends Transacao {
         return this.status == StatusCompra.PAGA;
     }
 
-    // --- GETTERS E SETTERS (O que estava faltando) ---
-
-    public BigDecimal getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
-    }
+    // GETTERS E SETTERS
 
     public Fornecedor getFornecedor() {
         return fornecedor;
@@ -104,5 +100,13 @@ public class Compra extends Transacao {
 
     public void setNumeroDocumento(String numeroDocumento) {
         this.numeroDocumento = numeroDocumento;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
     }
 }

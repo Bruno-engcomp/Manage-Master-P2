@@ -18,19 +18,19 @@ public class RelatorioController {
         this.relatorioService = relatorioService;
     }
 
-    // 🔹 Saldo financeiro
+    // Saldo financeiro
     @GetMapping("/financeiro/saldo")
     public ResponseEntity<BigDecimal> saldoFinanceiro() {
         return ResponseEntity.ok(relatorioService.obterSaldoAtual());
     }
 
-    // 🔹 Estoque baixo
+    // Estoque baixo
     @GetMapping("/estoque/baixo")
     public ResponseEntity<List<ProdutoEstoqueBaixoDTO>> estoqueBaixo() {
         return ResponseEntity.ok(relatorioService.produtosComEstoqueBaixo());
     }
 
-    // 🔹 Total vendido
+    // Total vendido
     @GetMapping("/vendas/total")
     public ResponseEntity<BigDecimal> totalVendas() {
         return ResponseEntity.ok(relatorioService.totalVendido());

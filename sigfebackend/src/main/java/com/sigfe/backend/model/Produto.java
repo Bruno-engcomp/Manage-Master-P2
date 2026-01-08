@@ -20,7 +20,7 @@ public class Produto {
     // O banco gera o ID automaticamente    (auto incremento)
 
 
-    private Long id; // Long ao inves de Integer, boa pratica em JPA (Java Persistence) API
+    private Long id; // Long ao inves de Integer
 
     @Column(nullable = false) // impede que o nome seja nulo no banco
 

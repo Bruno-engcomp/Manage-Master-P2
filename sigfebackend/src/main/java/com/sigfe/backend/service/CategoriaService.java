@@ -18,7 +18,7 @@ public class CategoriaService {
         this.repository = repository;
     }
 
-    // 🔹 CREATE
+    //  CREATE
     public CategoriaResponseDTO salvar(CategoriaCreateDTO dto) {
 
         Categoria categoria = new Categoria();
@@ -28,7 +28,7 @@ public class CategoriaService {
         return new CategoriaResponseDTO(salva);
     }
 
-    // 🔹 READ - LISTAR
+    //  READ - LISTAR
     public List<CategoriaResponseDTO> listar() {
         return repository.findAll()
                 .stream()
@@ -36,7 +36,7 @@ public class CategoriaService {
                 .toList();
     }
 
-    // 🔹 READ - BUSCAR POR ID
+    //  READ - BUSCAR POR ID
     public CategoriaResponseDTO buscarPorId(Long id) {
         Categoria categoria = repository.findById(id)
                 .orElseThrow(() -> new BusinessException("Categoria não encontrada"));
@@ -44,7 +44,7 @@ public class CategoriaService {
         return new CategoriaResponseDTO(categoria);
     }
 
-    // 🔹 UPDATE
+    //  UPDATE
     public CategoriaResponseDTO atualizar(Long id, CategoriaCreateDTO dto) {
         Categoria categoria = repository.findById(id)
                 .orElseThrow(() -> new BusinessException("Categoria não encontrada"));
@@ -55,7 +55,7 @@ public class CategoriaService {
         return new CategoriaResponseDTO(atualizada);
     }
 
-    // 🔹 DELETE
+    //  DELETE
     public void deletar(Long id) {
         if (!repository.existsById(id)) {
             throw new BusinessException("Categoria não encontrada");

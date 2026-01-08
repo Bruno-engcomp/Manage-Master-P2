@@ -19,7 +19,7 @@ public class FornecedorService {
         this.repository = repository;
     }
 
-    // 🔹 CREATE
+    // CREATE
     @Transactional
     public FornecedorResponseDTO salvar(FornecedorCreateDTO dto) {
         // CONVERSÃO: DTO -> Entidade
@@ -34,7 +34,7 @@ public class FornecedorService {
         return new FornecedorResponseDTO(salvo);
     }
 
-    // 🔹 READ - LISTAR TODOS
+    // READ - LISTAR TODOS
     public List<FornecedorResponseDTO> listar() {
         return repository.findAll()
                 .stream()
@@ -42,7 +42,7 @@ public class FornecedorService {
                 .toList();
     }
 
-    // 🔹 READ - BUSCAR POR ID
+    // READ - BUSCAR POR ID
     public FornecedorResponseDTO buscarPorId(Long id) {
         Fornecedor fornecedor = repository.findById(id)
                 .orElseThrow(() -> new BusinessException("Fornecedor não encontrado"));
@@ -50,7 +50,7 @@ public class FornecedorService {
         return new FornecedorResponseDTO(fornecedor);
     }
 
-    // 🔹 DELETE
+    // DELETE
     @Transactional
     public void remover(Long id) {
         if (!repository.existsById(id)) {

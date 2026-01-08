@@ -22,7 +22,7 @@ public class RelatorioService {
         this.produtoRepository = produtoRepository;
     }
 
-    // 🔹 Saldo atual
+    //  Saldo atual
     public BigDecimal obterSaldoAtual() {
         return financeiroRepository.findAll()
                 .stream()
@@ -34,7 +34,7 @@ public class RelatorioService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    // 🔹 Produtos com estoque baixo
+    //  Produtos com estoque baixo
     public List<ProdutoEstoqueBaixoDTO> produtosComEstoqueBaixo() {
         return produtoRepository.findByQuantidadeLessThanEqual(5)
                 .stream()
@@ -42,7 +42,7 @@ public class RelatorioService {
                 .toList();
     }
 
-    // 🔹 Total vendido
+    //  Total vendido
     public BigDecimal totalVendido() {
         return financeiroRepository.findAll()
                 .stream()

@@ -26,12 +26,12 @@ public class Venda extends Transacao {
     @Column(nullable = false)
     private String numeroDocumento;
 
-    // 🔹 Construtor obrigatório para o JPA
+    // Construtor obrigatório para o JPA
     public Venda() {
         this.status = StatusVenda.ABERTA;
     }
 
-    // 🔹 Construtor de domínio
+    // Construtor de domínio
     public Venda(Long id,
                  List<ItemTransacao> itens,
                  String usuario,

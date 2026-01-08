@@ -16,7 +16,7 @@ public class EstoqueController {
         this.estoqueService = estoqueService;
     }
 
-    // 🔹 ENTRADA DE ESTOQUE
+    //  ENTRADA DE ESTOQUE
     @PostMapping("/entrada")
     public ResponseEntity<String> entradaEstoque(
             @RequestBody @Valid MovimentacaoEstoqueDTO dto) {
@@ -25,7 +25,7 @@ public class EstoqueController {
         return ResponseEntity.ok("Entrada de estoque realizada com sucesso");
     }
 
-    // 🔹 SAÍDA DE ESTOQUE
+    //  SAÍDA DE ESTOQUE
     @PostMapping("/saida")
     public ResponseEntity<String> saidaEstoque(
             @RequestBody @Valid MovimentacaoEstoqueDTO dto) {
