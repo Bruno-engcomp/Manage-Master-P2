@@ -1,0 +1,113 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #e0e0e0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    display: flex;
+    width: 900px;
+    height: 500px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Lado Esquerdo */
+.sidebar {
+    flex: 1;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.logo-box {
+    text-align: center;
+}
+
+.logo-box img {
+    width: 220px; 
+}
+
+.logo-box p {
+    color: #666;
+    font-size: 14px;
+}
+
+.form-section {
+    flex: 1.5;
+    background-color: #050a30; 
+    color: white;
+    padding: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.form-wrapper {
+    width: 100%;
+}
+
+h2 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #999;
+    margin-bottom: 35px;
+}
+
+/* Inputs */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f3eded;
+    font-size: 16px;
+    outline: none;
+}
+
+/* Botão */
+.btn-entrar {
+    display: block;
+    margin: 40px auto 0;
+    padding: 12px 60px;
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-entrar:hover {
+    background-color: #1a1a1a;
+    transform: scale(1.05);
+}
