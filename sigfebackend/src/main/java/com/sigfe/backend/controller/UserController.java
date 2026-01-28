@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin (origins = "*") // Permite que o front acesse o back
 public class UserController {
 
     @Autowired
