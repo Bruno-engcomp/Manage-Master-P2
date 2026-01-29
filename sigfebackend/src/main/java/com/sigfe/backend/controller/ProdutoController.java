@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/produtos")
+@CrossOrigin(origins = "*")
 public class ProdutoController {
 
     private final ProdutoService produtoService;
@@ -21,11 +22,14 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoResponseDTO> criarProduto(@RequestBody @Valid ProdutoCreateDTO dto) {
-        // Agora o símbolo 'dto' está claramente definido após a anotação @Valid
+    public ResponseEntity<ProdutoResponseDTO> criarProduto(
+            @RequestBody @Valid ProdutoCreateDTO dto) {
+
         Produto produto = produtoService.salvar(dto);
-        return ResponseEntity.ok(new ProdutoResponseDTO(produto));
+        return ResponseEntity.status(201)
+                .body(new ProdutoResponseDTO(produto));
     }
+
 
     @GetMapping
     public ResponseEntity<List<ProdutoResponseDTO>> listarProdutos() {

@@ -25,11 +25,9 @@ public class ProdutoService {
 
     @Transactional
     public Produto salvar(ProdutoCreateDTO dto) {
-        // Busca a categoria para associar ao produto
         Categoria categoria = categoriaRepository.findById(dto.categoriaId())
                 .orElseThrow(() -> new BusinessException("Categoria não encontrada"));
 
-        // Cria a entidade a partir do DTO
         Produto produto = new Produto(
                 dto.nome(),
                 dto.marca(),
@@ -39,7 +37,7 @@ public class ProdutoService {
                 categoria
         );
 
-        return repository.save(produto); // Retorna a Entidade Produto
+        return repository.save(produto);
     }
 
     public List<Produto> listarTodos() {
@@ -56,6 +54,7 @@ public class ProdutoService {
         repository.deleteById(id);
     }
 }
+
 
 
 
