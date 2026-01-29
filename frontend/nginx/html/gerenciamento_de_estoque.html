@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManageMaster - Gerenciamento de Estoque</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .top-header {
+            background-color: #020617;
+            background-image: 
+                linear-gradient(rgba(93, 135, 181, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(93, 135, 181, 0.08) 1px, transparent 1px),
+                radial-gradient(circle at center, rgba(93, 135, 181, 0.1) 0%, #000000 100%);
+            background-size: 30px 30px, 30px 30px, 100% 100%;
+            
+            width: 100%;
+            height: 180px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 30px; 
+            border-bottom: 1px solid #334155;
+            gap: 60px; 
+            box-shadow: 0 4px 30px rgba(0,0,0,0.8);
+            z-index: 10;
+        }
+
+        .brand-text {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem; 
+            color: #ffffff;
+            line-height: 0.9;
+            margin-bottom: 8px;
+            letter-spacing: 2px; 
+            text-shadow: 0 2px 15px rgba(93, 135, 181, 0.5);
+        }
+
+        .brand-text p {
+            font-size: 1.1rem; 
+            color: #94a3b8;
+            font-weight: 400;
+            letter-spacing: 8px; 
+            text-transform: uppercase;
+            padding-left: 5px; 
+        }
+
+        .graphic { 
+            transform: scale(0.9); 
+            width: 120px; 
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            filter: drop-shadow(0 0 20px rgba(93, 135, 181, 0.6));
+        } 
+        
+        .logo-full { display: flex; align-items: center; position: relative; }
+        
+        .sigma-symbol { 
+            font-family: sans-serif; 
+            font-size: 6rem;
+            font-weight: 700; 
+            color: white; 
+            line-height: 1; 
+            margin-right: 5px; 
+        }
+        
+        .text-part { display: flex; flex-direction: column; justify-content: center; }
+        
+        .text-row { 
+            font-family: 'Inter', sans-serif; 
+            font-size: 1.8rem;
+            font-weight: 700; 
+            color: white; 
+            letter-spacing: 1px; 
+            line-height: 1; 
+        }
+        
+        .chart-icon { 
+            position: absolute; 
+            top: -40px; 
+            right: -10px; 
+            display: flex; 
+            align-items: flex-end; 
+            gap: 5px; 
+        }
+        
+        .bar { width: 10px; background-color: #5d87b5; border-radius: 2px; }
+        .bar-1 { height: 18px; } .bar-2 { height: 26px; } .bar-3 { height: 36px; }
+        .arrow-icon { position: absolute; top: -15px; right: -8px; color: #5d87b5; font-size: 1.4rem; }
+
+        .main-content {
+            flex: 1;
+            padding: 40px 80px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .table-header h2 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2rem; 
+            color: white;
+        }
+        .table-header span { color: #8892b0; font-size: 1rem; margin-left: 15px; }
+
+        .header-actions { display: flex; gap: 15px; }
+
+        .btn-novo {
+            background-color: #5d87b5;
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(93, 135, 181, 0.3);
+            border: 2px solid #5d87b5;
+        }
+        .btn-novo:hover { background-color: #4a6d94; border-color: #4a6d94; transform: translateY(-2px); }
+
+        .btn-outline { background-color: transparent; box-shadow: none; }
+        .btn-outline:hover {
+            background-color: rgba(93, 135, 181, 0.15); 
+            border-color: #5d87b5;
+            text-shadow: 0 0 8px rgba(93, 135, 181, 0.5);
+        }
+
+        .table-container {
+            flex: 1;
+            overflow-y: auto; 
+            border-radius: 12px;
+            background-color: #0f172a; 
+            border: 1px solid #1e293b;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .table-container::-webkit-scrollbar { width: 10px; }
+        .table-container::-webkit-scrollbar-track { background: #020617; }
+        .table-container::-webkit-scrollbar-thumb { background: #334155; border-radius: 5px; border: 2px solid #020617; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+
+        thead { background-color: #1e293b; position: sticky; top: 0; z-index: 10; }
+
+        th {
+            text-align: left;
+            padding: 20px 30px;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1.2px;
+        }
+
+        td {
+            padding: 20px 30px;
+            border-bottom: 1px solid #1e293b;
+            color: #e2e8f0;
+        }
+
+        tbody tr:nth-child(even) { background-color: rgba(255,255,255,0.015); }
+        tbody tr:hover { background-color: rgba(93, 135, 181, 0.08); cursor: pointer; transition: background 0.2s; }
+
+        .col-preco { color: #4ade80; font-weight: 600; font-family: monospace; font-size: 1.1rem; }
+        .col-qtd { font-weight: bold; text-align: center; }
+        
+        .col-total { 
+            color: #ffffff; 
+            font-weight: 700; 
+            font-family: monospace; 
+            font-size: 1.15rem; 
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .bg-eletronico { background-color: rgba(93, 135, 181, 0.15); color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.2); }
+        .bg-roupa { background-color: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.2); }
+
+        th:last-child, td:last-child { text-align: left; }
+        
+    </style>
+</head>
+<body>
+
+    <header class="top-header">
+        <div class="graphic">
+            <div class="logo-full">
+                <div class="sigma-symbol">&#931;</div>
+                <div class="text-part">
+                    <span class="text-row">ANAGE</span>
+                    <span class="text-row">ASTER</span>
+                </div>
+                <div class="chart-icon">
+                    <div class="bar bar-1"></div>
+                    <div class="bar bar-2"></div>
+                    <div class="bar bar-3"></div>
+                    <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="brand-text">
+            <h1>ManageMaster</h1>
+            <p>Gestor Financeiro</p> 
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="table-header">
+            <div>
+                <h2>Estoque Atual <span>| Visão geral dos produtos</span></h2>
+            </div>
+            
+            <div class="header-actions">
+                <a href="cadastro_fornecedor.html" class="btn-novo btn-outline">
+                    <i class="fa-solid fa-user-plus"></i> Novo Fornecedor
+                </a>
+
+                <a href="index.html" class="btn-novo">
+                    <i class="fa-solid fa-plus"></i> Novo Produto
+                </a>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Categoria</th>
+                        <th>Fornecedor</th>
+                        <th>Preço Unit.</th>
+                        <th>Qtd.</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Camiseta Básica Preta</td>
+                        <td><span class="badge bg-roupa">Roupas</span></td>
+                        <td>Malhas do Sul Ltda.</td>
+                        <td class="col-preco">R$ 49,90</td>
+                        <td class="col-qtd">150</td>
+                        <td class="col-total">R$ 7.485,00</td>
+                    </tr>
+                    <tr>
+                        <td>Monitor LED 24"</td>
+                        <td><span class="badge bg-eletronico">Eletrônicos</span></td>
+                        <td>Distribuidora XPTO</td>
+                        <td class="col-preco">R$ 850,00</td>
+                        <td class="col-qtd">12</td>
+                        <td class="col-total">R$ 10.200,00</td>
+                    </tr>
+                    <tr>
+                        <td>Teclado Mecânico RGB</td>
+                        <td><span class="badge bg-eletronico">Eletrônicos</span></td>
+                        <td>Import Global</td>
+                        <td class="col-preco">R$ 220,00</td>
+                        <td class="col-qtd">45</td>
+                        <td class="col-total">R$ 9.900,00</td>
+                    </tr>
+                    <tr>
+                        <td>Calça Jeans Skinny</td>
+                        <td><span class="badge bg-roupa">Roupas</span></td>
+                        <td>Tecidos Brasil S.A.</td>
+                        <td class="col-preco">R$ 199,90</td>
+                        <td class="col-qtd">30</td>
+                        <td class="col-total">R$ 5.997,00</td>
+                    </tr>
+                    <tr>
+                        <td>Mouse Sem Fio</td>
+                        <td><span class="badge bg-eletronico">Eletrônicos</span></td>
+                        <td>Distribuidora XPTO</td>
+                        <td class="col-preco">R$ 89,90</td>
+                        <td class="col-qtd">20</td>
+                        <td class="col-total">R$ 1.798,00</td>
+                    </tr>
+                    <tr>
+                        <td>Webcam Full HD</td>
+                        <td><span class="badge bg-eletronico">Eletrônicos</span></td>
+                        <td>Import Global</td>
+                        <td class="col-preco">R$ 350,00</td>
+                        <td class="col-qtd">8</td>
+                        <td class="col-total">R$ 2.800,00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>
