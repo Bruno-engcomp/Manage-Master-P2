@@ -3,11 +3,9 @@
 body {
     font-family: 'Inter', sans-serif;
     
-    /* Cor de fundo base mais clara */
     background-color: #334155; 
     
     background-image: 
-        /* Reduzi a opacidade para 0.3 e 0.4 para a imagem aparecer mais */
         linear-gradient(rgba(30, 41, 59, 0.3), rgba(30, 41, 59, 0.4)), 
         url('https://i.postimg.cc/bwVNccp7/fundo.avif');
         
@@ -27,7 +25,7 @@ body {
     height: 600px;
     border-radius: 15px;
     display: flex;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.4); /* Sombra levemente suavizada */
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
     overflow: hidden;
     position: relative;
     z-index: 10;
@@ -152,4 +150,5 @@ body {
 
 .back-link { margin-top: 20px; text-align: center; }
 .back-link a { color: #5a6b8c; text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+
 .back-link a:hover { color: #ffffff; }
