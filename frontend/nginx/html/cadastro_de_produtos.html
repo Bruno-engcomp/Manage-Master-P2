@@ -1,1 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManageMaster - Cadastro de Produto</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <link rel="stylesheet" href="cadastro_de_produtos.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="left-panel">
+            <div class="logo-area">
+                <h1>ManageMaster</h1>
+                <p>Gestor Financeiro</p>
+            </div>
+            
+            <div class="graphic">
+                <div class="logo-full">
+                    <div class="sigma-symbol">&#931;</div>
+                    <div class="text-part">
+                        <span class="text-row">ANAGE</span>
+                        <span class="text-row">ASTER</span>
+                    </div>
+                    <div class="chart-icon">
+                        <div class="bar bar-1"></div>
+                        <div class="bar bar-2"></div>
+                        <div class="bar bar-3"></div>
+                        <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="form-header">
+                <h2>Novo Produto</h2>
+                <p>Preencha os detalhes para adicionar ao estoque.</p>
+            </div>
+
+            <form id="productForm">
+                <div class="input-group">
+                    <i class="fa-solid fa-tag"></i>
+                    <input type="text" placeholder="Nome do Produto" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-truck-ramp-box"></i>
+                    <select required>
+                        <option value="" disabled selected>Selecione o Fornecedor</option>
+                        <option value="tecidos_brasil">Tecidos Brasil S.A.</option>
+                        <option value="distribuidora_xpto">Distribuidora XPTO</option>
+                        <option value="malhas_sul">Malhas do Sul Ltda.</option>
+                        <option value="import_global">Import Global</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <select required>
+                        <option value="" disabled selected>Selecione a Categoria</option>
+                        <option value="eletronicos">Eletrônicos</option>
+                        <option value="roupas">Roupas</option>
+                        <option value="alimentos">Alimentos</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="input-group price-group">
+                        <span class="currency-symbol">R$</span>
+                        <input type="text" placeholder="0,00" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fa-solid fa-cubes"></i>
+                        <input type="number" id="qtdInput" placeholder="Qtd." min="1" value="1" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-cadastrar">CADASTRAR PRODUTO</button>
+
+                <div class="back-link">
+                    <a href="gerenciamento_de_estoque.html">Cancelar e voltar ao painel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const qtdInput = document.getElementById('qtdInput');
+
+        qtdInput.addEventListener('input', function() {
+            if (this.value < 1) {
+                this.setCustomValidity('A quantidade deve ser maior que zero.');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        document.getElementById('productForm').addEventListener('submit', function(event) {
+            if (!this.checkValidity()) {
+                event.preventDefault();
+                this.reportValidity();
+            } else {
+                event.preventDefault(); 
+                window.location.href = "gerenciamento_de_estoque.html";
+            }
+        });
+    </script>
+
+</body>
+</html>
