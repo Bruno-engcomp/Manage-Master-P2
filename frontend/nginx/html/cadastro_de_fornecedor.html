@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManageMaster - Cadastro de Fornecedor</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" href="cadastro_de_fornecedor.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="left-panel">
+            <div class="logo-area">
+                <h1>ManageMaster</h1>
+                <p>Gestor Financeiro</p>
+            </div>
+            
+            <div class="graphic">
+                <div class="logo-full">
+                    <div class="sigma-symbol">&#931;</div>
+                    <div class="text-part">
+                        <span class="text-row">ANAGE</span>
+                        <span class="text-row">ASTER</span>
+                    </div>
+                    <div class="chart-icon">
+                        <div class="bar bar-1"></div>
+                        <div class="bar bar-2"></div>
+                        <div class="bar bar-3"></div>
+                        <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="form-header">
+                <h2>Novo Fornecedor</h2>
+                <p>Cadastre os dados da empresa parceira.</p>
+            </div>
+
+            <form id="supplierForm">
+                <div class="input-group">
+                    <i class="fa-solid fa-building"></i>
+                    <input type="text" placeholder="Nome da Empresa / Fornecedor" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" placeholder="Email Comercial" required>
+                </div>
+
+                <div class="row">
+                    <div class="input-group">
+                        <i class="fa-solid fa-id-card"></i>
+                        <input type="text" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="tel" id="telefone" placeholder="(XX) XXXXX-XXXX" maxlength="15" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-cadastrar">SALVAR FORNECEDOR</button>
+
+                <div class="back-link">
+                    <a href="gerenciamento_de_estoque.html">Cancelar e voltar ao painel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const cnpjInput = document.getElementById('cnpj');
+        cnpjInput.addEventListener('input', function(e) {
+            let value = e.target.value;
+            value = value.replace(/\D/g, ""); 
+            value = value.replace(/^(\d{2})(\d)/, "$1.$2");
+            value = value.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+            value = value.replace(/\.(\d{3})(\d)/, ".$1/$2");
+            value = value.replace(/(\d{4})(\d)/, "$1-$2");
+            e.target.value = value;
+        });
+
+        const telInput = document.getElementById('telefone');
+        telInput.addEventListener('input', function(e) {
+            let value = e.target.value;
+            value = value.replace(/\D/g, ""); 
+            value = value.replace(/^(\d{2})(\d)/, "($1) $2");
+            value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+            e.target.value = value;
+        });
+
+        document.getElementById('supplierForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            window.location.href = "gerenciamento_de_estoque.html";
+        });
+    </script>
+
+</body>
+</html>
