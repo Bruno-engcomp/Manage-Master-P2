@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ManageMaster - Cadastro de Produto</title>
+    <title>Cadastro de Produto - Gestor Financeiro</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <link rel="stylesheet" href="cadastro_de_produtos.css">
@@ -15,54 +15,37 @@
 <body>
 
     <div class="container">
+        
         <div class="left-panel">
-            <div class="logo-area">
-                <h1>ManageMaster</h1>
-                <p>Gestor Financeiro</p>
-            </div>
-            
-            <div class="graphic">
-                <div class="logo-full">
-                    <div class="sigma-symbol">&#931;</div>
-                    <div class="text-part">
-                        <span class="text-row">ANAGE</span>
-                        <span class="text-row">ASTER</span>
-                    </div>
-                    <div class="chart-icon">
-                        <div class="bar bar-1"></div>
-                        <div class="bar bar-2"></div>
-                        <div class="bar bar-3"></div>
-                        <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+            <div class="logo-box">
+                <div class="logo-content">
+                    <div class="sigma-icon">&#931;</div>
+                    <div class="brand-stack">
+                        <span class="brand-name">ANAGE</span>
+                        <span class="brand-name">ASTER</span>
                     </div>
                 </div>
+            </div>
+            <div class="brand-subtitle-below">
+                Gestor Financeiro
             </div>
         </div>
 
         <div class="right-panel">
             <div class="form-header">
                 <h2>Novo Produto</h2>
-                <p>Preencha os detalhes para adicionar ao estoque.</p>
+                <p>Preencha os dados do item para o estoque.</p>
             </div>
 
             <form id="productForm">
+                
                 <div class="input-group">
-                    <i class="fa-solid fa-tag"></i>
+                    <i class="fa-solid fa-box-open"></i>
                     <input type="text" placeholder="Nome do Produto" required>
                 </div>
 
                 <div class="input-group">
-                    <i class="fa-solid fa-truck-ramp-box"></i>
-                    <select required>
-                        <option value="" disabled selected>Selecione o Fornecedor</option>
-                        <option value="tecidos_brasil">Tecidos Brasil S.A.</option>
-                        <option value="distribuidora_xpto">Distribuidora XPTO</option>
-                        <option value="malhas_sul">Malhas do Sul Ltda.</option>
-                        <option value="import_global">Import Global</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <i class="fa-solid fa-layer-group"></i>
+                    <i class="fa-solid fa-tag"></i>
                     <select required>
                         <option value="" disabled selected>Selecione a Categoria</option>
                         <option value="eletronicos">Eletrônicos</option>
@@ -71,47 +54,60 @@
                         <option value="outros">Outros</option>
                     </select>
                 </div>
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-truck"></i>
+                    <select required>
+                        <option value="" disabled selected>Selecione o Fornecedor</option>
+                        <option value="tech_distribuidora">Tech Distribuidora Ltda</option>
+                        <option value="malhas_sul">Malhas do Sul</option>
+                        <option value="import_global">Import Global S.A.</option>
+                        <option value="moveis_planejados">Móveis Planejados 2000</option>
+                    </select>
+                </div>
 
                 <div class="row">
-                    <div class="input-group price-group">
-                        <span class="currency-symbol">R$</span>
-                        <input type="text" placeholder="0,00" required>
+                    <div class="input-group">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                        <input type="text" id="preco" placeholder="0,00" required>
                     </div>
                     
                     <div class="input-group">
-                        <i class="fa-solid fa-cubes"></i>
-                        <input type="number" id="qtdInput" placeholder="Qtd." min="1" value="1" required>
+                        <i class="fa-solid fa-layer-group"></i>
+                        <input type="number" value="1" min="1" required>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-cadastrar">CADASTRAR PRODUTO</button>
-
-                <div class="back-link">
-                    <a href="gerenciamento_de_estoque.html">Cancelar e voltar ao painel</a>
-                </div>
+                <button type="submit" class="btn-cadastrar">SALVAR PRODUTO</button>
             </form>
+
+            <div class="back-link">
+                <a href="gerenciamento_de_estoque.html">Cancelar e voltar ao painel</a>
+            </div>
         </div>
     </div>
 
     <script>
-        const qtdInput = document.getElementById('qtdInput');
+        const precoInput = document.getElementById('preco');
 
-        qtdInput.addEventListener('input', function() {
-            if (this.value < 1) {
-                this.setCustomValidity('A quantidade deve ser maior que zero.');
-            } else {
-                this.setCustomValidity('');
+        precoInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, "");
+            
+            if (value === "") {
+                e.target.value = "";
+                return;
             }
+
+            value = (parseInt(value) / 100).toFixed(2) + "";
+            value = value.replace(".", ",");
+            value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+            
+            e.target.value = "R$ " + value;
         });
 
         document.getElementById('productForm').addEventListener('submit', function(event) {
-            if (!this.checkValidity()) {
-                event.preventDefault();
-                this.reportValidity();
-            } else {
-                event.preventDefault(); 
-                window.location.href = "gerenciamento_de_estoque.html";
-            }
+            event.preventDefault(); 
+            window.location.href = "gerenciamento_de_estoque.html";
         });
     </script>
 
