@@ -2,7 +2,6 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    
     background-color: #0f172a; 
     
     background-image: 
@@ -41,23 +40,64 @@ body {
     padding: 40px;
     color: white;
     position: relative;
+    background-image: radial-gradient(circle at center, #111827 0%, #000000 100%);
 }
 
-.logo-area { text-align: center; margin-bottom: 40px; }
-.logo-area h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 5px; color: #ffffff; }
-.logo-area p { font-size: 0.85rem; color: #a0a0a0; font-weight: 300; letter-spacing: 0.5px; }
+.logo-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 40px;
+    border-radius: 25px; 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(2, 6, 23, 0.85);
+    
+    background-image: 
+        linear-gradient(rgba(93, 135, 181, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(93, 135, 181, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    margin-bottom: 25px; 
+}
 
-.graphic { display: flex; justify-content: center; align-items: center; transform: scale(0.8); }
-.logo-full { display: flex; align-items: center; position: relative; }
+.logo-content { display: flex; align-items: center; }
 
-.sigma-symbol { font-family: sans-serif; font-size: 5.5rem; font-weight: 700; color: white; line-height: 1; margin-right: 5px; }
-.text-part { display: flex; flex-direction: column; justify-content: center; }
-.text-row { font-family: 'Inter', sans-serif; font-size: 1.6rem; font-weight: 700; color: white; letter-spacing: 1px; line-height: 1.1; }
+.sigma-icon {
+    font-family: sans-serif;
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    margin-right: 15px;
+}
 
-.chart-icon { position: absolute; top: -35px; right: 0; display: flex; align-items: flex-end; gap: 4px; }
-.bar { width: 8px; background-color: #5d87b5; border-radius: 2px; }
-.bar-1 { height: 15px; } .bar-2 { height: 22px; } .bar-3 { height: 30px; }
-.arrow-icon { position: absolute; top: -12px; right: -5px; color: #5d87b5; font-size: 1.2rem; }
+.brand-stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brand-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 3px;
+    line-height: 1;
+}
+
+.brand-subtitle-below {
+    font-size: 1.1rem;
+    color: #ffffff; 
+    font-weight: 400;
+    letter-spacing: 8px; 
+    text-transform: uppercase;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    text-align: center;
+}
+
 
 .right-panel {
     background-color: #020617;
