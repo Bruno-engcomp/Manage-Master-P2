@@ -10,13 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <link rel="stylesheet" href="cadastro_de_fornecedor.css">
+    <link rel="stylesheet" href="../css/cadastro_fornecedor.css">
 </head>
 <body>
 
     <div class="container">
         <div class="left-panel">
-            
             <div class="logo-box">
                 <div class="logo-content">
                     <div class="sigma-icon">&#931;</div>
@@ -26,11 +25,9 @@
                     </div>
                 </div>
             </div>
-
             <div class="brand-subtitle-below">
                 Gestor Financeiro
             </div>
-
         </div>
 
         <div class="right-panel">
@@ -42,12 +39,12 @@
             <form id="supplierForm">
                 <div class="input-group">
                     <i class="fa-solid fa-building"></i>
-                    <input type="text" placeholder="Nome da Empresa / Fornecedor" required>
+                    <input type="text" id="nome" placeholder="Nome da Empresa / Fornecedor" required>
                 </div>
 
                 <div class="input-group">
                     <i class="fa-solid fa-envelope"></i>
-                    <input type="email" placeholder="Email Comercial" required>
+                    <input type="email" id="email" placeholder="Email Comercial" required>
                 </div>
 
                 <div class="row">
@@ -71,32 +68,7 @@
         </div>
     </div>
 
-    <script>
-        const cnpjInput = document.getElementById('cnpj');
-        cnpjInput.addEventListener('input', function(e) {
-            let value = e.target.value;
-            value = value.replace(/\D/g, ""); 
-            value = value.replace(/^(\d{2})(\d)/, "$1.$2");
-            value = value.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-            value = value.replace(/\.(\d{3})(\d)/, ".$1/$2");
-            value = value.replace(/(\d{4})(\d)/, "$1-$2");
-            e.target.value = value;
-        });
-
-        const telInput = document.getElementById('telefone');
-        telInput.addEventListener('input', function(e) {
-            let value = e.target.value;
-            value = value.replace(/\D/g, ""); 
-            value = value.replace(/^(\d{2})(\d)/, "($1) $2");
-            value = value.replace(/(\d)(\d{4})$/, "$1-$2");
-            e.target.value = value;
-        });
-
-        document.getElementById('supplierForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            window.location.href = "gerenciamento_de_estoque.html";
-        });
-    </script>
+    <script src="../js/cadastro_fornecedor.js"></script>
 
 </body>
 </html>
