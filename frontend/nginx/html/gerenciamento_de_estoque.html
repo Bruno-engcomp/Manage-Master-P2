@@ -1,1 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor Financeiro - Gerenciamento de Estoque</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <link rel="stylesheet" href="gerenciamento_de_estoque.css">
+</head>
+<body>
+
+    <header class="top-header">
+        <div class="header-container">
+            <div class="graphic">
+                <div class="logo-full">
+                    <div class="sigma-symbol">&#931;</div>
+                    <div class="text-part">
+                        <span class="logo-text">ANAGE</span>
+                        <span class="logo-text">ASTER</span>
+                    </div>
+                </div>
+            </div>
+            <div class="brand-subtitle">
+                Gestor Financeiro
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="table-header">
+            <div>
+                <h2>Estoque Atual <span>| Visão geral dos produtos</span></h2>
+            </div>
+            
+            <div class="header-actions">
+                <a href="cadastro_de_fornecedor.html" class="btn-novo btn-outline">
+                    <i class="fa-solid fa-user-plus"></i> Novo Fornecedor
+                </a>
+
+                <a href="cadastro_de_produtos.html" class="btn-novo">
+                    <i class="fa-solid fa-plus"></i> Novo Produto
+                </a>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Categoria</th>
+                        <th>Fornecedor</th>
+                        <th>Preço Unit.</th>
+                        <th>Qtd.</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Camiseta Básica Preta</td>
+                        <td><span class="badge bg-roupa">Roupas</span></td>
+                        <td>Malhas do Sul Ltda.</td>
+                        <td class="col-preco">R$ 49,90</td>
+                        <td class="col-qtd">150</td>
+                        <td class="col-total">R$ 7.485,00</td>
+                    </tr>
+                    <tr>
+                        <td>Monitor LED 24"</td>
+                        <td><span class="badge bg-eletronico">Eletrônicos</span></td>
+                        <td>Distribuidora XPTO</td>
+                        <td class="col-preco">R$ 850,00</td>
+                        <td class="col-qtd">12</td>
+                        <td class="col-total">R$ 10.200,00</td>
+                    </tr>
+                    <tr>
+                        <td>Teclado Mecânico RGB</td>
+                        <td><span class="badge bg-eletronico">Eletrônicos</span></td>
+                        <td>Import Global</td>
+                        <td class="col-preco">R$ 220,00</td>
+                        <td class="col-qtd">45</td>
+                        <td class="col-total">R$ 9.900,00</td>
+                    </tr>
+                    <tr>
+                        <td>Calça Jeans Skinny</td>
+                        <td><span class="badge bg-roupa">Roupas</span></td>
+                        <td>Tecidos Brasil S.A.</td>
+                        <td class="col-preco">R$ 199,90</td>
+                        <td class="col-qtd">30</td>
+                        <td class="col-total">R$ 5.997,00</td>
+                    </tr>
+                    <tr>
+                        <td>Mouse Sem Fio</td>
+                        <td><span class="badge bg-eletronico">Eletrônicos</span></td>
+                        <td>Distribuidora XPTO</td>
+                        <td class="col-preco">R$ 89,90</td>
+                        <td class="col-qtd">20</td>
+                        <td class="col-total">R$ 1.798,00</td>
+                    </tr>
+                    <tr>
+                        <td>Webcam Full HD</td>
+                        <td><span class="badge bg-eletronico">Eletrônicos</span></td>
+                        <td>Import Global</td>
+                        <td class="col-preco">R$ 350,00</td>
+                        <td class="col-qtd">8</td>
+                        <td class="col-total">R$ 2.800,00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>
