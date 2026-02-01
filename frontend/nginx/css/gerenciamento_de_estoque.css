@@ -49,10 +49,7 @@ body {
     backdrop-filter: blur(10px);
 } 
 
-.logo-full { 
-    display: flex; 
-    align-items: center; 
-}
+.logo-full { display: flex; align-items: center; }
 
 .sigma-symbol { 
     font-family: sans-serif; 
@@ -63,11 +60,7 @@ body {
     margin-right: 18px; 
 }
 
-.text-part { 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center;
-}
+.text-part { display: flex; flex-direction: column; justify-content: center; }
 
 .logo-text { 
     font-family: 'Inter', sans-serif; 
@@ -104,6 +97,8 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    flex-wrap: wrap; 
+    gap: 20px;
 }
 
 .table-header h2 { 
@@ -121,13 +116,14 @@ body {
 .header-actions { 
     display: flex; 
     gap: 15px; 
+    flex-wrap: wrap; 
 }
 
 .btn-novo {
     background-color: #5d87b5;
     color: white;
     text-decoration: none;
-    padding: 12px 30px;
+    padding: 12px 25px; 
     border-radius: 30px;
     font-weight: 600;
     font-size: 0.95rem;
@@ -137,6 +133,7 @@ body {
     gap: 10px;
     box-shadow: 0 4px 15px rgba(93, 135, 181, 0.3);
     border: 2px solid #5d87b5;
+    white-space: nowrap; 
 }
 
 .btn-novo:hover { 
@@ -237,6 +234,7 @@ tbody tr:hover { background-color: rgba(93, 135, 181, 0.08); cursor: pointer; tr
 .bg-roupa { background-color: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.2); }
 
 th:last-child, td:last-child { text-align: center; }
+
 .modal-overlay {
     display: none;
     position: fixed;
