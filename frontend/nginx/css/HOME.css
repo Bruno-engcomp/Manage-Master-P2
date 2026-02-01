@@ -19,7 +19,6 @@ body {
     line-height: 1.6;
 }
 
-/* Navbar */
 header {
     background-color: var(--preto);
     padding: 1.2rem 5%;
@@ -35,17 +34,16 @@ header {
     align-items: center;
 }
 
-/* --- ESTILO DA NOVA LOGO (SIGMA + ANAGE ASTER) --- */
 .nav-logo-container {
     display: flex;
     align-items: center;
     font-family: 'Segoe UI', sans-serif; 
-    text-decoration: none; /* Caso decida transformar em link */
+    text-decoration: none;
 }
 
 .nav-sigma-icon {
     font-family: sans-serif;
-    font-size: 2.5rem;
+    font-size: 3rem; 
     font-weight: 800;
     color: var(--branco);
     line-height: 1;
@@ -59,18 +57,17 @@ header {
 }
 
 .nav-brand-name {
-    font-size: 0.9rem;
+    font-size: 1.2rem; 
     font-weight: 800;
     color: var(--branco);
     letter-spacing: 2px;
     line-height: 1.1;
 }
 
-/* --- LINKS DA NAVBAR --- */
 .nav-links {
     list-style: none;
     display: flex;
-    align-items: center; /* Alinha verticalmente com o botão */
+    align-items: center;
 }
 
 .nav-links li {
@@ -88,26 +85,23 @@ header {
     color: var(--azul-destaque);
 }
 
-/* Estilo do Botão de Login na Navbar */
 .nav-btn {
     border: 1px solid var(--azul-destaque);
     padding: 8px 20px;
     border-radius: 20px;
-    color: var(--azul-destaque) !important; /* Força a cor azul */
+    color: var(--azul-destaque) !important;
     font-weight: 600;
     transition: 0.3s;
 }
 
 .nav-btn:hover {
     background-color: var(--azul-destaque);
-    color: var(--branco) !important; /* Texto branco ao passar o mouse */
+    color: var(--branco) !important;
 }
 
-/* Hero Section */
 .hero {
     height: 100vh;
     width: 100%;
-    /* Seu link de imagem aqui */
     background-image: linear-gradient(rgba(2, 12, 27, 0.8), rgba(2, 12, 27, 0.8)), url('https://i.postimg.cc/1XBZcF3k/background.jpg');
     background-size: cover;
     background-position: center;
@@ -132,7 +126,6 @@ header {
     opacity: 0.9;
 }
 
-/* Estilo do Botão Comece Agora */
 .btn-hero {
     display: inline-block;
     padding: 15px 40px;
@@ -150,7 +143,6 @@ header {
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
-/* Seções Gerais */
 .section {
     padding: 120px 10%;
     text-align: center;
@@ -175,7 +167,6 @@ h2 {
     margin-bottom: 30px;
 }
 
-/* Estilização da Equipe (Membros) */
 .team-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
