@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Categoria - Gestor Financeiro</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" href="categorias.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="left-panel">
+            <div class="logo-box">
+                <div class="logo-content">
+                    <div class="sigma-icon">&#931;</div>
+                    <div class="brand-stack">
+                        <span class="brand-name">ANAGE</span>
+                        <span class="brand-name">ASTER</span>
+                    </div>
+                </div>
+            </div>
+            <div class="brand-subtitle-below">
+                Gestor Financeiro
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="form-header">
+                <h2>Nova Categoria</h2>
+                <p>Crie uma nova categoria para os seus produtos.</p>
+            </div>
+
+            <form id="categoryForm">
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-layer-group"></i>
+                    
+                    <input type="text" id="inputCategoria" list="listaCategoriasDB" placeholder="Nome da Categoria" required autocomplete="off">
+                    
+                    <datalist id="listaCategoriasDB">
+                    </datalist>
+                </div>
+
+                <button type="submit" class="btn-cadastrar">SALVAR CATEGORIA</button>
+            </form>
+
+            <div class="back-link">
+                <a href="gerenciamento_de_estoque.html">Cancelar e voltar ao painel</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('categoryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            window.location.href = "gerenciamento_de_estoque.html";
+        });
+    </script>
+
+</body>
+</html>
