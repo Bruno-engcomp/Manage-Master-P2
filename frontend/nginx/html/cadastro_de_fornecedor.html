@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Fornecedor - Gestor Financeiro</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
@@ -14,61 +14,61 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="left-panel">
-            <div class="logo-box">
-                <div class="logo-content">
-                    <div class="sigma-icon">&#931;</div>
-                    <div class="brand-stack">
-                        <span class="brand-name">ANAGE</span>
-                        <span class="brand-name">ASTER</span>
-                    </div>
+<div class="container">
+    <div class="left-panel">
+        <div class="logo-box">
+            <div class="logo-content">
+                <div class="sigma-icon">&#931;</div>
+                <div class="brand-stack">
+                    <span class="brand-name">ANAGE</span>
+                    <span class="brand-name">ASTER</span>
                 </div>
-            </div>
-            <div class="brand-subtitle-below">
-                Gestor Financeiro
             </div>
         </div>
-
-        <div class="right-panel">
-            <div class="form-header">
-                <h2>Novo Fornecedor</h2>
-                <p>Cadastre os dados da empresa parceira.</p>
-            </div>
-
-            <form id="supplierForm">
-                <div class="input-group">
-                    <i class="fa-solid fa-building"></i>
-                    <input type="text" id="nome" placeholder="Nome da Empresa / Fornecedor" required>
-                </div>
-
-                <div class="input-group">
-                    <i class="fa-solid fa-envelope"></i>
-                    <input type="email" id="email" placeholder="Email Comercial" required>
-                </div>
-
-                <div class="row">
-                    <div class="input-group">
-                        <i class="fa-solid fa-id-card"></i>
-                        <input type="text" id="cnpj" placeholder="CNPJ (00.000.000/0000-00)" maxlength="18" required>
-                    </div>
-                    
-                    <div class="input-group">
-                        <i class="fa-solid fa-phone"></i>
-                        <input type="tel" id="telefone" placeholder="Telefone" maxlength="15" required>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-cadastrar">SALVAR FORNECEDOR</button>
-            </form>
-
-            <div class="back-link">
-                <a href="gerenciamento_de_estoque.html">Cancelar e voltar ao painel</a>
-            </div>
+        <div class="brand-subtitle-below">
+            Gestor Financeiro
         </div>
     </div>
 
-    <script src="../js/cadastro_fornecedor.js"></script>
+    <div class="right-panel">
+        <div class="form-header">
+            <h2>Novo Fornecedor</h2>
+            <p>Cadastre os dados da empresa parceira.</p>
+        </div>
+
+        <form id="supplierForm">
+            <div class="input-group">
+                <i class="fa-solid fa-building"></i>
+                <input type="text" id="nome" placeholder="Nome da Empresa / Fornecedor" required>
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="email" placeholder="Email Comercial" required>
+            </div>
+
+            <div class="row">
+                <div class="input-group">
+                    <i class="fa-solid fa-id-card"></i>
+                    <input type="text" id="cnpj" placeholder="CNPJ (00.000.000/0000-00)" maxlength="18" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel" id="telefone" placeholder="Telefone" maxlength="15" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-cadastrar">SALVAR FORNECEDOR</button>
+        </form>
+
+        <div class="back-link">
+            <a href="gerenciamento_de_estoque.html">Cancelar e voltar ao painel</a>
+        </div>
+    </div>
+</div>
+
+<script src="../js/cadastro_fornecedor.js"></script>
 
 </body>
 </html>
