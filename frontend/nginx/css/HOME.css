@@ -1,4 +1,3 @@
-/* Reset e Variáveis */
 * {
     margin: 0;
     padding: 0;
@@ -36,19 +35,42 @@ header {
     align-items: center;
 }
 
-.logo {
+/* --- ESTILO DA NOVA LOGO (SIGMA + ANAGE ASTER) --- */
+.nav-logo-container {
+    display: flex;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif; 
+    text-decoration: none; /* Caso decida transformar em link */
+}
+
+.nav-sigma-icon {
+    font-family: sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
     color: var(--branco);
-    font-size: 1.5rem;
-    font-weight: bold;
+    line-height: 1;
+    margin-right: 10px;
 }
 
-.logo span {
-    color: var(--azul-destaque);
+.nav-brand-stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
+.nav-brand-name {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--branco);
+    letter-spacing: 2px;
+    line-height: 1.1;
+}
+
+/* --- LINKS DA NAVBAR --- */
 .nav-links {
     list-style: none;
     display: flex;
+    align-items: center; /* Alinha verticalmente com o botão */
 }
 
 .nav-links li {
@@ -66,16 +88,36 @@ header {
     color: var(--azul-destaque);
 }
 
+/* Estilo do Botão de Login na Navbar */
+.nav-btn {
+    border: 1px solid var(--azul-destaque);
+    padding: 8px 20px;
+    border-radius: 20px;
+    color: var(--azul-destaque) !important; /* Força a cor azul */
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.nav-btn:hover {
+    background-color: var(--azul-destaque);
+    color: var(--branco) !important; /* Texto branco ao passar o mouse */
+}
+
 /* Hero Section */
 .hero {
     height: 100vh;
-    background: linear-gradient(rgba(2, 12, 27, 0.8), rgba(2, 12, 27, 0.8)), 
-                url('../img/background.jpg') center/cover;
+    width: 100%;
+    /* Seu link de imagem aqui */
+    background-image: linear-gradient(rgba(2, 12, 27, 0.8), rgba(2, 12, 27, 0.8)), url('https://i.postimg.cc/1XBZcF3k/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: var(--branco);
+    position: relative;
 }
 
 .hero-content h1 {
