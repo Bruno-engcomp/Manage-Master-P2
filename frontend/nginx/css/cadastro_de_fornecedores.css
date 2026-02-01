@@ -98,7 +98,6 @@ body {
     text-align: center;
 }
 
-
 .right-panel {
     background-color: #020617;
     width: 60%;
@@ -128,16 +127,16 @@ body {
     padding: 14px 15px 14px 40px;
     border: none;
     border-radius: 6px;
-    background-color: #f3f3f3;
+    background-color: #ffffff;
     font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
     color: #333;
     outline: none;
     transition: all 0.2s;
+    height: 48px;
 }
 
 .input-group input:focus {
-    background-color: #ffffff;
     box-shadow: 0 0 0 2px #5d87b5;
 }
 
