@@ -4,43 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - ManageMaster</title>
+    
     <link rel="stylesheet" href="style.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="login-container">
-        <div class="sidebar">
+
+    <div class="container">
+        <div class="left-panel">
             <div class="logo-box">
-                <img src="logo-managemaster.png" alt="ManageMaster Logo">
-                <p>Gestor Financeiro</p>
+                <div class="logo-content">
+                    <div class="sigma-icon">&#931;</div>
+                    <div class="brand-stack">
+                        <span class="brand-name">ANAGE</span>
+                        <span class="brand-name">ASTER</span>
+                    </div>
+                </div>
+            </div>
+            <div class="brand-subtitle-below">
+                Gestor Financeiro
             </div>
         </div>
 
-        <div class="form-section">
-            <div class="form-wrapper">
+        <div class="right-panel">
+            <div class="form-header">
                 <h2>Entre com a sua conta</h2>
-                <p class="subtitle">Preencha seus dados</p>
-
-                <form>
-                    <div class="input-group">
-                        <i class="fa-solid fa-user"></i>
-                        <input type="text" placeholder="Nome">
-                    </div>
-
-                    <div class="input-group">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" placeholder="Email">
-                    </div>
-
-                    <div class="input-group">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" placeholder="Senha">
-                    </div>
-
-                    <button type="submit" class="btn-entrar">ENTRAR</button>
-                </form>
+                <p>Preencha seus dados para acessar o painel.</p>
             </div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" placeholder="Nome" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" placeholder="Email" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" placeholder="Senha" required>
+                </div>
+
+                <button type="submit" class="btn-entrar">ENTRAR</button>
+            </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            window.location.href = "gerenciamento_de_estoque.html";
+        });
+    </script>
 </body>
 </html>
