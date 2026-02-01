@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="../css/estoque.css">
+
+<body>
+    <header class="top-header">
+        <div class="graphic">
+            <div class="logo-full">
+                <div class="sigma-symbol">&#931;</div>
+                <div class="text-part">
+                    <span class="text-row">ANAGE</span>
+                    <span class="text-row">ASTER</span>
+                </div>
+                <div class="chart-icon">
+                    <div class="bar bar-1"></div>
+                    <div class="bar bar-2"></div>
+                    <div class="bar bar-3"></div>
+                    <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="brand-text">
+            <h1>ManageMaster</h1>
+            <p>Gestor Financeiro</p> 
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="table-header">
+            <div>
+                <h2>Estoque Atual <span>| Dados do Banco de Dados</span></h2>
+            </div>
+            <div class="header-actions">
+                <a href="cadastro_fornecedor.html" class="btn-novo btn-outline">
+                    <i class="fa-solid fa-user-plus"></i> Novo Fornecedor
+                </a>
+                <a href="cadastro_de_produtos.html" class="btn-novo">
+                    <i class="fa-solid fa-plus"></i> Novo Produto
+                </a>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Categoria</th>
+                        <th>Preço Unit.</th>
+                        <th>Qtd.</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-produtos-body">
+                    </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="estoque.js"></script>
+</body>
