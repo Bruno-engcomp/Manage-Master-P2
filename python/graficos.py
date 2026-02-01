@@ -1,147 +1,323 @@
-# Codigo da criação do banco de dados teste em SQLite3 e plotagem de gráficos, criado em dezembro(será atualizado para PostgreSQL 16)
-import sqlite3
-import pandas as pd
-import matplotlib.pyplot as plt
-import streamlit as st
-import os
 
-st.set_page_config(page_title="ManageMaster - Estoque", layout="wide")
+import plotly.graph_objects as go
+import plotly.express as px
+from plotly.subplots import make_subplots
+from typing import Dict, List
+from decimal import Decimal
+from estatisticas import Estatisticas
 
-DB_FILE = 'produtos.db' 
-TABLE_NAME = 'estoque_produtos'
 
-def get_connection():
-    return sqlite3.connect(DB_FILE)
-
-def criar_tabela():
-    try:
-        with get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute(f"""
-                CREATE TABLE IF NOT EXISTS {TABLE_NAME} (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nome_produto TEXT,
-                    preco_compra_unidade REAL,
-                    preco_venda_unidade REAL,
-                    marca TEXT,
-                    data_fabricacao TEXT,
-                    data_validade TEXT,
-                    usuario_responsavel TEXT
-                )
-            """)
-        return True, "✅ Banco de dados pronto!"
-    except Exception as e:
-        return False, f"❌ Erro: {e}"
-
-def resetar_banco():
-    try:
-        if os.path.exists(DB_FILE):
-            os.remove(DB_FILE)
-        return criar_tabela()
-    except Exception as e:
-        return False, f"❌ Erro ao resetar: {e}"
-
-def inserir_dados_teste():
-    try:
-        criar_tabela()
-        with get_connection() as conn:
-            cursor = conn.cursor()
-            dados = [
-                ("Arroz Branco 5kg", 18.50, 26.90, "Tio João", "2025-01-10", "2026-01-10", "Gerente Carlos"),
-                ("Feijão Carioca 1kg", 6.00, 9.50, "Camil", "2025-02-01", "2026-02-01", "Repositora Ana"),
-                ("Óleo de Soja 900ml", 4.50, 7.99, "Liza", "2025-01-01", "2026-01-01", "Gerente Carlos"),
-                ("Detergente Líquido", 1.80, 2.99, "Ypê", "2025-01-15", "2027-01-01", "Caixa João"),
-                ("Bolacha Recheada", 2.00, 3.50, "Bono", "2025-03-01", "2025-09-01", "Repositora Ana"),
-                ("Refrigerante 2L", 6.50, 9.90, "Coca-Cola", "2025-01-01", "2025-06-01", "Gerente Carlos"),
-            ]
-            cursor.executemany(f"""
-                INSERT INTO {TABLE_NAME} (
-                    nome_produto, preco_compra_unidade, preco_venda_unidade, 
-                    marca, data_fabricacao, data_validade, usuario_responsavel
-                ) VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, dados)
-        return True, "🛒 Produtos de mercado inseridos com sucesso!"
-    except Exception as e:
-        return False, f"❌ Erro ao inserir: {e}"
-
-def main():
-    st.title("🛒 ManageMaster - Gestão de Estoque")
-    st.markdown("---")
-
-    col1, col2, col3, col4 = st.columns(4)
-
-    with col1:
-        if st.button("🛠️ Criar Tabela", use_container_width=True):
-            sucesso, msg = criar_tabela()
-            if sucesso: st.success(msg)
-            else: st.error(msg)
-
-    with col2:
-        if st.button("⚠️ RESETAR ESTOQUE", use_container_width=True):
-            sucesso, msg = resetar_banco()
-            if sucesso: 
-                st.warning(msg)
-                st.rerun()
-            else: st.error(msg)
-
-    with col3:
-        if st.button("📦 Inserir Produtos Teste", use_container_width=True):
-            sucesso, msg = inserir_dados_teste()
-            if sucesso: 
-                st.success(msg)
-                st.rerun()
-            else: st.error(msg)
-
-    with col4:
-        if st.button("🔄 Atualizar Lista", use_container_width=True):
-            st.rerun()
-
-    if not os.path.exists(DB_FILE):
-        st.info("ℹ️ O sistema está vazio. Clique em 'Criar Tabela' e depois em 'Inserir Produtos Teste'.")
-        return
-
-    try:
-        with get_connection() as conn:
-            df = pd.read_sql_query(f"SELECT * FROM {TABLE_NAME}", conn)
-
-        if df.empty:
-            st.warning("⚠️ Estoque vazio. Clique em 'Inserir Produtos Teste' para ver o exemplo.")
-            return
-
-        df['Lucro (R$)'] = df['preco_venda_unidade'] - df['preco_compra_unidade']
-        df['Margem (%)'] = (df['Lucro (R$)'] / df['preco_venda_unidade']) * 100
-
-        with st.expander("📋 Ver Estoque Completo", expanded=True):
-            st.dataframe(df)
-
-        st.markdown("---")
+class Graficos:
+    """Classe para gerar gráficos interativos com Plotly"""
+    
+    def __init__(self, estatisticas: Estatisticas):
+        """
+        Inicializa a classe de gráficos
         
-        st.subheader("📊 Desempenho de Vendas por usuário")
-
-        usuarios = df['usuario_responsavel'].unique()
-        user_select = st.selectbox("Selecione o usuário:", usuarios)
-
-        if user_select:
-            df_user = df[df['usuario_responsavel'] == user_select].copy()
+        Args:
+            estatisticas: Instância da classe Estatisticas
+        """
+        self.estatisticas = estatisticas
+    
+    def grafico_receitas_despesas(self, meses: int = 12) -> go.Figure:
+        """
+        Cria gráfico de barras comparando receitas e despesas mensais
+        
+        Args:
+            meses: Número de meses para analisar
             
-            fig, ax = plt.subplots(figsize=(10, 4))
-            df_user = df_user.sort_values(by='Margem (%)', ascending=False)
+        Returns:
+            Figura do Plotly
+        """
+        lucro_mensal = self.estatisticas.calcular_lucro_mensal(meses)
+        
+        meses_lista = sorted(lucro_mensal.keys())
+        receitas = [float(lucro_mensal[m]['receita']) for m in meses_lista]
+        despesas = [float(lucro_mensal[m]['despesa']) for m in meses_lista]
+        
+        fig = go.Figure()
+        
+        fig.add_trace(go.Bar(
+            x=meses_lista,
+            y=receitas,
+            name='Receitas',
+            marker_color='#2ecc71',
+            text=[f'R$ {r:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.') for r in receitas],
+            textposition='outside'
+        ))
+        
+        fig.add_trace(go.Bar(
+            x=meses_lista,
+            y=despesas,
+            name='Despesas',
+            marker_color='#e74c3c',
+            text=[f'R$ {d:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.') for d in despesas],
+            textposition='outside'
+        ))
+        
+        fig.update_layout(
+            title='Receitas vs Despesas Mensais',
+            xaxis_title='Mês',
+            yaxis_title='Valor (R$)',
+            barmode='group',
+            template='plotly_white',
+            hovermode='x unified',
+            height=500
+        )
+        
+        return fig
+    
+    def grafico_lucro_mensal(self, meses: int = 12) -> go.Figure:
+        """
+        Cria gráfico de linha mostrando o lucro mensal
+        
+        Args:
+            meses: Número de meses para analisar
             
-            barras = ax.bar(df_user['nome_produto'], df_user['Margem (%)'], color='#2ecc71')
+        Returns:
+            Figura do Plotly
+        """
+        lucro_mensal = self.estatisticas.calcular_lucro_mensal(meses)
+        
+        meses_lista = sorted(lucro_mensal.keys())
+        lucros = [float(lucro_mensal[m]['lucro']) for m in meses_lista]
+        
+        # Definir cor baseada no valor (verde para positivo, vermelho para negativo)
+        cores = ['#2ecc71' if l >= 0 else '#e74c3c' for l in lucros]
+        
+        fig = go.Figure()
+        
+        fig.add_trace(go.Scatter(
+            x=meses_lista,
+            y=lucros,
+            mode='lines+markers',
+            name='Lucro Mensal',
+            line=dict(color='#3498db', width=3),
+            marker=dict(size=10, color=cores),
+            fill='tozeroy',
+            fillcolor='rgba(52, 152, 219, 0.2)',
+            text=[f'R$ {l:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.') for l in lucros],
+            textposition='top center'
+        ))
+        
+        # Adicionar linha de referência em zero
+        fig.add_hline(
+            y=0,
+            line_dash="dash",
+            line_color="gray",
+            annotation_text="Break-even"
+        )
+        
+        fig.update_layout(
+            title='Lucro Mensal',
+            xaxis_title='Mês',
+            yaxis_title='Lucro (R$)',
+            template='plotly_white',
+            hovermode='x unified',
+            height=500
+        )
+        
+        return fig
+    
+    def grafico_produtos_mais_vendidos(self, limite: int = 10) -> go.Figure:
+        """
+        Cria gráfico de barras horizontais com os produtos mais vendidos
+        
+        Args:
+            limite: Número máximo de produtos para exibir
             
-            for bar in barras:
-                height = bar.get_height()
-                ax.text(bar.get_x() + bar.get_width()/2, height, f'{height:.1f}%', ha='center', va='bottom')
+        Returns:
+            Figura do Plotly
+        """
+        produtos = self.estatisticas.produtos_mais_vendidos(limite)
+        
+        if not produtos:
+            # Criar gráfico vazio com mensagem
+            fig = go.Figure()
+            fig.add_annotation(
+                text="Nenhum dado de venda disponível",
+                xref="paper", yref="paper",
+                x=0.5, y=0.5,
+                showarrow=False,
+                font=dict(size=16)
+            )
+            fig.update_layout(
+                title='Produtos Mais Vendidos',
+                height=400
+            )
+            return fig
+        
+        nomes = [p['nome'] for p in produtos]
+        quantidades = [p['quantidade_vendida'] for p in produtos]
+        
+        fig = go.Figure()
+        
+        fig.add_trace(go.Bar(
+            y=nomes,
+            x=quantidades,
+            orientation='h',
+            marker_color='#3498db',
+            text=[f'{q} unidades' for q in quantidades],
+            textposition='outside'
+        ))
+        
+        fig.update_layout(
+            title='Produtos Mais Vendidos',
+            xaxis_title='Quantidade Vendida',
+            yaxis_title='Produto',
+            template='plotly_white',
+            height=max(400, len(produtos) * 50),
+            yaxis={'categoryorder': 'total ascending'}
+        )
+        
+        return fig
+    
+    def grafico_indicadores_desempenho(self) -> go.Figure:
+        """
+        Cria gráfico de indicadores principais (gauge/donut)
+        
+        Returns:
+            Figura do Plotly
+        """
+        indicadores = self.estatisticas.calcular_indicadores_desempenho()
+        
+        # Criar subplots
+        fig = make_subplots(
+            rows=2, cols=2,
+            specs=[[{"type": "indicator"}, {"type": "indicator"}],
+                   [{"type": "indicator"}, {"type": "indicator"}]],
+            subplot_titles=('Margem de Lucro', 'Saldo Atual', 'Média Receita Mensal', 'Média Lucro Mensal')
+        )
+        
+        # Margem de lucro 
+        fig.add_trace(
+            go.Indicator(
+                mode="gauge+number+delta",
+                value=indicadores['margem_lucro_percentual'],
+                domain={'x': [0, 1], 'y': [0, 1]},
+                title={'text': "Margem (%)"},
+                delta={'reference': 20},
+                gauge={
+                    'axis': {'range': [None, 100]},
+                    'bar': {'color': "darkblue"},
+                    'steps': [
+                        {'range': [0, 20], 'color': "lightgray"},
+                        {'range': [20, 50], 'color': "gray"}
+                    ],
+                    'threshold': {
+                        'line': {'color': "red", 'width': 4},
+                        'thickness': 0.75,
+                        'value': 90
+                    }
+                }
+            ),
+            row=1, col=1
+        )
+        
+        # Saldo atual
+        fig.add_trace(
+            go.Indicator(
+                mode="number",
+                value=indicadores['saldo_atual'],
+                number={'prefix': "R$ ", 'valueformat': ',.2f'},
+                title={'text': "Saldo Atual"}
+            ),
+            row=1, col=2
+        )
+        
+        # Média receita mensal
+        fig.add_trace(
+            go.Indicator(
+                mode="number",
+                value=indicadores['media_receita_mensal'],
+                number={'prefix': "R$ ", 'valueformat': ',.2f'},
+                title={'text': "Média Receita/Mês"}
+            ),
+            row=2, col=1
+        )
+        
+        # Média lucro mensal
+        fig.add_trace(
+            go.Indicator(
+                mode="number+delta",
+                value=indicadores['media_lucro_mensal'],
+                number={'prefix': "R$ ", 'valueformat': ',.2f'},
+                title={'text': "Média Lucro/Mês"},
+                delta={'reference': 0}
+            ),
+            row=2, col=2
+        )
+        
+        fig.update_layout(
+            title='Indicadores de Desempenho',
+            template='plotly_white',
+            height=600
+        )
+        
+        return fig
+    
+    def grafico_evolucao_financeira(self, meses: int = 12) -> go.Figure:
+        """
+        Cria gráfico combinado mostrando receitas, despesas e lucro ao longo do tempo
+        
+        Args:
+            meses: Número de meses para analisar
             
-            ax.set_title(f"Margem de Lucro dos Produtos cadastrados por: {user_select}")
-            ax.set_ylabel("Margem (%)")
-            ax.spines['top'].set_visible(False)
-            ax.spines['right'].set_visible(False)
-            
-            st.pyplot(fig)
-
-    except Exception as e:
-        st.error(f"Erro no sistema: {e}")
-
-if __name__ == "__main__":
-    main()
+        Returns:
+            Figura do Plotly
+        """
+        lucro_mensal = self.estatisticas.calcular_lucro_mensal(meses)
+        
+        meses_lista = sorted(lucro_mensal.keys())
+        receitas = [float(lucro_mensal[m]['receita']) for m in meses_lista]
+        despesas = [float(lucro_mensal[m]['despesa']) for m in meses_lista]
+        lucros = [float(lucro_mensal[m]['lucro']) for m in meses_lista]
+        
+        fig = make_subplots(
+            rows=2, cols=1,
+            shared_xaxes=True,
+            vertical_spacing=0.1,
+            subplot_titles=('Receitas e Despesas', 'Lucro Mensal'),
+            row_heights=[0.7, 0.3]
+        )
+        
+        # Gráfico de barras para receitas e despesas
+        fig.add_trace(
+            go.Bar(x=meses_lista, y=receitas, name='Receitas', marker_color='#2ecc71'),
+            row=1, col=1
+        )
+        
+        fig.add_trace(
+            go.Bar(x=meses_lista, y=despesas, name='Despesas', marker_color='#e74c3c'),
+            row=1, col=1
+        )
+        
+        # Gráfico de linha para lucro
+        fig.add_trace(
+            go.Scatter(
+                x=meses_lista,
+                y=lucros,
+                mode='lines+markers',
+                name='Lucro',
+                line=dict(color='#3498db', width=3),
+                marker=dict(size=8)
+            ),
+            row=2, col=1
+        )
+        
+        # Adicionar linha zero no gráfico de lucro
+        fig.add_hline(y=0, line_dash="dash", line_color="gray", row=2, col=1)
+        
+        fig.update_xaxes(title_text="Mês", row=2, col=1)
+        fig.update_yaxes(title_text="Valor (R$)", row=1, col=1)
+        fig.update_yaxes(title_text="Lucro (R$)", row=2, col=1)
+        
+        fig.update_layout(
+            title='Evolução Financeira',
+            template='plotly_white',
+            height=700,
+            barmode='group',
+            hovermode='x unified'
+        )
+        
+        return fig
