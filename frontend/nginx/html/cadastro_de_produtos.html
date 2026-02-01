@@ -7,20 +7,27 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <link rel="stylesheet" href="../css/cadastro_de_produtos.css">
+    <link rel="stylesheet" href="cadastro_de_produtos.css">
 </head>
 <body>
 
 <div class="container">
     <div class="left-panel">
-        <div class="logo-area">
-            <h1>ManageMaster</h1>
-            <p>Gestor Financeiro</p>
+        <div class="logo-box">
+            <div class="logo-content">
+                <div class="sigma-icon">&#931;</div>
+                <div class="brand-stack">
+                    <span class="brand-name">ANAGE</span>
+                    <span class="brand-name">ASTER</span>
+                </div>
+            </div>
         </div>
-        <div class="sigma-logo">Σ</div>
+        <div class="brand-subtitle-below">
+            Gestor Financeiro
+        </div>
     </div>
 
     <div class="right-panel">
@@ -51,30 +58,54 @@
 
             <div class="input-group">
                 <i class="fa-solid fa-calendar-days"></i>
-                <input type="date" id="validadeInput" required>
+                <input type="date" id="validadeInput" required placeholder="Validade">
             </div>
 
             <div class="row">
-                <div class="input-group">
-                    <i class="fa-solid fa-dollar-sign"></i>
-                    <input type="number" step="0.01" id="preco" placeholder="Preço" required>
+                <div class="input-group price-group">
+                    <span class="currency-symbol">R$</span>
+                    <input type="text" id="preco" placeholder="0,00" required inputmode="numeric">
                 </div>
 
                 <div class="input-group">
                     <i class="fa-solid fa-cubes"></i>
-                    <input type="number" id="qtdInput" min="1" value="1" required>
+                    <input type="number" id="qtdInput" min="1" value="1" placeholder="Qtd." required>
                 </div>
             </div>
 
             <button type="submit" class="btn-cadastrar">CADASTRAR PRODUTO</button>
 
             <div class="back-link">
-                <a href="gerenciamento_de_estoque.html">Cancelar e voltar</a>
+                <a href="gerenciamento_de_estoque.html">Cancelar e voltar ao painel</a>
             </div>
         </form>
     </div>
 </div>
 
 <script src="../js/cadastro_produtos.js"></script>
+
+<script>
+    const precoInput = document.getElementById('preco');
+
+    precoInput.addEventListener('input', function(e) {
+        let value = e.target.value;
+
+        value = value.replace(/\D/g, "");
+
+        if (value === "") {
+            e.target.value = "";
+            return;
+        }
+
+        value = (parseInt(value) / 100).toFixed(2) + "";
+
+        value = value.replace(".", ",");
+
+        value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+
+        e.target.value = value;
+    });
+</script>
+
 </body>
 </html>
