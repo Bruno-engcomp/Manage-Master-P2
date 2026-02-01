@@ -1,59 +1,132 @@
-<link rel="stylesheet" href="../css/estoque.css">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor Financeiro - Gerenciamento de Estoque</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <link rel="stylesheet" href="gerenciamento_de_estoque.css">
+</head>
 <body>
+
     <header class="top-header">
-        <div class="graphic">
-            <div class="logo-full">
-                <div class="sigma-symbol">&#931;</div>
-                <div class="text-part">
-                    <span class="text-row">ANAGE</span>
-                    <span class="text-row">ASTER</span>
-                </div>
-                <div class="chart-icon">
-                    <div class="bar bar-1"></div>
-                    <div class="bar bar-2"></div>
-                    <div class="bar bar-3"></div>
-                    <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+        <div class="header-container">
+            <div class="graphic">
+                <div class="logo-full">
+                    <div class="sigma-symbol">&#931;</div>
+                    <div class="text-part">
+                        <span class="logo-text">ANAGE</span>
+                        <span class="logo-text">ASTER</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="brand-text">
-            <h1>ManageMaster</h1>
-            <p>Gestor Financeiro</p> 
+            <div class="brand-subtitle">
+                Gestor Financeiro
+            </div>
         </div>
     </header>
 
     <main class="main-content">
         <div class="table-header">
             <div>
-                <h2>Estoque Atual <span>| Dados do Banco de Dados</span></h2>
+                <h2>Estoque Atual <span>| Visão geral dos produtos</span></h2>
             </div>
+            
             <div class="header-actions">
                 <a href="cadastro_fornecedor.html" class="btn-novo btn-outline">
                     <i class="fa-solid fa-user-plus"></i> Novo Fornecedor
                 </a>
-                <a href="cadastro_produtos.html" class="btn-novo">
+
+                <a href="categorias.html" class="btn-novo btn-outline">
+                    <i class="fa-solid fa-layer-group"></i> Categorias
+                </a>
+
+                <a href="cadastro_de_produtos.html" class="btn-novo btn-outline">
                     <i class="fa-solid fa-plus"></i> Novo Produto
+                </a>
+
+                <a href="#" class="btn-novo btn-outline">
+                    <i class="fa-solid fa-file-invoice"></i> Relatórios
                 </a>
             </div>
         </div>
 
         <div class="table-container">
-            <table>
+            <table id="tabelaEstoque">
                 <thead>
                     <tr>
                         <th>Produto</th>
                         <th>Categoria</th>
+                        <th>Fornecedor</th>
                         <th>Preço Unit.</th>
                         <th>Qtd.</th>
                         <th>Total</th>
+                        <th style="width: 50px;"></th>
                     </tr>
                 </thead>
-                <tbody id="tabela-produtos-body">
-                    </tbody>
+                <tbody>
+                    <tr>
+                        <td>Exemplo de Produto Roupas</td>
+                        <td><span class="badge bg-roupa">Roupas</span></td>
+                        <td>Fornecedor Exemplo</td>
+                        <td class="col-preco">R$ 100,00</td>
+                        <td class="col-qtd">10</td>
+                        <td class="col-total">R$ 1.000,00</td>
+                        <td>
+                            <button class="btn-delete" onclick="removerProduto(this)" title="Remover item">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </main>
 
-    <script src="../js/estoque.js"></script>
-</body>
+    <div id="modalConfirmacao" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3>Remover Produto?</h3>
+            <p>Você tem certeza que deseja excluir este item do estoque? Essa ação não pode ser desfeita.</p>
+            
+            <div class="modal-actions">
+                <button class="btn-modal btn-cancelar" onclick="fecharModal()">Cancelar</button>
+                <button class="btn-modal btn-confirmar" onclick="confirmarExclusao()">Sim, Remover</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let linhaParaRemover = null;
+
+        function removerProduto(botao) {
+            linhaParaRemover = botao.closest("tr");
+            document.getElementById("modalConfirmacao").style.display = "flex";
+        }
+
+        function fecharModal() {
+            document.getElementById("modalConfirmacao").style.display = "none";
+            linhaParaRemover = null;
+        }
+
+        function confirmarExclusao() {
+            if (linhaParaRemover) {
+                linhaParaRemover.remove();
+            }
+            fecharModal();
+        }
+
+        document.getElementById("modalConfirmacao").addEventListener("click", function(e) {
+            if (e.target === this) { fecharModal(); }
+        });
+    </script>
+    
+    </body>
+</html>
