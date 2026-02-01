@@ -1,0 +1,19 @@
+# HTTP Client
+requests>=2.32.5
+
+# Web Framework
+Flask==3.0.0
+flask-cors==4.0.0
+
+# Analise da dados
+pandas==2.1.4
+
+# Plotagem
+plotly==5.18.0
+kaleido==0.2.1
+
+# PDF Generation
+reportlab==4.0.7
+
+# Utilities
+python-dotenv==1.0.0
