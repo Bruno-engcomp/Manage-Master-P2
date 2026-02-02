@@ -20,6 +20,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Desabilite o CSRF para testes com POST
                 .cors(Customizer.withDefaults()) // Ativa o suporte ao CORS
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/users/**").permitAll()
+                        .requestMatchers("/api/produtos/**").permitAll()
+                        .requestMatchers("/api/categorias/**").permitAll()
                         .requestMatchers("/api/fornecedores/**").permitAll() // Libera os fornecedores
                         .anyRequest().authenticated()
                 );
