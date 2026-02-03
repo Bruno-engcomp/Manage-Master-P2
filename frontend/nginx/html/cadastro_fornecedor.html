@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="input-group">
                         <i class="fa-solid fa-id-card"></i>
-                        <input type="text" id="cnpj" placeholder="CNPJ (00.000.000/0000-00)" maxlength="18" required>
+                        <input type="text" id="cnpj" placeholder="CNPJ" maxlength="18" required>
                     </div>
                     
                     <div class="input-group">
@@ -69,6 +69,26 @@
     </div>
 
     <script src="../js/cadastro_fornecedor.js"></script>
+
+    <script>
+        document.getElementById('cnpj').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, "");
+            if (value.length > 14) value = value.slice(0, 14);
+            value = value.replace(/^(\d{2})(\d)/, "$1.$2");
+            value = value.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+            value = value.replace(/\.(\d{3})(\d)/, ".$1/$2");
+            value = value.replace(/(\d{4})(\d)/, "$1-$2");
+            e.target.value = value;
+        });
+
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, "");
+            if (value.length > 11) value = value.slice(0, 11);
+            value = value.replace(/^(\d{2})(\d)/, "($1) $2");
+            value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+            e.target.value = value;
+        });
+    </script>
 
 </body>
 </html>
