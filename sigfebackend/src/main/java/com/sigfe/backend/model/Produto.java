@@ -41,7 +41,11 @@ public class Produto {
     @JoinColumn (name = "categoria_id") // cria a coluna categoria_id como chave estrangeira
     private Categoria categoria;
 
-    protected Produto () {}
+    @ManyToOne
+    @JoinColumn (name = "fornecedor_id")
+    private Fornecedor fornecedor;
+
+    public Produto() {}
 
     public Produto (String nome, String marca, BigDecimal preco,
                     Integer quantidade, LocalDate validade, Categoria categoria)
@@ -107,6 +111,17 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     // Metodos get que servem para poder usar o valor dentro dos atributos de forma segura
     public String getNome()
