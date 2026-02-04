@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    // Carrega as listas assim que a página abre
+    // Carrega as listas nos selects ao abrir a página
     await carregarOpcoes("http://localhost:8080/api/categorias", "categoria");
     await carregarOpcoes("http://localhost:8080/api/fornecedores", "fornecedor");
 });
 
-// Função genérica para preencher qualquer Select
 async function carregarOpcoes(url, elementId) {
     const select = document.getElementById(elementId);
     try {
@@ -14,8 +13,8 @@ async function carregarOpcoes(url, elementId) {
         select.innerHTML = `<option value="" disabled selected>Selecione...</option>`;
         dados.forEach(item => {
             const option = document.createElement("option");
-            option.value = item.id; // Envia o ID para o Java
-            option.textContent = item.nome; // Exibe o Nome para o usuário
+            option.value = item.id; 
+            option.textContent = item.nome; 
             select.appendChild(option);
         });
     } catch (error) {
@@ -23,17 +22,29 @@ async function carregarOpcoes(url, elementId) {
     }
 }
 
-// Evento de envio do formulário
 document.getElementById("productForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // Captura os valores dos campos
+    const nome = document.getElementById("nome").value;
+    const precoRaw = document.getElementById("preco").value; // Ex: "1.250,50"
+    const qtd = document.getElementById("qtdInput").value;
+    const validade = document.getElementById("validadeInput").value;
+    const categoriaId = document.getElementById("categoria").value;
+    const fornecedorId = document.getElementById("fornecedor").value;
+
+    // Limpa o preço para formato numérico (Java BigDecimal)
+    const precoLimpo = parseFloat(precoRaw.replace(/\./g, '').replace(',', '.'));
+
+    // Monta o objeto exatamente igual ao seu ProdutoCreateDTO.java
     const produtoData = {
-        nome: document.getElementById("nome").value,
-        preco: parseFloat(document.getElementById("preco").value),
-        quantidade: parseInt(document.getElementById("qtdInput").value),
-        validade: document.getElementById("validadeInput").value,
-        categoriaId: parseInt(document.getElementById("categoria").value),
-        fornecedorId: parseInt(document.getElementById("fornecedor").value) 
+        nome: nome,
+        marca: "Genérico", // Ou capture de um input se tiver
+        preco: precoLimpo,
+        quantidade: parseInt(qtd),
+        validade: validade,
+        categoriaId: parseInt(categoriaId),
+        fornecedorId: parseInt(fornecedorId)
     };
 
     try {
@@ -43,11 +54,15 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
             body: JSON.stringify(produtoData)
         });
 
-        if (!response.ok) throw new Error(await response.text());
-
-        alert("Produto cadastrado com sucesso!");
-        window.location.href = "gerenciamento_de_estoque.html";
+        if (response.ok) {
+            alert("Produto cadastrado com sucesso!");
+            window.location.href = "gerenciamento_de_estoque.html";
+        } else {
+            const erroTexto = await response.text();
+            alert("Erro do Servidor: " + erroTexto);
+        }
     } catch (error) {
-        alert("Erro ao cadastrar: " + error.message);
+        console.error("Erro na requisição:", error);
+        alert("Erro de conexão com o servidor.");
     }
 });
