@@ -39,9 +39,7 @@ public class ProdutoController {
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody ProdutoUpdateDTO dto) {
         try {
-            // 2. REMOVA a linha "ProdutoRepository repository = null;" que estava aqui dentro!
 
-            // Agora o 'repository' não será mais null, o Spring vai preencher ele.
             Produto produtoExistente = repository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
