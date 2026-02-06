@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManageMaster | Dashboard Administrativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body class="dash-body">
+
+    <header class="dash-header">
+        <div class="nav-logo-container">
+            <div class="nav-sigma-icon">&#931;</div>
+            <div class="nav-brand-stack">
+                <span class="nav-brand-name">ANAGE</span>
+                <span class="nav-brand-name">ASTER</span>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <span class="user-badge"><i class="fas fa-user-shield"></i> Painel de gráficos</span>
+            <a href="#" class="btn-refresh"><i class="fas fa-sync"></i> Atualizar Dados</a>
+        </div>
+    </header>
+
+    <main class="dash-container">
+        <div class="dash-title">
+            <h1>Visão Geral do Negócio</h1>
+            <p>Indicadores processados via servidor.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            
+            <div class="chart-box">
+                <div class="chart-header">
+                    <h3><i class="fas fa-line-chart"></i> Evolução do Saldo</h3>
+                    <span class="badge">Série Temporal</span>
+                </div>
+                <div class="chart-area">
+                    <div class="placeholder-text">Aguardando plotagem Python...</div>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <div class="chart-header">
+                    <h3><i class="fas fa-columns"></i> Receitas vs Despesas</h3>
+                    <span class="badge">Comparativo</span>
+                </div>
+                <div class="chart-area">
+                    <div class="placeholder-text">Aguardando plotagem Python...</div>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <div class="chart-header">
+                    <h3><i class="fas fa-trophy"></i> Top 10 Produtos</h3>
+                    <span class="badge">Ranking</span>
+                </div>
+                <div class="chart-area">
+                    <div class="placeholder-text">Aguardando plotagem Python...</div>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <div class="chart-header">
+                    <h3><i class="fas fa-boxes-stacked"></i> Alertas de Estoque e Vencimento</h3>
+                </div>
+                <div class="inventory-display">
+                    <div class="stock-card critical">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <strong>Estoque Crítico</strong>
+                            <p>Itens abaixo do limite mínimo definido.</p>
+                        </div>
+                    </div>
+                    <div class="stock-card warning">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <strong>Próximos ao Vencimento</strong>
+                            <p>Lotes com validade em menos de 7 dias.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
