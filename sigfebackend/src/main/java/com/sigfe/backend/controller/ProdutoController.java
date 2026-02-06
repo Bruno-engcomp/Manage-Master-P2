@@ -2,9 +2,12 @@ package com.sigfe.backend.controller;
 
 import com.sigfe.backend.dto.produto.ProdutoCreateDTO;
 import com.sigfe.backend.dto.produto.ProdutoResponseDTO;
+import com.sigfe.backend.dto.produto.ProdutoUpdateDTO;
 import com.sigfe.backend.model.Produto;
+import com.sigfe.backend.repository.ProdutoRepository;
 import com.sigfe.backend.service.ProdutoService;
 import jakarta.validation.Valid; // Importado aqui
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +31,30 @@ public class ProdutoController {
         Produto produto = produtoService.salvar(dto);
         return ResponseEntity.status(201)
                 .body(new ProdutoResponseDTO(produto));
+    }
+
+    @Autowired
+    private ProdutoRepository repository;
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody ProdutoUpdateDTO dto) {
+        try {
+            // 2. REMOVA a linha "ProdutoRepository repository = null;" que estava aqui dentro!
+
+            // Agora o 'repository' não será mais null, o Spring vai preencher ele.
+            Produto produtoExistente = repository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+            produtoExistente.setPreco(dto.preco());
+            produtoExistente.setQuantidade(dto.quantidade());
+            produtoExistente.setValidade(dto.validade());
+
+            repository.save(produtoExistente);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // Isso vai ajudar a ver erros futuros no console do navegador
+            return ResponseEntity.badRequest().body("Erro no Java: " + e.getMessage());
+        }
     }
 
 

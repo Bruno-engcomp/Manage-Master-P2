@@ -1,14 +1,14 @@
 package com.sigfe.backend.dto.produto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record ProdutoUpdateDTO (
-        String nome,
-        String marca,
         BigDecimal preco,
         Integer quantidade,
-        LocalDate validade,
-        Long categoriaId
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        LocalDate validade
 ) {
 }
