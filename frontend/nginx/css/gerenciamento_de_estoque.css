@@ -320,3 +320,112 @@ th:last-child, td:last-child { text-align: center; }
     background-color: #dc2626;
     transform: translateY(-2px);
 }
+.actions-cell {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-action {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-delete { color: #64748b; }
+.btn-delete:hover {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+    transform: scale(1.1);
+}
+
+.btn-edit { color: #64748b; }
+.btn-edit:hover {
+    color: #38bdf8;
+    background-color: rgba(56, 189, 248, 0.1);
+    transform: scale(1.1);
+}
+
+.modal-lg {
+    width: 500px;
+    text-align: left;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+}
+
+.modal-header h3 { margin: 0; }
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.close-btn:hover { color: white; }
+
+.input-group-edit {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group-edit label {
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.input-group-edit input {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #334155;
+    background-color: #1e293b;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+}
+
+.input-group-edit input:focus {
+    border-color: #5d87b5;
+    box-shadow: 0 0 0 2px rgba(93, 135, 181, 0.2);
+}
+
+.input-disabled {
+    background-color: #0f172a !important;
+    color: #64748b !important;
+    border-color: transparent !important;
+    cursor: not-allowed;
+}
+
+.row-edit {
+    display: flex;
+    gap: 15px;
+}
+.row-edit .input-group-edit { flex: 1; }
+
+.btn-save {
+    background-color: #10b981;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+.btn-save:hover {
+    background-color: #059669;
+    transform: translateY(-2px);
+}
