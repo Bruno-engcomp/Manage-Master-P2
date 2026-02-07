@@ -28,7 +28,9 @@ public class ProdutoService {
         produto.setMarca(dto.marca());
         produto.setPreco(dto.preco());
         produto.setQuantidade(dto.quantidade());
+        produto.setLimit(dto.limit());
         produto.setValidade(dto.validade());
+
 
         // Busca Categoria
         Categoria categoria = categoriaRepository.findById(dto.categoriaId())

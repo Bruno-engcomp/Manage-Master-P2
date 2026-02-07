@@ -35,6 +35,9 @@ public class Produto {
     @Column(nullable = false) // impede que o quantidade nao seja nulo no banco
     private Integer quantidade;
 
+    @Column(name = "estoque_minimo",nullable = false)
+    private Integer limit;
+
     private LocalDate validade;
 
     @ManyToOne // Muito produtos podem pertencer a uma categoria
@@ -80,6 +83,14 @@ public class Produto {
             throw new IllegalStateException("Estoque insuficiente");
         }
         this.quantidade -= quantidade;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
     }
 
     public void alterarPreco(BigDecimal novoPreco) {
