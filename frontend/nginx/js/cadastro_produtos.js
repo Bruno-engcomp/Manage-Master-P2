@@ -29,6 +29,7 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
     const nome = document.getElementById("nome").value;
     const precoRaw = document.getElementById("preco").value; // Ex: "1.250,50"
     const qtd = document.getElementById("qtdInput").value;
+    const limit = document.getElementById("limitInput").value; // NOVO: Captura o limite
     const validade = document.getElementById("validadeInput").value;
     const categoriaId = document.getElementById("categoria").value;
     const fornecedorId = document.getElementById("fornecedor").value;
@@ -39,13 +40,16 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
     // Monta o objeto exatamente igual ao seu ProdutoCreateDTO.java
     const produtoData = {
         nome: nome,
-        marca: "Genérico", // Ou capture de um input se tiver
+        marca: "Genérico", 
         preco: precoLimpo,
         quantidade: parseInt(qtd),
+        limit: parseInt(limit), // NOVO: Enviando para o backend
         validade: validade,
         categoriaId: parseInt(categoriaId),
         fornecedorId: parseInt(fornecedorId)
     };
+
+    console.log("Enviando Produto:", produtoData);
 
     try {
         const response = await fetch("http://localhost:8080/api/produtos", {
@@ -59,6 +63,7 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
             window.location.href = "gerenciamento_de_estoque.html";
         } else {
             const erroTexto = await response.text();
+            console.error("Erro detalhado:", erroTexto);
             alert("Erro do Servidor: " + erroTexto);
         }
     } catch (error) {

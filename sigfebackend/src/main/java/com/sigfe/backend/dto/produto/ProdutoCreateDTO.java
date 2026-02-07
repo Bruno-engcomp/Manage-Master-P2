@@ -8,6 +8,7 @@ public record ProdutoCreateDTO (
         String marca,
         BigDecimal preco,
         Integer quantidade,
+        Integer limit,
         LocalDate validade,
         Long categoriaId,
         Long fornecedorId // ADICIONE ESTA LINHA

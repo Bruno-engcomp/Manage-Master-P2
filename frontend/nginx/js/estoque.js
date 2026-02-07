@@ -22,9 +22,17 @@ async function carregarEstoque() {
         produtos.forEach(produto => {
             const preco = Number(produto.preco) || 0;
             const qtd = produto.quantidade || 0;
+            const limit = produto.limit || 0; // Pega o limite vindo do Java
             const total = preco * qtd;
             
             const tr = document.createElement('tr');
+            
+            // Dica: Se a quantidade for menor ou igual ao limite, adiciona um estilo de alerta
+            if (qtd <= limit) {
+                tr.style.backgroundColor = "rgba(239, 68, 68, 0.1)"; // Fundo levemente avermelhado
+                tr.title = "Atenção: Estoque baixo!";
+            }
+
             tr.innerHTML = `
                 <td><strong>#${produto.id}</strong></td>
                 <td>${produto.nome}</td>
@@ -74,11 +82,12 @@ function prepararEdicao(produto) {
     document.getElementById("editIndex").value = produto.id;
     document.getElementById("editNome").value = produto.nome;
     
-    // Converte 1500.50 para "1.500,50" para o usuário ver bonito
+    // Formatação de preço para o input
     const precoFormatado = Number(produto.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
     document.getElementById("editPreco").value = precoFormatado;
     
     document.getElementById("editQtd").value = produto.quantidade;
+    document.getElementById("editLimit").value = produto.limit || 0; // CARREGA O NOVO CAMPO
     document.getElementById("editValidade").value = produto.validade || "";
     
     document.getElementById("modalEdicao").style.display = "flex";
@@ -97,21 +106,18 @@ async function salvarEdicao(event) {
     // Converte "1.500,50" para 1500.50
     const precoLimpo = precoBr.replace(/\./g, '').replace(',', '.');
     
-    // Tratamento de data vazia
     const campoValidade = document.getElementById("editValidade").value;
     const dataFormatada = campoValidade === "" ? null : campoValidade;
 
-    // MONTAGEM DO OBJETO IGUAL AO ProdutoUpdateDTO
+    // MONTAGEM DO OBJETO IGUAL AO ProdutoUpdateDTO (Incluindo 'limit')
     const payload = {
-        nome: document.getElementById("editNome").value,
-        marca: "", // Adicionado para bater com o Record
         preco: parseFloat(precoLimpo),
         quantidade: parseInt(document.getElementById("editQtd").value),
-        validade: dataFormatada,
-        categoriaId: null // Ou o ID da categoria se você tiver ele disponível
+        limit: parseInt(document.getElementById("editLimit").value), // ENVIA O NOVO CAMPO
+        validade: dataFormatada
     };
 
-    console.log("JSON enviado:", JSON.stringify(payload));
+    console.log("JSON enviado para atualização:", JSON.stringify(payload));
 
     try {
         const response = await fetch(`http://localhost:8080/api/produtos/${id}`, {
@@ -128,13 +134,13 @@ async function salvarEdicao(event) {
             fecharModalEdicao();
             carregarEstoque();
         } else {
-            // Isso vai imprimir no console do navegador (F12) o motivo real
             const erroTexto = await response.text();
-            console.error("Resposta do Servidor:", erroTexto);
-            alert("Erro 400: Verifique o console do navegador para detalhes.");
+            console.error("Erro do Servidor:", erroTexto);
+            alert("Erro ao salvar: " + erroTexto);
         }
     } catch (error) {
         console.error("Erro na requisição:", error);
+        alert("Erro de conexão com o servidor.");
     }
 }
 

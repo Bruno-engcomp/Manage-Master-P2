@@ -46,6 +46,7 @@ public class ProdutoController {
             produtoExistente.setPreco(dto.preco());
             produtoExistente.setQuantidade(dto.quantidade());
             produtoExistente.setValidade(dto.validade());
+            produtoExistente.setLimit(dto.limit());
 
             repository.save(produtoExistente);
             return ResponseEntity.ok().build();

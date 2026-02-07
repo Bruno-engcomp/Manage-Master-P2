@@ -61,7 +61,7 @@
                 <input type="date" id="validadeInput" required placeholder="Validade">
             </div>
 
-            <div class="row">
+            <div class="row" style="display: grid; grid-template-columns: 1.2fr 0.9fr 0.9fr; gap: 15px;">
                 <div class="input-group price-group">
                     <span class="currency-symbol">R$</span>
                     <input type="text" id="preco" placeholder="0,00" required inputmode="numeric">
@@ -69,7 +69,12 @@
 
                 <div class="input-group">
                     <i class="fa-solid fa-cubes"></i>
-                    <input type="number" id="qtdInput" min="1" value="1" placeholder="Qtd." required>
+                    <input type="number" id="qtdInput" min="1" value="1" placeholder="Qtd." required title="Quantidade Atual">
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <input type="number" id="limitInput" min="0" value="0" placeholder="Limite" required title="Estoque Mínimo">
                 </div>
             </div>
 

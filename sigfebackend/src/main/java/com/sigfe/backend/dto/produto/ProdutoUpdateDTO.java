@@ -8,6 +8,7 @@ import java.time.LocalDate;
 public record ProdutoUpdateDTO (
         BigDecimal preco,
         Integer quantidade,
+        Integer limit,
         @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate validade
 ) {
