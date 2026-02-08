@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManageMaster | Registro de Compras</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="dash-body">
+
+    <header class="dash-header">
+        <div class="nav-left">
+            <span class="user-badge"><i class="fas fa-cart-arrow-down"></i> Registro de Vendas</span>
+        </div>
+
+        <div class="nav-logo-container">
+            <div class="nav-sigma-icon">&#931;</div>
+            <div class="nav-brand-stack">
+                <span class="nav-brand-name">ANAGE</span>
+                <span class="nav-brand-name">ASTER</span>
+            </div>
+        </div>
+
+        <div class="nav-right"></div>
+    </header>
+
+    <main class="dash-container">
+        <div class="dash-title">
+            <h1>Registrar Nova Venda</h1>
+            <p>Dê baixa nos itens do estoque em tempo real.</p>
+        </div>
+
+        <div class="checkout-grid">
+            <div class="checkout-card">
+                <h3><i class="fas fa-plus-circle"></i> Adicionar Item</h3>
+                <form class="venda-form">
+                    <div class="form-group">
+                        <label>Produto</label>
+                        <input type="text" placeholder="Nome ou código do produto">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Quantidade</label>
+                            <input type="number" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Preço Unitário (R$)</label>
+                            <input type="number" step="0.01" placeholder="0,00">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-hero">Adicionar à Lista</button>
+                </form>
+            </div>
+
+            <div class="checkout-card">
+                <h3><i class="fas fa-list"></i> Itens da Venda</h3>
+                <div class="table-container">
+                    <table class="sales-table">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Qtd</th>
+                                <th>Subtotal</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" class="empty-msg">Nenhum item adicionado.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="total-bar">
+                    <span>Total:</span>
+                    <strong>R$ 0,00</strong>
+                </div>
+                <button type="button" class="btn-hero btn-finalizar">Finalizar e Dar Baixa</button>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
