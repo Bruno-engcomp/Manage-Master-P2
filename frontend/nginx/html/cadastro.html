@@ -3,47 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - ManageMaster</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Crie sua conta - ManageMaster</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/cadastro.css">
 </head>
 <body>
-    <div class="login-container">
-        <div class="sidebar">
+
+    <div class="container">
+        <div class="left-panel">
             <div class="logo-box">
-                <img src="../logo-managemaster.png" alt="ManageMaster Logo">
-                <p>Gestor Financeiro</p>
+                <div class="logo-content">
+                    <div class="sigma-icon">&#931;</div>
+                    <div class="brand-stack">
+                        <span class="brand-name">ANAGE</span>
+                        <span class="brand-name">ASTER</span>
+                    </div>
+                </div>
+            </div>
+            <div class="brand-subtitle-below">
+                Gestor Financeiro
             </div>
         </div>
 
-        <div class="form-section">
-            <div class="form-wrapper">
+        <div class="right-panel">
+            <div class="form-header">
                 <h2>Crie sua conta</h2>
-                <p class="subtitle">Cadastre-se para gerenciar suas finanças</p>
-
-                <form id="cadastroForm">
-                    <div class="input-group">
-                        <i class="fa-solid fa-user"></i>
-                        <input type="text" id="name" placeholder="Nome Completo" required>
-                    </div>
-
-                    <div class="input-group">
-                        <i class="fa-solid fa-at"></i>
-                        <input type="email" id="email" placeholder="Email de Usuário" required>
-                    </div>
-
-                    <div class="input-group">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="password" placeholder="Sua Senha" required>
-                    </div>
-
-                    <button type="submit" class="btn-entrar">CADASTRAR</button>
-                    
-                    <p style="margin-top: 20px; font-size: 14px; text-align: center;">
-                        Já tem conta? <a href="index.html" style="color: #4facfe; text-decoration: none;">Faça login</a>
-                    </p>
-                </form>
+                <p>Cadastre-se para gerenciar suas finanças.</p>
             </div>
+
+            <form id="cadastroForm">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="name" placeholder="Nome Completo" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="email" placeholder="Email de Usuário" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="Sua Senha" required>
+                </div>
+
+                <button type="submit" class="btn-entrar">CADASTRAR</button>
+                
+                <div class="back-link" style="text-align: center; margin-top: 15px;">
+                    <a href="index.html" style="color: #64748b; text-decoration: none; font-size: 0.9rem;">Já tem conta? <strong style="color: white;">Faça login</strong></a>
+                </div>
+            </form>
         </div>
     </div>
 
