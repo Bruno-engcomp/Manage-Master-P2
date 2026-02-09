@@ -30,17 +30,22 @@ def index():
         'endpoints': {
             'health': '/health',
             'graficos': {
-                'receitas_despesas': '/api/graficos/receitas-despesas?meses=12',
-                'lucro_mensal': '/api/graficos/lucro-mensal?meses=12',
-                'produtos_vendidos': '/api/graficos/produtos-vendidos?limite=10',
-                'indicadores': '/api/graficos/indicadores',
-                'evolucao_financeira': '/api/graficos/evolucao-financeira?meses=12'
-            },
+            'receitas_despesas': '/api/graficos/receitas-despesas?meses=12',
+            'evolucao_saldo': '/api/graficos/evolucao-saldo?meses=12',
+            'lucro_mensal': '/api/graficos/lucro-mensal?meses=12',
+            'produtos_vendidos': '/api/graficos/produtos-vendidos?limite=10',
+            'produtos_vencimento': '/api/graficos/produtos-vencimento?dias=30&limite=10',
+            'estoque_critico': '/api/graficos/estoque-critico?limite=5',
+            'indicadores': '/api/graficos/indicadores',
+            'evolucao_financeira': '/api/graficos/evolucao-financeira?meses=12'
+        },
             'estatisticas': {
-                'indicadores': '/api/estatisticas/indicadores',
-                'lucro_mensal': '/api/estatisticas/lucro-mensal?meses=12',
-                'produtos_vendidos': '/api/estatisticas/produtos-vendidos?limite=10'
-            },
+            'indicadores': '/api/estatisticas/indicadores',
+            'lucro_mensal': '/api/estatisticas/lucro-mensal?meses=12',
+            'produtos_vendidos': '/api/estatisticas/produtos-vendidos?limite=10',
+            'produtos_vencimento': '/api/estatisticas/produtos-vencimento?dias=30&limite=10',
+            'estoque_critico': '/api/estatisticas/estoque-critico?limite=5'
+        },
             'relatorios': {
                 'pdf': '/api/relatorios/pdf'
             }
@@ -67,6 +72,19 @@ def get_grafico_receitas_despesas():
         return jsonify({'error': str(e)}), 500
 
 
+@app.route('/api/graficos/evolucao-saldo', methods=['GET'])
+def get_grafico_evolucao_saldo():
+    """
+    Retorna grafico de evolucao do saldo acumulado em formato JSON (Plotly)
+    """
+    try:
+        meses = int(request.args.get('meses', 12))
+        fig = graficos.grafico_evolucao_saldo(meses)
+        return jsonify(fig.to_dict())
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/graficos/lucro-mensal', methods=['GET'])
 def get_grafico_lucro_mensal():
     """
@@ -88,6 +106,33 @@ def get_grafico_produtos_vendidos():
     try:
         limite = int(request.args.get('limite', 10))
         fig = graficos.grafico_produtos_mais_vendidos(limite)
+        return jsonify(fig.to_dict())
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/graficos/produtos-vencimento', methods=['GET'])
+def get_grafico_produtos_vencimento():
+    """
+    Retorna tabela de produtos proximos do vencimento em formato JSON (Plotly)
+    """
+    try:
+        dias = int(request.args.get('dias', 30))
+        limite = int(request.args.get('limite', 10))
+        fig = graficos.grafico_produtos_proximos_vencimento(dias, limite)
+        return jsonify(fig.to_dict())
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/graficos/estoque-critico', methods=['GET'])
+def get_grafico_estoque_critico():
+    """
+    Retorna grafico de estoque critico em formato JSON (Plotly)
+    """
+    try:
+        limite = int(request.args.get('limite', 5))
+        fig = graficos.grafico_estoque_critico(limite)
         return jsonify(fig.to_dict())
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -161,6 +206,33 @@ def get_produtos_vendidos():
     try:
         limite = int(request.args.get('limite', 10))
         produtos = estatisticas.produtos_mais_vendidos(limite)
+        return jsonify(produtos)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/estatisticas/produtos-vencimento', methods=['GET'])
+def get_produtos_vencimento():
+    """
+    Retorna lista de produtos proximos do vencimento em formato JSON
+    """
+    try:
+        dias = int(request.args.get('dias', 30))
+        limite = int(request.args.get('limite', 10))
+        produtos = estatisticas.produtos_proximos_vencimento(dias, limite)
+        return jsonify(produtos)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/estatisticas/estoque-critico', methods=['GET'])
+def get_estoque_critico():
+    """
+    Retorna lista de produtos com estoque critico em formato JSON
+    """
+    try:
+        limite = int(request.args.get('limite', 5))
+        produtos = estatisticas.produtos_estoque_critico(limite)
         return jsonify(produtos)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
