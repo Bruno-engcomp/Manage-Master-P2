@@ -171,6 +171,165 @@ class Graficos:
         )
         
         return fig
+
+    def grafico_evolucao_saldo(self, meses: int = 12) -> go.Figure:
+        """
+        Cria grafico de linha com saldo acumulado (fluxo de caixa)
+
+        Args:
+            meses: Numero de meses para analisar
+
+        Returns:
+            Figura do Plotly
+        """
+        saldo_acumulado = self.estatisticas.calcular_saldo_acumulado(meses)
+        meses_lista = sorted(saldo_acumulado.keys())
+        saldos = [float(saldo_acumulado[m]) for m in meses_lista]
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=meses_lista,
+            y=saldos,
+            mode='lines+markers',
+            name='Saldo Acumulado',
+            line=dict(color='#16a34a', width=3),
+            marker=dict(size=8),
+            fill='tozeroy',
+            fillcolor='rgba(22, 163, 74, 0.15)',
+            text=[f'R$ {s:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.') for s in saldos],
+            textposition='top center'
+        ))
+
+        fig.update_layout(
+            title='Evolucao do Saldo (Fluxo de Caixa)',
+            xaxis_title='Mes',
+            yaxis_title='Saldo Acumulado (R$)',
+            template='plotly_white',
+            hovermode='x unified',
+            height=500
+        )
+
+        return fig
+
+    def grafico_produtos_proximos_vencimento(self, dias: int = 30, limite: int = 10) -> go.Figure:
+        """
+        Cria tabela colorida de produtos proximos do vencimento
+
+        Args:
+            dias: Dias a frente para considerar vencimento
+            limite: Numero maximo de produtos
+
+        Returns:
+            Figura do Plotly
+        """
+        produtos = self.estatisticas.produtos_proximos_vencimento(dias, limite)
+
+        if not produtos:
+            fig = go.Figure()
+            fig.add_annotation(
+                text="Nenhum produto proximo do vencimento",
+                xref="paper", yref="paper",
+                x=0.5, y=0.5,
+                showarrow=False,
+                font=dict(size=16)
+            )
+            fig.update_layout(
+                title='Produtos Proximos do Vencimento',
+                height=400
+            )
+            return fig
+
+        nomes = [p['nome'] for p in produtos]
+        validade = [p['validade'] for p in produtos]
+        dias_para_vencer = [p['dias_para_vencer'] for p in produtos]
+        quantidade = [p['quantidade'] for p in produtos]
+
+        def cor_dias(dias_val: int) -> str:
+            if dias_val <= 7:
+                return '#fecaca'
+            if dias_val <= 15:
+                return '#fed7aa'
+            return '#fef3c7'
+
+        cores = [cor_dias(d) for d in dias_para_vencer]
+
+        fig = go.Figure(data=[go.Table(
+            header=dict(
+                values=['Produto', 'Validade', 'Dias para Vencer', 'Estoque'],
+                fill_color='#e2e8f0',
+                align='left',
+                font=dict(size=12, color='#0f172a')
+            ),
+            cells=dict(
+                values=[nomes, validade, dias_para_vencer, quantidade],
+                fill_color=[cores, cores, cores, cores],
+                align='left'
+            )
+        )])
+
+        fig.update_layout(
+            title='Produtos Proximos do Vencimento',
+            height=max(350, len(produtos) * 35 + 120)
+        )
+
+        return fig
+
+    def grafico_estoque_critico(self, limite: int = 5) -> go.Figure:
+        """
+        Cria grafico de barras para produtos com estoque critico
+
+        Args:
+            limite: Linha de corte para estoque minimo
+
+        Returns:
+            Figura do Plotly
+        """
+        produtos = self.estatisticas.produtos_estoque_critico(limite)
+
+        if not produtos:
+            fig = go.Figure()
+            fig.add_annotation(
+                text="Nenhum produto com estoque critico",
+                xref="paper", yref="paper",
+                x=0.5, y=0.5,
+                showarrow=False,
+                font=dict(size=16)
+            )
+            fig.update_layout(
+                title='Nivel de Estoque (Produtos Criticos)',
+                height=400
+            )
+            return fig
+
+        nomes = [p['nome'] for p in produtos]
+        quantidades = [p['quantidade'] for p in produtos]
+
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            x=nomes,
+            y=quantidades,
+            marker_color='#ef4444',
+            text=quantidades,
+            textposition='outside',
+            name='Estoque Atual'
+        ))
+
+        fig.add_hline(
+            y=limite,
+            line_dash="dash",
+            line_color="#0f172a",
+            annotation_text=f"Limite ({limite})"
+        )
+
+        fig.update_layout(
+            title='Nivel de Estoque (Produtos Criticos)',
+            xaxis_title='Produto',
+            yaxis_title='Quantidade',
+            template='plotly_white',
+            height=450
+        )
+
+        return fig
     
     def grafico_indicadores_desempenho(self) -> go.Figure:
         """
