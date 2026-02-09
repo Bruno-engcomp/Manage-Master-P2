@@ -144,6 +144,26 @@ class Estatisticas:
             }
         
         return resultado
+
+    def calcular_saldo_acumulado(self, meses: int = 12) -> Dict[str, Decimal]:
+        """
+        Calcula o saldo acumulado ao longo dos meses (soma cumulativa do lucro)
+
+        Args:
+            meses: Numero de meses para analisar
+
+        Returns:
+            Dicionario com chave 'YYYY-MM' e valor Decimal de saldo acumulado
+        """
+        lucro_mensal = self.calcular_lucro_mensal(meses)
+        saldo_acumulado = {}
+        saldo = Decimal('0')
+
+        for mes in sorted(lucro_mensal.keys()):
+            saldo += lucro_mensal[mes]['lucro']
+            saldo_acumulado[mes] = saldo
+
+        return saldo_acumulado
     
     def produtos_mais_vendidos(self, limite: int = 10) -> List[Dict]:
         """
@@ -220,6 +240,83 @@ class Estatisticas:
                 'preco': preco
             })
         
+        return resultado
+
+    def produtos_proximos_vencimento(self, dias: int = 30, limite: int = 10) -> List[Dict]:
+        """
+        Lista produtos com validade dentro do periodo informado
+
+        Args:
+            dias: Quantos dias a frente considerar
+            limite: Numero maximo de produtos a retornar
+
+        Returns:
+            Lista de produtos com dias para vencer
+        """
+        produtos = self.api.listar_produtos()
+        hoje = datetime.now().date()
+        data_limite = hoje + timedelta(days=dias)
+        resultado = []
+
+        for produto in produtos:
+            validade_str = produto.get('validade')
+            if not validade_str:
+                continue
+            try:
+                if 'T' in validade_str:
+                    validade = datetime.fromisoformat(validade_str.replace('Z', '+00:00')).date()
+                else:
+                    validade = datetime.fromisoformat(validade_str).date()
+            except ValueError:
+                continue
+
+            if hoje <= validade <= data_limite:
+                dias_para_vencer = (validade - hoje).days
+                resultado.append({
+                    'id': produto.get('id'),
+                    'nome': produto.get('nome', 'Produto'),
+                    'marca': produto.get('marca', ''),
+                    'validade': validade.isoformat(),
+                    'dias_para_vencer': dias_para_vencer,
+                    'quantidade': produto.get('quantidade', 0)
+                })
+
+        resultado.sort(key=lambda x: x['dias_para_vencer'])
+        return resultado[:limite]
+
+    def produtos_estoque_critico(self, limite: int = 5) -> List[Dict]:
+        """
+        Lista produtos com estoque abaixo de um limite definido
+
+        Args:
+            limite: Limite minimo de estoque
+
+        Returns:
+            Lista de produtos criticos
+        """
+        produtos_criticos = self.api.estoque_baixo()
+
+        if produtos_criticos:
+            return [{
+                'id': p.get('id'),
+                'nome': p.get('nome', 'Produto'),
+                'quantidade': p.get('quantidade', 0),
+                'limite': limite
+            } for p in produtos_criticos]
+
+        produtos = self.api.listar_produtos()
+        resultado = []
+        for produto in produtos:
+            quantidade = produto.get('quantidade', 0)
+            if quantidade <= limite:
+                resultado.append({
+                    'id': produto.get('id'),
+                    'nome': produto.get('nome', 'Produto'),
+                    'quantidade': quantidade,
+                    'limite': limite
+                })
+
+        resultado.sort(key=lambda x: x['quantidade'])
         return resultado
     
     def calcular_indicadores_desempenho(self) -> Dict[str, any]:
