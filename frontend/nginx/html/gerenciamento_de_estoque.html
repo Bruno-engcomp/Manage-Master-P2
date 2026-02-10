@@ -33,28 +33,33 @@
 
     <main class="main-content">
         <div class="table-header">
-            <div>
-                <h2>Estoque Atual <span>| Visão geral dos produtos</span></h2>
-            </div>
-            
-            <div class="header-actions">
-                <a href="categoria.html" class="btn-novo btn-outline">
-                    <i class="fa-solid fa-tags"></i> Nova Categoria
-                </a>
-
-                <a href="cadastro_fornecedor.html" class="btn-novo btn-outline">
-                    <i class="fa-solid fa-user-plus"></i> Novo Fornecedor
-                </a>
-
-                <a href="cadastro_de_produtos.html" class="btn-novo btn-outline">
-                    <i class="fa-solid fa-plus"></i> Novo Produto
-                </a>
-
-                <a href="dashboard.html" class="btn-novo btn-outline">
-                    <i class="fa-solid fa-chart-pie"></i> Relatórios
-                </a>
-            </div>
+    <div>
+        <h2>Estoque Atual <span>| Visão geral dos produtos</span></h2>
+    </div>
+    
+    <div class="header-actions">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="inputBusca" placeholder="Buscar produto...">
         </div>
+
+        <a href="categoria.html" class="btn-novo btn-outline">
+            <i class="fa-solid fa-tags"></i> Nova Categoria
+        </a>
+
+        <a href="cadastro_fornecedor.html" class="btn-novo btn-outline">
+            <i class="fa-solid fa-user-plus"></i> Novo Fornecedor
+        </a>
+
+        <a href="cadastro_de_produtos.html" class="btn-novo btn-outline">
+            <i class="fa-solid fa-plus"></i> Novo Produto
+        </a>
+
+        <a href="dashboard.html" class="btn-novo btn-outline">
+            <i class="fa-solid fa-chart-pie"></i> Relatórios
+        </a>
+    </div>
+</div>
 
         <div class="table-container">
             <table id="tabelaEstoque">
