@@ -4,6 +4,7 @@ import com.sigfe.backend.model.enums.FormaPagamento;
 import com.sigfe.backend.model.enums.StatusVenda;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.List;
 public class Venda extends Transacao {
 
     @ManyToOne
-    @JoinColumn(name = "fornecedor_id", nullable = false)
+    @JoinColumn(name = "fornecedor_id", nullable = true)
     private Fornecedor fornecedor;
 
     @Enumerated(EnumType.STRING)
@@ -25,6 +26,9 @@ public class Venda extends Transacao {
 
     @Column(nullable = false)
     private String numeroDocumento;
+
+    @Column(name = "valor_total", precision = 10, scale = 2)
+    private BigDecimal valorTotal;
 
     // Construtor obrigatório para o JPA
     public Venda() {
@@ -79,5 +83,16 @@ public class Venda extends Transacao {
 
     public void setNumeroDocumento(String numeroDocumento) {
         this.numeroDocumento = numeroDocumento;
+    }
+
+
+
+    @PrePersist
+    @PreUpdate
+    public void calcularTotalAutomatico() {
+        this.valorTotal = (itens == null) ? BigDecimal.ZERO :
+                itens.stream()
+                        .map(item -> item.getPreco().multiply(BigDecimal.valueOf(item.getQuantidade())))
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

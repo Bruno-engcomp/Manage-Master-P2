@@ -19,7 +19,7 @@ public record VendaResponseDTO(
                 venda.getFormaPagamento(),
                 venda.getNumeroDocumento(),
                 venda.getStatus().name(),
-                venda.getDataTransacao().atStartOfDay()
+                venda.getDataTransacao() != null ? venda.getDataTransacao().atStartOfDay() : LocalDateTime.now()
         );
     }
 }

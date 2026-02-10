@@ -2,6 +2,7 @@ package com.sigfe.backend.dto.Item;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
@@ -14,7 +15,7 @@ public record ItemVendaCreateDTO(
         @Min(1)
         Integer quantidade,
 
-        @NotNull
+        @NotNull @Positive
         BigDecimal preco
 ) {
 }

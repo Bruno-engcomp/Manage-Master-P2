@@ -66,6 +66,13 @@ public class ProdutoController {
         return ResponseEntity.ok(lista);
     }
 
+    @GetMapping("/buscar")
+    public ResponseEntity<ProdutoResponseDTO> buscarPorNome(@RequestParam String nome) {
+        // Chamamos o service para buscar um produto único pelo nome exato
+        Produto produto = produtoService.buscarPorNome(nome);
+        return ResponseEntity.ok(new ProdutoResponseDTO(produto));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoResponseDTO> buscarPorId(@PathVariable Long id) {
         Produto produto = produtoService.buscarPorId(id);

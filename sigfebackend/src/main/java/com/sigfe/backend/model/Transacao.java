@@ -25,20 +25,21 @@ public abstract class Transacao {
 
 
     @OneToMany(mappedBy = "transacao", cascade = CascadeType.ALL)
-    private List<ItemTransacao> itens = new ArrayList<>(); // Os itens que estavam incluidos na transacao
+    protected List<ItemTransacao> itens = new ArrayList<>(); // Os itens que estavam incluidos na transacao
 
-    @Column (nullable = false)
-    private String usuario; // Usuario que realizou a transacao
+    @Column (name = "usuario",nullable = false)
+    private String user; // Usuario que realizou a transacao
+
 
 
     public Transacao ()
     {
         this.dataTransacao = LocalDate.now();
     }
-    public Transacao(List<ItemTransacao> itens, String usuario)
+    public Transacao(List<ItemTransacao> itens, String user)
     {
         this.itens = itens;
-        this.usuario = usuario;
+        this.user = user;
         this.dataTransacao = LocalDate.now();
 
     }
@@ -63,7 +64,7 @@ public abstract class Transacao {
 
     public List<ItemTransacao> getItens() {return itens;}
 
-    public String getUsuario() {return usuario;}
+    public String getUsuario() {return user;}
 
     // Setters para poder alteras os valores dos atributos
 
@@ -78,7 +79,7 @@ public abstract class Transacao {
     }
 
 
-    public void setUsuario(String usuario) {this.usuario = usuario;}
+    public void setUsuario(String user) {this.user = user;}
 
 
 }

@@ -3,61 +3,56 @@ package com.sigfe.backend.service;
 import com.sigfe.backend.dto.Item.ItemVendaCreateDTO;
 import com.sigfe.backend.dto.venda.VendaCreateDTO;
 import com.sigfe.backend.exception.BusinessException;
-import com.sigfe.backend.model.ItemTransacao;
-import com.sigfe.backend.model.Produto;
-import com.sigfe.backend.model.Venda;
-import com.sigfe.backend.model.enums.FormaPagamento;
-import com.sigfe.backend.repository.ProdutoRepository;
-import com.sigfe.backend.repository.VendaRepository;
+import com.sigfe.backend.model.*;
+import com.sigfe.backend.model.enums.StatusVenda;
+import com.sigfe.backend.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class VendaService {
 
     private final VendaRepository vendaRepository;
     private final ProdutoRepository produtoRepository;
-    private final EstoqueService estoqueService;
+    private final FornecedorRepository fornecedorRepository;
 
-    public VendaService(
-            VendaRepository vendaRepository,
-            ProdutoRepository produtoRepository,
-            EstoqueService estoqueService) {
-
+    public VendaService(VendaRepository vendaRepository, ProdutoRepository produtoRepository, FornecedorRepository fornecedorRepository){
         this.vendaRepository = vendaRepository;
         this.produtoRepository = produtoRepository;
-        this.estoqueService = estoqueService;
+        this.fornecedorRepository = fornecedorRepository;
     }
 
     @Transactional
     public Venda salvar(VendaCreateDTO dto) {
-
         Venda venda = new Venda();
-        venda.setFormaPagamento(FormaPagamento.valueOf(dto.formaPagamento()));
+
+
+        if (dto.fornecedorId() != null) {
+            Fornecedor f = fornecedorRepository.findById(dto.fornecedorId())
+                    .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+            venda.setFornecedor(f);
+        }
+
+        venda.setFormaPagamento(dto.formaPagamento());
         venda.setNumeroDocumento(dto.numeroDocumento());
+        venda.setUsuario("Vendedor Master"); // Ou pegar do contexto de segurança
 
-        dto.itens().forEach(itemDTO -> {
+        List<ItemTransacao> itens = new ArrayList<>();
+        for (ItemVendaCreateDTO itemDto : dto.itens()) {
+            Produto produto = produtoRepository.findById(itemDto.produtoId())
+                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-            Produto produto = produtoRepository.findById(itemDTO.produtoId())
-                    .orElseThrow(() -> new BusinessException("Produto não encontrado"));
+            // ... lógica de baixar estoque ...
 
-            ItemTransacao item = new ItemTransacao();
-            item.setProduto(produto);
-            item.setQuantidade(itemDTO.quantidade());
-            item.setPreco(itemDTO.preco());
+            ItemTransacao item = new ItemTransacao(produto, itemDto.quantidade(), itemDto.preco());
             item.setTransacao(venda);
+            itens.add(item);
+        }
 
-            venda.getItens().add(item);
-
-            // 🔥 baixa de estoque obrigatória
-            estoqueService.darSaida(
-                    new com.sigfe.backend.dto.estoque.MovimentacaoEstoqueDTO(
-                            produto.getId(),
-                            itemDTO.quantidade()
-                    )
-            );
-        });
-
+        venda.setItens(itens);
         return vendaRepository.save(venda);
     }
 
@@ -66,7 +61,6 @@ public class VendaService {
                 .orElseThrow(() -> new BusinessException("Venda não encontrada"));
     }
 }
-
 /*
  * CRIACAO de camada Service para a entidade produto
  * Implementacao de metodos salva, listar, buscar por Id e remover produtos

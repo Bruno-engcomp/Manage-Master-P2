@@ -12,6 +12,7 @@ public interface VendaRepository extends JpaRepository <Venda, Long> {
     List<Venda> findByDataTransacaoBetweenAndStatus (LocalDate inicio,
                                             LocalDate fim,
                                             StatusVenda status);
+
 }
 
 /*No Spring Boot, um Repository (Repositório) é uma camada

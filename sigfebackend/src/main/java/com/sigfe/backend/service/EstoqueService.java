@@ -16,27 +16,29 @@ public class EstoqueService {
         this.produtoRepository = produtoRepository;
     }
 
-    // ENTRADA DE ESTOQUE (COMPRA)
+    // Método que o VendaService vai usar diretamente
     @Transactional
-    public void darEntrada(MovimentacaoEstoqueDTO dto) {
+    public void baixarEstoque(Long produtoId, Integer quantidade) {
+        Produto produto = produtoRepository.findById(produtoId)
+                .orElseThrow(() -> new BusinessException("Produto não encontrado ID: " + produtoId));
 
-        Produto produto = produtoRepository.findById(dto.produtoId())
-                .orElseThrow(() -> new BusinessException("Produto não encontrado"));
-
-        produto.adicionarEstoque(dto.quantidade());
+        // Importante: A model Produto deve lançar exceção se a quantidade for maior que o saldo
+        produto.removerEstoque(quantidade);
 
         produtoRepository.save(produto);
     }
 
-    // SAÍDA DE ESTOQUE (VENDA)
+    // Mantém este para outras operações que venham via API/Controller
     @Transactional
     public void darSaida(MovimentacaoEstoqueDTO dto) {
+        baixarEstoque(dto.produtoId(), dto.quantidade());
+    }
 
+    @Transactional
+    public void darEntrada(MovimentacaoEstoqueDTO dto) {
         Produto produto = produtoRepository.findById(dto.produtoId())
                 .orElseThrow(() -> new BusinessException("Produto não encontrado"));
-
-        produto.removerEstoque(dto.quantidade());
-
+        produto.adicionarEstoque(dto.quantidade());
         produtoRepository.save(produto);
     }
 }

@@ -1,6 +1,7 @@
 package com.sigfe.backend.service;
 
 import com.sigfe.backend.dto.produto.ProdutoCreateDTO;
+import com.sigfe.backend.exception.BusinessException;
 import com.sigfe.backend.model.Categoria;
 import com.sigfe.backend.model.Fornecedor;
 import com.sigfe.backend.model.Produto;
@@ -52,6 +53,11 @@ public class ProdutoService {
     public Produto buscarPorId(Long id) {
         return produtoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+    }
+
+    public Produto buscarPorNome(String nome) {
+        return produtoRepository.findByNomeIgnoreCase(nome)
+                .orElseThrow(() -> new BusinessException("Produto não encontrado com o nome: " + nome));
     }
 
     @Transactional

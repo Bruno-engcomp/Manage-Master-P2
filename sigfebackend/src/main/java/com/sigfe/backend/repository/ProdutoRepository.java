@@ -4,10 +4,12 @@ import com.sigfe.backend.model.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     List<Produto> findByQuantidadeLessThan(int quantidade);
     List<Produto> findByQuantidadeLessThanEqual(int quantidade);
+    Optional<Produto> findByNomeIgnoreCase(String nome);
 
 
 }
