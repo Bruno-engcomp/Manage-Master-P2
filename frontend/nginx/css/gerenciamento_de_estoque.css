@@ -429,3 +429,41 @@ th:last-child, td:last-child { text-align: center; }
     background-color: #059669;
     transform: translateY(-2px);
 }
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 15px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.search-box input {
+    background-color: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+    padding: 12px 20px 12px 40px;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    width: 250px;
+    transition: all 0.3s ease;
+}
+
+.search-box input::placeholder {
+    color: #64748b;
+}
+
+.search-box input:focus {
+    border-color: #5d87b5;
+    box-shadow: 0 0 0 3px rgba(93, 135, 181, 0.15);
+    background-color: rgba(30, 41, 59, 1);
+    width: 280px;
+}
