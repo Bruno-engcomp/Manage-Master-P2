@@ -150,3 +150,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById("formEdicao");
     if (form) form.addEventListener("submit", salvarEdicao);
 });
+// =================================================================================
+// 5. SISTEMA DE BUSCA (FILTRO NA TABELA)
+// =================================================================================
+document.getElementById('inputBusca').addEventListener('keyup', function() {
+    const termo = this.value.toLowerCase(); // O que foi digitado (em minúsculo)
+    const linhas = document.querySelectorAll('#corpoTabela tr'); // Pega todas as linhas
+
+    linhas.forEach(linha => {
+        // Pega o texto de toda a linha (Nome, Categoria, Fornecedor)
+        const textoLinha = linha.innerText.toLowerCase();
+        
+        // Se o texto da linha contiver o termo digitado, mostra. Senão, esconde.
+        if (textoLinha.includes(termo)) {
+            linha.style.display = '';
+        } else {
+            linha.style.display = 'none';
+        }
+    });
+});
