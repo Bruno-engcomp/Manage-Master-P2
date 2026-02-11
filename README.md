@@ -22,17 +22,5 @@
 ├── 📚 External Libraries       # Bibliotecas externas
 └── 📝 Scratches and Consoles   # Arquivos temporários e consoles
 ```
-## ⚙️Instrucoes para instalacao:
-```bash
-# Navegar para o backend
-cd "Manager Master/sigfebackend"
-
-# Executar com Maven Wrapper
-./mvnw spring-boot:run  # Linux/Mac
-mvnw.cmd spring-boot:run # Windows
-
-# Com Docker Compose
-docker-compose up --build
-```
 
 
