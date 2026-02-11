@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ManageMaster | Registro de Compras</title>
+    <title>ManageMaster | Registro de Vendas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../css/stylecomp.css">
 </head>
@@ -34,52 +34,76 @@
         <div class="checkout-grid">
             <div class="checkout-card">
                 <h3><i class="fas fa-plus-circle"></i> Adicionar Item</h3>
-                <form class="venda-form">
+                <form class="venda-form" id="form-venda" onsubmit="event.preventDefault();">
                     <div class="form-group">
-                        <label>Produto</label>
-                        <input type="text" placeholder="Nome ou código do produto">
+                        <label>Produto (ID ou Nome)</label>
+                        <input type="text" id="produto-nome" placeholder="Digite o ID ou nome do produto" autocomplete="off">
                     </div>
+                    
                     <div class="form-row">
                         <div class="form-group">
                             <label>Quantidade</label>
-                            <input type="number" value="1" min="1">
+                            <input type="number" id="produto-qtd" value="1" min="1">
                         </div>
                         <div class="form-group">
-                            <label>Preço Unitário (R$)</label>
-                            <input type="number" step="0.01" placeholder="0,00">
+                            <label for="produto-preco">Preço de Venda (R$)</label>
+                            <input type="number" id="produto-preco" class="form-control" step="0.01" min="0">
+                            <small id="custo-ref" class="text-muted" style="display:none;">Custo: R$ 0.00</small>
                         </div>
                     </div>
-                    <button type="button" class="btn-hero">Adicionar à Lista</button>
+                    
+                    <button type="button" id="btn-adicionar" class="btn-hero">
+                        <i class="fas fa-cart-plus"></i> Adicionar à Lista
+                    </button>
                 </form>
             </div>
 
             <div class="checkout-card">
                 <h3><i class="fas fa-list"></i> Itens da Venda</h3>
+                
                 <div class="table-container">
                     <table class="sales-table">
                         <thead>
                             <tr>
                                 <th>Produto</th>
-                                <th>Qtd</th>
+                                <th style="text-align: center;">Qtd</th>
                                 <th>Subtotal</th>
-                                <th>Ação</th>
+                                <th style="text-align: center;">Ação</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tabela-itens">
                             <tr>
                                 <td colspan="4" class="empty-msg">Nenhum item adicionado.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="total-bar">
-                    <span>Total:</span>
-                    <strong>R$ 0,00</strong>
+
+                <div class="payment-section" style="margin-top: 20px; padding: 15px; background: #fdfdfd; border-radius: 8px; border: 1px dashed #ddd;">
+                    <div class="form-group">
+                        <label><i class="fas fa-wallet"></i> Forma de Pagamento</label>
+                        <select id="forma-pagamento" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; background: white;">
+                            <option value="DINHEIRO">Dinheiro</option>
+                            <option value="PIX">Pix</option>
+                            <option value="CARTAO_CREDITO">Cartão de Crédito</option>
+                            <option value="CARTAO_DEBITO">Cartão de Débito</option>
+                            <option value="DEBITO">Débito</option>
+                        </select>
+                    </div>
                 </div>
-                <button type="button" class="btn-hero btn-finalizar">Finalizar e Dar Baixa</button>
+
+                <div class="total-bar">
+                    <span>Total Geral:</span>
+                    <strong id="total-geral">R$ 0,00</strong>
+                </div>
+
+                <button type="button" class="btn-hero btn-finalizar" id="btn-finalizar" style="background-color: #1e293b; margin-top: 15px;">
+                    <i class="fas fa-check-double"></i> Finalizar e Dar Baixa
+                </button>
             </div>
         </div>
     </main>
 
+    <script src="../js/compras.js"></script>
 </body>
 </html>
