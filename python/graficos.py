@@ -1,4 +1,3 @@
-
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
@@ -6,29 +5,11 @@ from typing import Dict, List
 from decimal import Decimal
 from estatisticas import Estatisticas
 
-
 class Graficos:
-    """Classe para gerar gráficos interativos com Plotly"""
-    
     def __init__(self, estatisticas: Estatisticas):
-        """
-        Inicializa a classe de gráficos
-        
-        Args:
-            estatisticas: Instância da classe Estatisticas
-        """
         self.estatisticas = estatisticas
     
     def grafico_receitas_despesas(self, meses: int = 12) -> go.Figure:
-        """
-        Cria gráfico de barras comparando receitas e despesas mensais
-        
-        Args:
-            meses: Número de meses para analisar
-            
-        Returns:
-            Figura do Plotly
-        """
         lucro_mensal = self.estatisticas.calcular_lucro_mensal(meses)
         
         meses_lista = sorted(lucro_mensal.keys())
@@ -62,27 +43,18 @@ class Graficos:
             barmode='group',
             template='plotly_white',
             hovermode='x unified',
-            height=500
+            height=500,
+            yaxis=dict(rangemode='nonnegative')
         )
         
         return fig
     
     def grafico_lucro_mensal(self, meses: int = 12) -> go.Figure:
-        """
-        Cria gráfico de linha mostrando o lucro mensal
-        
-        Args:
-            meses: Número de meses para analisar
-            
-        Returns:
-            Figura do Plotly
-        """
         lucro_mensal = self.estatisticas.calcular_lucro_mensal(meses)
         
         meses_lista = sorted(lucro_mensal.keys())
         lucros = [float(lucro_mensal[m]['lucro']) for m in meses_lista]
         
-        # Definir cor baseada no valor (verde para positivo, vermelho para negativo)
         cores = ['#2ecc71' if l >= 0 else '#e74c3c' for l in lucros]
         
         fig = go.Figure()
@@ -100,7 +72,6 @@ class Graficos:
             textposition='top center'
         ))
         
-        # Adicionar linha de referência em zero
         fig.add_hline(
             y=0,
             line_dash="dash",
@@ -120,19 +91,9 @@ class Graficos:
         return fig
     
     def grafico_produtos_mais_vendidos(self, limite: int = 10) -> go.Figure:
-        """
-        Cria gráfico de barras horizontais com os produtos mais vendidos
-        
-        Args:
-            limite: Número máximo de produtos para exibir
-            
-        Returns:
-            Figura do Plotly
-        """
         produtos = self.estatisticas.produtos_mais_vendidos(limite)
         
         if not produtos:
-            # Criar gráfico vazio com mensagem
             fig = go.Figure()
             fig.add_annotation(
                 text="Nenhum dado de venda disponível",
@@ -143,7 +104,9 @@ class Graficos:
             )
             fig.update_layout(
                 title='Produtos Mais Vendidos',
-                height=400
+                height=400,
+                xaxis={'visible': False},
+                yaxis={'visible': False}
             )
             return fig
         
@@ -167,21 +130,13 @@ class Graficos:
             yaxis_title='Produto',
             template='plotly_white',
             height=max(400, len(produtos) * 50),
-            yaxis={'categoryorder': 'total ascending'}
+            yaxis={'categoryorder': 'total ascending'},
+            xaxis=dict(rangemode='nonnegative')
         )
         
         return fig
 
     def grafico_evolucao_saldo(self, meses: int = 12) -> go.Figure:
-        """
-        Cria grafico de linha com saldo acumulado (fluxo de caixa)
-
-        Args:
-            meses: Numero de meses para analisar
-
-        Returns:
-            Figura do Plotly
-        """
         saldo_acumulado = self.estatisticas.calcular_saldo_acumulado(meses)
         meses_lista = sorted(saldo_acumulado.keys())
         saldos = [float(saldo_acumulado[m]) for m in meses_lista]
@@ -201,8 +156,8 @@ class Graficos:
         ))
 
         fig.update_layout(
-            title='Evolucao do Saldo (Fluxo de Caixa)',
-            xaxis_title='Mes',
+            title='Evolução do Saldo (Fluxo de Caixa)',
+            xaxis_title='Mês',
             yaxis_title='Saldo Acumulado (R$)',
             template='plotly_white',
             hovermode='x unified',
@@ -212,30 +167,22 @@ class Graficos:
         return fig
 
     def grafico_produtos_proximos_vencimento(self, dias: int = 30, limite: int = 10) -> go.Figure:
-        """
-        Cria tabela colorida de produtos proximos do vencimento
-
-        Args:
-            dias: Dias a frente para considerar vencimento
-            limite: Numero maximo de produtos
-
-        Returns:
-            Figura do Plotly
-        """
         produtos = self.estatisticas.produtos_proximos_vencimento(dias, limite)
 
         if not produtos:
             fig = go.Figure()
             fig.add_annotation(
-                text="Nenhum produto proximo do vencimento",
+                text="Nenhum produto próximo do vencimento",
                 xref="paper", yref="paper",
                 x=0.5, y=0.5,
                 showarrow=False,
                 font=dict(size=16)
             )
             fig.update_layout(
-                title='Produtos Proximos do Vencimento',
-                height=400
+                title='Produtos Próximos do Vencimento',
+                height=400,
+                xaxis={'visible': False},
+                yaxis={'visible': False}
             )
             return fig
 
@@ -268,36 +215,29 @@ class Graficos:
         )])
 
         fig.update_layout(
-            title='Produtos Proximos do Vencimento',
+            title='Produtos Próximos do Vencimento',
             height=max(350, len(produtos) * 35 + 120)
         )
 
         return fig
 
     def grafico_estoque_critico(self, limite: int = 5) -> go.Figure:
-        """
-        Cria grafico de barras para produtos com estoque critico
-
-        Args:
-            limite: Linha de corte para estoque minimo
-
-        Returns:
-            Figura do Plotly
-        """
         produtos = self.estatisticas.produtos_estoque_critico(limite)
 
         if not produtos:
             fig = go.Figure()
             fig.add_annotation(
-                text="Nenhum produto com estoque critico",
+                text="Nenhum produto com estoque crítico",
                 xref="paper", yref="paper",
                 x=0.5, y=0.5,
                 showarrow=False,
                 font=dict(size=16)
             )
             fig.update_layout(
-                title='Nivel de Estoque (Produtos Criticos)',
-                height=400
+                title='Nível de Estoque (Produtos Críticos)',
+                height=400,
+                xaxis={'visible': False},
+                yaxis={'visible': False}
             )
             return fig
 
@@ -322,25 +262,19 @@ class Graficos:
         )
 
         fig.update_layout(
-            title='Nivel de Estoque (Produtos Criticos)',
+            title='Nível de Estoque (Produtos Críticos)',
             xaxis_title='Produto',
             yaxis_title='Quantidade',
             template='plotly_white',
-            height=450
+            height=450,
+            yaxis=dict(rangemode='nonnegative')
         )
 
         return fig
     
     def grafico_indicadores_desempenho(self) -> go.Figure:
-        """
-        Cria gráfico de indicadores principais (gauge/donut)
-        
-        Returns:
-            Figura do Plotly
-        """
         indicadores = self.estatisticas.calcular_indicadores_desempenho()
         
-        # Criar subplots
         fig = make_subplots(
             rows=2, cols=2,
             specs=[[{"type": "indicator"}, {"type": "indicator"}],
@@ -348,7 +282,6 @@ class Graficos:
             subplot_titles=('Margem de Lucro', 'Saldo Atual', 'Média Receita Mensal', 'Média Lucro Mensal')
         )
         
-        # Margem de lucro 
         fig.add_trace(
             go.Indicator(
                 mode="gauge+number+delta",
@@ -373,7 +306,6 @@ class Graficos:
             row=1, col=1
         )
         
-        # Saldo atual
         fig.add_trace(
             go.Indicator(
                 mode="number",
@@ -384,7 +316,6 @@ class Graficos:
             row=1, col=2
         )
         
-        # Média receita mensal
         fig.add_trace(
             go.Indicator(
                 mode="number",
@@ -395,7 +326,6 @@ class Graficos:
             row=2, col=1
         )
         
-        # Média lucro mensal
         fig.add_trace(
             go.Indicator(
                 mode="number+delta",
@@ -416,15 +346,6 @@ class Graficos:
         return fig
     
     def grafico_evolucao_financeira(self, meses: int = 12) -> go.Figure:
-        """
-        Cria gráfico combinado mostrando receitas, despesas e lucro ao longo do tempo
-        
-        Args:
-            meses: Número de meses para analisar
-            
-        Returns:
-            Figura do Plotly
-        """
         lucro_mensal = self.estatisticas.calcular_lucro_mensal(meses)
         
         meses_lista = sorted(lucro_mensal.keys())
@@ -440,7 +361,6 @@ class Graficos:
             row_heights=[0.7, 0.3]
         )
         
-        # Gráfico de barras para receitas e despesas
         fig.add_trace(
             go.Bar(x=meses_lista, y=receitas, name='Receitas', marker_color='#2ecc71'),
             row=1, col=1
@@ -451,7 +371,6 @@ class Graficos:
             row=1, col=1
         )
         
-        # Gráfico de linha para lucro
         fig.add_trace(
             go.Scatter(
                 x=meses_lista,
@@ -464,7 +383,6 @@ class Graficos:
             row=2, col=1
         )
         
-        # Adicionar linha zero no gráfico de lucro
         fig.add_hline(y=0, line_dash="dash", line_color="gray", row=2, col=1)
         
         fig.update_xaxes(title_text="Mês", row=2, col=1)
