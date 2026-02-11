@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ManageMaster | Dashboard Administrativo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.plot.ly/plotly-2.29.1.min.js"></script>
     <link rel="stylesheet" href="../css/dashboard.css">
+    
+    <script src="https://cdn.plot.ly/plotly-2.29.1.min.js"></script>
 </head>
 <body class="dash-body">
 
     <header class="dash-header">
         <div class="nav-left">
             <span class="user-badge"><i class="fas fa-chart-line"></i> Painel de gráficos </span>
+            
+            <span class="divider-vertical"></span> 
+            <a href="#" class="btn-refresh" onclick="location.reload()">
+                <i class="fas fa-sync"></i> Atualizar Dados
+            </a>
         </div>
 
         <div class="nav-logo-container">
@@ -24,7 +30,9 @@
         </div>
 
         <div class="nav-right">
-            <a href="#" class="btn-refresh"><i class="fas fa-sync"></i> Atualizar Dados</a>
+            <a href="compras.html" class="btn-destaque">
+                <i class="fas fa-cart-plus"></i> NOVA VENDA
+            </a>
         </div>
     </header>
 
