@@ -35,7 +35,7 @@ public class Produto {
     @Column(nullable = false) // impede que o quantidade nao seja nulo no banco
     private Integer quantidade;
 
-    @Column(name = "estoque_minimo",nullable = false)
+    @Column(name = "estoque_minimo")
     private Integer limit;
 
     private LocalDate validade;
