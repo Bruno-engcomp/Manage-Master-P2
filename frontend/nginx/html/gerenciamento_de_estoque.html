@@ -1,4 +1,101 @@
-<div id="modalEdicao" class="modal-overlay" style="display: none;">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor Financeiro - Gerenciamento de Estoque</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/gerenciamento_de_estoque.css">
+</head>
+<body>
+
+    <header class="top-header">
+        <div class="header-container">
+            <div class="graphic">
+                <div class="logo-full">
+                    <div class="sigma-symbol">&#931;</div>
+                    <div class="text-part">
+                        <span class="logo-text">ANAGE</span>
+                        <span class="logo-text">ASTER</span>
+                    </div>
+                </div>
+            </div>
+            <div class="brand-subtitle">
+                Gestor Financeiro
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="table-header">
+    <div>
+        <h2>Estoque Atual <span>| Visão geral dos produtos</span></h2>
+    </div>
+    
+    <div class="header-actions">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="inputBusca" placeholder="Buscar produto...">
+        </div>
+
+        <a href="categoria.html" class="btn-novo btn-outline">
+            <i class="fa-solid fa-tags"></i> Nova Categoria
+        </a>
+
+        <a href="cadastro_fornecedor.html" class="btn-novo btn-outline">
+            <i class="fa-solid fa-user-plus"></i> Novo Fornecedor
+        </a>
+
+        <a href="cadastro_de_produtos.html" class="btn-novo btn-outline">
+            <i class="fa-solid fa-plus"></i> Novo Produto
+        </a>
+
+        <a href="dashboard.html" class="btn-novo btn-outline">
+            <i class="fa-solid fa-chart-pie"></i> Relatórios
+        </a>
+    </div>
+</div>
+
+        <div class="table-container">
+            <table id="tabelaEstoque">
+                <thead>
+                    <tr>
+                        <th>ID</th> 
+                        <th>Produto</th>
+                        <th>Categoria</th>
+                        <th>Fornecedor</th>
+                        <th>Preço Unit.</th>
+                        <th>Qtd.</th>
+                        <th>Total</th>
+                        <th style="width: 120px;">Ações</th> 
+                    </tr>
+                </thead>
+                <tbody id="corpoTabela">
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div id="modalConfirmacao" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3>Remover Produto?</h3>
+            <p>Você tem certeza que deseja excluir este item do estoque? Essa ação não pode ser desfeita.</p>
+            <div class="modal-actions">
+                <button class="btn-modal btn-cancelar" onclick="fecharModal()">Cancelar</button>
+                <button class="btn-modal btn-confirmar" onclick="confirmarExclusao()">Sim, Remover</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalEdicao" class="modal-overlay" style="display: none;">
         <div class="modal-box modal-lg"> 
             <div class="modal-header">
                 <h3>Editar Produto</h3>
@@ -42,3 +139,8 @@
             </form>
         </div>
     </div>
+
+    <script src="../js/estoque.js"></script>
+    
+</body>
+</html>
