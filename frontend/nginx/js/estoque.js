@@ -78,20 +78,33 @@ async function confirmarExclusao() {
 }
 
 // 3. EDITAR PRODUTO (PUT)
+// ... (resto do código)
+
+// 3. EDITAR PRODUTO (PUT)
 function prepararEdicao(produto) {
+    // 1. Preenche os campos básicos
     document.getElementById("editIndex").value = produto.id;
     document.getElementById("editNome").value = produto.nome;
     
-    // Formatação de preço para o input
+    // 2. Formatação de preço
     const precoFormatado = Number(produto.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
     document.getElementById("editPreco").value = precoFormatado;
     
+    // 3. Quantidade Atual
     document.getElementById("editQtd").value = produto.quantidade;
-    document.getElementById("editLimit").value = produto.limit || 0; // CARREGA O NOVO CAMPO
+
+    // 4. LIMIT (Sincronização com o campo de perigo do cadastro)
+    // Se o produto não tiver limite definido (null ou undefined), coloca 0
+    document.getElementById("editLimit").value = produto.limit !== undefined ? produto.limit : 0; 
+
+    // 5. Validade
     document.getElementById("editValidade").value = produto.validade || "";
     
+    // Abre o modal
     document.getElementById("modalEdicao").style.display = "flex";
 }
+
+// ... (resto do código)
 
 function fecharModalEdicao() {
     document.getElementById("modalEdicao").style.display = "none";
