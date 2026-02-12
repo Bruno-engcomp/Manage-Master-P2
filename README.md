@@ -5,7 +5,6 @@
 ```
  📦 Manager Master/
 ├── 🧠 idea/                    # Configurações do IntelliJ IDEA
-├── 🗄️ database/                # Arquivos e scripts de banco de dados
 ├── 🎨 frontend/                # Aplicação frontend
 ├── 🐍 python/                  # Scripts ou serviços em Python
 ├── ⚙️ sigfebackend/ [backend]  # Backend principal do projeto
@@ -17,8 +16,8 @@
 │   ├── 🛠️ mvnw.cmd             # Maven wrapper (Windows)
 │   ├── 📜 pom.xml              # Configuração do Maven
 │── ⚙️ .env                     # Variáveis de ambiente
-│── 🐋 docker-compose.yml       # Orquestração de containers
-│── 📄 README.md                # Documentação do backend
+│── 🐋 docker-compose.yml       # Container do banco de dados
+│── 📄 README.md                # Documentação do backend!!
 ├── 📚 External Libraries       # Bibliotecas externas
 └── 📝 Scratches and Consoles   # Arquivos temporários e consoles
 ```
